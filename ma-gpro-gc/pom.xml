@@ -1,0 +1,84 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.gpro.consulting</groupId>
+		<artifactId>gpro-consulting-modules</artifactId>
+		<version>1.0.1.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>ma-gpro-gc</artifactId>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>ma-gpro-gc-coordination</module>
+		<module>ma-gpro-gc-persistance</module>
+		<module>ma-gpro-gc-domaine</module>
+		<module>ma-gpro-gc-service</module>
+		<module>ma-gpro-gc-rest</module>
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.gpro.consulting</groupId>
+				<artifactId>mt-socle</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.gpro.consulting</groupId>
+				<artifactId>ma-gpro-gc-coordination</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.gpro.consulting</groupId>
+				<artifactId> ma-gpro-gc-persistance</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.gpro.consulting</groupId>
+				<artifactId> ma-gpro-gc-domaine</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.gpro.consulting</groupId>
+				<artifactId> ma-gpro-gc-service</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.gpro.consulting</groupId>
+				<artifactId>ma-gpro-gc-coordination</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.gpro.consulting</groupId>
+				<artifactId>mt-gpro-commun-domaine</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.gpro.consulting</groupId>
+				<artifactId>mt-gpro-commun-persistance</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.gpro.consulting</groupId>
+				<artifactId>mt-gpro-commun-coordination</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.gpro.consulting</groupId>
+				<artifactId>mt-gpro-commun-service</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.gpro.consulting</groupId>
+				<artifactId>mt-gpro-commun-rest</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+</project>
