@@ -11,7 +11,6 @@ pipeline {
                 def mvnHome = tool name: 'maven-3', type: 'maven'
                     // Maven Home Path
                     sh "${mvnHome} clean install"
-                }
             }
         }
     }
