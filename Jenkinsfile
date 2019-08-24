@@ -1,18 +1,11 @@
-pipeline {
+pipeline{
     agent any
-    def mvnHome = tool name: 'maven-3', type: 'maven'
-    def mvnCmd = "${mvnHome}/bin/mvn"
-    }
-    stages {
-        stage("Checkout SCM") {
-            steps {
-                checkout scm
-            }
+        stage('Checkout SCM'){
+            checkout scm
         }
-        stage("Build Modules"){
-            steps {
-                sh "${mvnCmd} clean install"
-            }
+        stage('Compile & build'){
+            def mvnHome = tool name: 'maven-3', type: 'maven'
+            def mvnCmd = "${mvnHome}/bin/mvn"
+            sh "${mvnCmd} clean install"
         }
-    }
 }
