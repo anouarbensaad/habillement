@@ -3,7 +3,7 @@ node{
         checkout scm
     }
     stage('Compile & build'){
-        def mvnHome = tool name: 'mvn', type: 'maven'
+        def mvnHome = tool name: 'Maven', type: 'maven'
         def mvnCmd = "${mvnHome}/bin/mvn"
         sh "${mvnCmd} clean install"
     }
