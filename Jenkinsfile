@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    def mvnHome = tool name: 'maven-3', type: 'maven'
+    def mvnCmd = "${mvnHome}/bin/mvn"
+    }
     stages {
         stage("Checkout SCM") {
             steps {
@@ -8,9 +11,6 @@ pipeline {
         }
         stage("Build Modules"){
             steps {
-                def mvnHome = tool name: 'maven-3', type: 'maven'
-                    // Maven Home Path
-                def mvnCmd = "${mvnHome}/bin/mvn"
                 sh "${mvnCmd} clean install"
             }
         }
