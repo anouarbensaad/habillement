@@ -5,6 +5,6 @@ node{
     stage('Compile & build'){
         def mvnHome = tool name: 'Maven', type: 'maven'
         def mvnCmd = "${mvnHome}/bin/mvn"
-        sh "${mvnCmd} clean package"
+        sh "${mvnCmd} -X clean package"
     }
 }
