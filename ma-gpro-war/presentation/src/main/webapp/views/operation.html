@@ -1,0 +1,312 @@
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-1">
+			<ul class="nav-gproS">
+				<li class="active">
+					<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" 
+					href="#/GpaoMenu" ng-click="goOperation()">Catalogue
+					</a>
+				</li>
+				<li>
+					<a style="margin-top: 10px" class="btn-block btn btn-action pull-right"
+					href="#/GpaoMenu" ng-click="goGammeMontage()">G.Montage</a>
+				</li>
+				<li>
+					<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" 
+					href="#/GpaoMenu" ng-click="goGammeMontageOF()">G.Mont.OF</a>
+				</li>
+			</ul>
+		</div>
+		<div class="col-sm-11 cadreERP" ng-controller="OperationController">
+			<!-- Front -->
+			<div class="container-fluid" style="background-color: #fff;">
+
+				<!-- Critere de recherche -->
+	<div class="row" ng-show="displayMode != 'edit'">
+
+		<div class="col-sm-12" style="margin-top: 45px;">
+		
+			<div class="title-ajout">Crit&eacute;re de recherche</div>
+			<div class="panel panel-primary">
+				<div class="panel-body">
+					<form class="form-horizontal" name="rechercheOperationForm"
+						id="rechercheOperationForm">
+
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">Code
+											Op&eacute;ration</span> <input class="form-control"
+											ng-init="operationCourante.code =''"
+											ng-model="operationCourante.code" />
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">Op&eacute;ration</span>
+										<input class="form-control"
+											ng-init="operationCourante.designation =''"
+											ng-model="operationCourante.designation" />
+									</div>
+								</div>
+
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">
+											Machine</span> <select ui-select2
+											ng-model="operationCourante.machineId" 
+											ng-init="operationCourante.machineId =''"
+											data-placeholder="..." style="width: 100%">
+											<option value="">Tous les Machines</option>
+											<option ng-repeat="pi in listeMachines"
+												value="{{pi.id}}">{{pi.designation}}</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-6">
+								<div class="input-group">
+									<span class="input-group-addon label1" id="basic-addon1">
+										Section</span> <select ui-select2 ng-model="operationCourante.sectionId"
+										ng-init="operationCourante.sectionId =''" data-placeholder="..."
+										style="width: 100%">
+										<option value="">Tous les Sections</option>
+										<option ng-repeat="pi in listSections" value="{{pi.id}}">{{pi.designation}}</option>
+									</select>
+								</div>
+							</div>
+
+
+							</div>
+						</div>
+					</form>
+					
+					<div class="pull-right">
+						<button class="btn-action btn" ng-click="downloadAllCataloguesTemps(operationCourante)">Générer</button>
+						<button class="btn-action btn"
+							ng-click="rechercherOperation(operationCourante)">Rechercher</button>
+						<button class="btn-action btn" ng-click="annulerAjout()">Annuler</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+   
+    <!--    container de modification,ajout -->
+   <div>
+	<!-- container d'ajout,  modification et de consultation d'une operation-->
+	<div class="row" ng-show="displayMode == 'edit'">
+		
+		<div class="col-md-12">
+			<div class="title-ajout line">Modifier Op&eacute;rations</div>
+
+			<div class="panel-body">
+				<form class="form-horizontal" name="ModifOperationForm"
+					id="ModifOperationForm">
+
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="input-group">
+									<span class="input-group-addon label1" id="basic-addon1">Code
+										Op&eacute;ration</span> <input class="form-control" ng-model="code" />
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="input-group">
+									<span class="input-group-addon label1" id="basic-addon1">Op&eacute;ration</span>
+									<input class="form-control" ng-model="designation" />
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="input-group">
+									<span class="input-group-addon label1" id="basic-addon1">PDH</span>
+									<input class="form-control"
+										ng-model="pdh" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="input-group">
+									<span class="input-group-addon label1" id="basic-addon1">Temps</span>
+									<input class="form-control" ng-model="temps" />
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="input-group">
+									<span class="input-group-addon label1" id="basic-addon1">
+										Machine</span> <select ui-select2 ng-model="machineId"
+										data-placeholder="..." style="width: 100%">
+										<option ng-repeat="pi in listeMachines" value="{{pi.id}}">{{pi.designation}}</option>
+									</select>
+								</div>
+							</div>
+                            <div class="col-sm-4">
+								<div class="input-group">
+									<span class="input-group-addon label1" id="basic-addon1">
+										Section</span> <select ui-select2 ng-model="sectionId"
+										ng-init="sectionId =''" data-placeholder="..."
+										style="width: 100%">
+										<option ng-repeat="pi in listSections" value="{{pi.id}}">{{pi.designation}}</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="input-group">
+									<span class="input-group-addon label1" id="basic-addon1">Observations</span>
+									<textarea name="txtarea1" id="txtarea1" cols="50" rows="4"
+										class="form-control" ng-model="observations"></textarea>
+								</div>
+							</div>
+
+
+						</div>
+					</div>
+
+				
+
+				</form>
+
+
+			</div>
+		</div>
+	    <div class="col-sm-12">
+			<div class="pull-right">
+				<button class="btn btn-action"
+					ng-click="sauvegarderOperation(operationCourante)"
+					ng-disabled="!creationOperationForm.$valid;">Enregistrer</button>
+				<button class="btn btn-action" ng-click="annulerAjout()">Retour</button>
+			</div>
+		</div>
+	</div>
+
+     <!-- ajout,operation -->
+	<div class="row" ng-show="displayMode != 'edit'">
+		<div class="col-md-12">
+			<div class="title-ajout line">Ajout Op&eacute;rations</div>
+
+			<div class="panel-body">
+				<form class="form-horizontal" name="creationOperationForm"
+					id="creationOperationForm">
+
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="input-group">
+									<span class="input-group-addon label1" id="basic-addon1">Code
+										Op&eacute;ration</span> <input class="form-control"
+										ng-model="code" />
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="input-group">
+									<span class="input-group-addon label1" id="basic-addon1">Op&eacute;ration</span>
+									<input class="form-control"
+										ng-model="designation" />
+								</div>
+							</div>
+                           <div class="col-sm-4">
+								<div class="input-group">
+									<span class="input-group-addon label1" id="basic-addon1">PDH</span>
+									<input class="form-control"
+										ng-model="pdh" />
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="input-group">
+									<span class="input-group-addon label1" id="basic-addon1">Temps</span>
+									<input class="form-control" ng-model="temps" />
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">
+											Machine</span> <select ui-select2
+											ng-model="machineId" 
+											data-placeholder="..." style="width: 100%">
+											<option ng-repeat="pi in listeMachines"
+												value="{{pi.id}}">{{pi.designation}}</option>
+										</select>
+									</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="input-group">
+									<span class="input-group-addon label1" id="basic-addon1">
+										Section</span> <select ui-select2 ng-model="sectionId"
+										ng-init="sectionId =''" data-placeholder="..."
+										style="width: 100%">
+										<option ng-repeat="pi in listSections" value="{{pi.id}}">{{pi.designation}}</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="input-group">
+									<span class="input-group-addon label1" id="basic-addon1">Observations</span>
+									<textarea name="txtarea1" id="txtarea1" cols="50" rows="4"
+										class="form-control" ng-model="observations"></textarea>
+								</div>
+							</div>
+
+
+						</div>
+					</div>
+
+
+				</form>
+
+
+			</div>
+		</div>
+		<div class="col-sm-12">
+			<div class="pull-right">
+				<button class="btn btn-action"
+					ng-click="creerOperation(operationCourante)">Ajouter</button>
+				<button class="btn btn-action" ng-click="annulerAjout()">Retour</button>
+			</div>
+		</div>
+	</div>
+
+   </div>
+
+
+		<!-- container Grid-->
+	<div class="row" >
+		<div class="col-md-12">
+			<div class="title-ajout line">Catalogue</div>
+			<div style="height: 500px;" ng-grid="gridOptions"></div>
+		</div>
+	</div>
+
+	<!-- Popup de la suppression -->
+	<div id="light" class="white_content">
+		<pop-up type="delete-article"></pop-up>
+	</div>
+	<div id="fade" class="black_overlay"></div>
+	<!-- Fin Popup de la suppression -->
+				
+			</div>
+		</div>
+	</div>
+</div>
+

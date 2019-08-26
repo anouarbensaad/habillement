@@ -1,0 +1,597 @@
+<ul class="nav nav-gpro spacer">
+		<li ><a
+			href="#/stock">Mvt. Stock</a></li>
+		<li><a href="#/stockMvtOF" >Mvt. OF</a></li>
+		<li><a href="#/historiqueS">Historique</a></li>
+		<li class="active"><a href="#/etat">Etat</a></li>
+		<!-- <li><a href="#/historiqueS">Inventaire Magasin</a></li> -->
+	    <li ><a href="#/ChartGraphique">Tableau de Bord</a></li>
+	</ul>
+	
+<div class="container-fluid" ng-controller="EtatCtrl">
+	<div class="col-sm-12" ng-show="!modeConsultation">
+		<div class="panel-body ">
+			<!-- Critere de recherche -->
+			<div class="title-ajout">Crit&eacute;res de recherche</div>
+			<div class="panel panel-primary">
+				<div class="panel-body">
+					<form class="form-horizontal" id="creationStockForm"
+						name="creationStockForm">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Type
+											Article </span> <select ui-select2 data-placeholder="..."
+											style="width: 100%"
+											ng-model="etatCourant.typeArticle"
+											ng-init="etatCourant.typeArticle='1'">
+											<option value="1">Fourniture</option>
+											<option value="3">Fil &agrave; coudre</option>
+											<option value="2">Tissu</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="alert alert-warning" role="alert"
+										ng-show="displayEtat == 'alert'">Choisis type d'article</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+							<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Famille
+										</span> 
+										<select ui-select2 
+										data-placeholder="..."
+										style="width:100%; max-width: 188px;"
+										ng-model="etatCourant.familleArticle"
+										ng-init="etatCourant.familleArticle = ''"
+										>
+										<option value=''>Tous</option>
+										<option ng-repeat="famille in listeFamilleCache"
+											value="{{famille.id}}">{{famille.designation}}</option>
+									</select>
+
+
+									</div>
+								</div>
+
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Sous
+											Famille </span> <select ui-select2 data-placeholder="..."
+											style="width: 100%; max-width: 188px;" 
+											ng-model="etatCourant.SousfamilleArticle"
+											ng-init="etatCourant.sousFamilleArticle = ''">
+											<option value=''>Tous</option>
+											<option
+												ng-repeat="Sousfamille in listeSousFamilleArticleCache"
+												value="{{Sousfamille.id}}">{{Sousfamille.designation}}</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">R&eacute;f.Article
+										</span> 
+										<select ui-select2 data-placeholder="..."
+											style="width: 100%; max-width: 188px;" 
+											ng-model="etatCourant.refArticle"
+											ng-init="etatCourant.refArticle = ''"
+											>
+											<option value=''>Tous</option>
+											<option ng-repeat="article in listeArticle"
+											value="{{article.id}}">{{article.ref}}</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">
+											Article </span>
+											<select ui-select2 data-placeholder="..."
+											style="width: 100%; max-width: 188px;" ng-model="etatCourant.article"
+											ng-init="etatCourant.article = ''">
+											<option value=''>Tous</option>
+											<option ng-repeat="article in listeArticle"
+											value="{{article.id}}">{{article.designation}}</option>
+											</select>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Grosseur
+										</span> <select ui-select2 data-placeholder="..."
+											style="width: 100%; max-width: 188px;" ng-model="etatCourant.grosseur"
+											ng-init="etatCourant.grosseur = ''">
+											<option value=''>Tous</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">M&eacute;trage
+											Article </span> <select ui-select2 data-placeholder="..."
+											style="width: 100%; max-width: 188px;" ng-model="etatCourant.metrage"
+											ng-init="etatCourant.metrage = ''">
+											<option value=''>Tous</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Mati&egrave;re
+										</span> <select ui-select2 data-placeholder="..."
+											style="width: 100%; max-width: 188px;" ng-model="etatCourant.matiere"
+											ng-init="etatCourant.matiere = ''">
+											<option value=''>Tous</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Lot
+										</span> <input type="text" class="form-control"
+										ng-model="etatCourant.lot"
+										ng-init="etatCourant.lot = ''"/>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-3" ng-controller="DatepickerDemoController">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Date
+										</span> <input type="text" class="form-control datepicker"
+											datepicker-popup="{{format}}" ng-model="etatCourant.date" is-open="opened"
+											datepicker-options="dateOptions" date-="enabled(date, mode)"
+											ng-required="true" close-text="Close"/>
+<!-- 											ng-init="etatCourant.date = ''" -->
+										<div class="input-group-btn">
+											<button type="button" class="btn btn-default"
+												ng-click="open($event)">
+												<i class="glyphicon glyphicon-calendar"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-2">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">
+											Quantit&eacute; </span> <select ui-select2 data-placeholder="..."
+											style="width: 100%; max-width: 188px;" ng-model="etatCourant.operateurQuantite"
+											ng-init="etatCourant.operateurQuantite = ''">
+											<option value=''>Tous</option>
+											<option value="=">=</option>
+											<option value="<">&lt;</option>
+											<option value=">">&gt;</option>
+											<option value=">=">&gt;=</option>
+											<option value="<=">&lt;=</option>
+											<option value="<>">&lt;&gt;</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-1">
+									<div class="input-group input-group-sm">
+										<span id="basic-addon1"></span> <input class="form-control"
+											ng-model="etatCourant.quantite" />
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Magasin</span>
+										<select ui-select2 data-placeholder="..."
+											style="width: 100%; max-width: 188px;" ng-model="etatCourant.magasin"
+											ng-init="etatCourant.magasin = ''">
+											<option value=''>Tous</option>
+											<option ng-repeat="magasin in listeMagasinCache"
+												value="{{magasin.id}}">{{magasin.designation}}</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Emplacement
+										</span>
+										<input class="form-control" ng-model="etatCourant.emplacement" ng-init="etatCourant.emplacement = '' "/>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Site
+											Produit </span> <select ui-select2 data-placeholder="..."
+											style="width: 100%; max-width: 188px;" ng-model="etatCourant.site"
+											ng-init="etatCourant.site = ''">
+											<option value=''>Tous</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm zone">
+										<span class="input-group-addon label1" id="basic-addon1">Zone
+											Dispo. </span> <select ui-select2 data-placeholder="..."
+											style="width: 100%; max-width: 188px;" ng-model="etatCourant.zoneDispo"
+											ng-init="etatCourant.zoneDispo = ''">
+											<option value=''>Tous</option>
+											<option style="background: red;" value="1">Rouge</option>
+											<option style="background: #80ff00;" value="2">Vert</option>
+											<option style="background: yellow;" value="3">Jaune</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">OA
+										</span> <input type="text" class="form-control"
+										ng-model="etatCourant.oa"
+										ng-init="etatCourant.oa= ''"/>
+									</div>
+								</div>
+								
+							<div class="col-sm-3">
+								<div class="input-group input-group-sm">
+									<span class="input-group-addon label1" id="basic-addon1">Fournisseur</span>
+									<select ui-select2
+										ng-model="bonMouvementStockCourante.fournisseur"
+										data-placeholder="..." style="width: 100%">
+										<option ng-repeat="fournisseur in listeFournisseur"
+											value="{{fournisseur.id}}">{{fournisseur.abreviation}}</option>
+									</select>
+								</div>
+							</div>
+							</div>
+						</div>
+					</form>
+					<div class="pull-right">
+						<button class="btn-action2 btn" ng-click="voirEtat()">Rechercher</button>
+						<button class="btn-action2 btn" ng-click="download(etatCourant,'Basique')" ng-disabled="etatCourant.typeArticle == null">Rapport Basique</button>
+						<button class="btn-action2 btn" ng-click="download(etatCourant,'Global')" ng-disabled="etatCourant.typeArticle == '3' || etatCourant.typeArticle == null">Rapport Global</button>
+						<button class="btn-action2 btn" ng-click="download(etatCourant,'Detaille')" ng-disabled="etatCourant.typeArticle == '3' || etatCourant.typeArticle == null">Rapport D&eacute;taill&eacute;</button>
+						<button class="btn-action btn" ng-click="resetFields()">Annuler</button>
+					</div>
+				</div>
+			</div>
+			<!-- Etat des Fournitures -->
+			
+			<div ng-show="displayEtat == 'fourniture'" class="">
+				<div class="title-ajout line">Etat des fournitures</div>
+				<div class="row">
+				<div class="input-icon right mb10 col-md-3 pull-right">
+				<input placeholder="Taper un terme de recherche" type="text" ng-model="filterOptions.filterText"
+					class="form-control">
+				</div>
+			</div>
+				<div style="height: 500px;" class="spacer4" ng-grid="gridOptions"></div>
+			</div>
+
+			<!-- Etat des Fils � coudre-->
+			<div ng-show="displayEtat == 'filaCoudre'" class="">
+				<div class="title-ajout line">Etat des fils a coudre</div>
+				<div class="row">
+				<div class="input-icon right mb10 col-md-3 pull-right">
+				<input placeholder="Taper un terme de recherche" type="text" ng-model="filterOptions.filterText"
+					class="form-control">
+				</div>
+			</div>
+				<div style="height: 500px;" class="spacer4" ng-grid="gridOptionsFAC"></div>
+			</div>
+
+			<!-- Etat des Tissu -->
+			<div ng-show="displayEtat == 'tissu'" class="">
+				<div class="title-ajout line">Etat des tissus</div>
+			<div class="row">
+				<div class="input-icon right mb10 col-md-3 pull-right">
+				<input placeholder="Taper un terme de recherche" type="text" ng-model="filterOptions.filterText"
+					class="form-control">
+				</div>
+			</div>
+			<div style="height: 500px;" class="spacer4" ng-grid="gridOptionsTisuu"></div>
+			</div>
+			<div class="pull-right" style="margin-top:2%" ng-show="displayEtat != null">
+				<button class="btn-action btn" ng-disabled="displayEtat == null" ng-click="sauvegarderNouveauEmplacement()">Sauvegarder</button>
+			</div>
+	
+		</div>
+	</div>
+	
+	<!--  Mode consultation -->
+	
+	<div class="row" ng-show="modeConsultation">
+		<div class="col-sm-12">
+			<div class="pull-right">
+				<button class="btn btn-action" ng-click="retour()">Retour</button>
+			</div>
+		</div>
+		<div class="col-md-12">
+			<div class="panel panel-primary">
+				<div class="title-ajout"></div>
+				<div class="panel-body" >
+					<form id="creationArticleForm" name="creationArticleForm"
+					 ng-model"name="creationArticleForm">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">R&eacute;f&eacute;rence</span> 
+										<input class="form-control" disabled ng-model="entiteStockCourante.referenceArticle"  />
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">D&eacute;signation</span>
+										 <input class="form-control" disabled
+											ng-model="entiteStockCourante.libelleArticle" />
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Lot</span>
+										 <input class="form-control" disabled
+											ng-model="entiteStockCourante.lot" />
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Date Entr&eacute;e</span>
+										 <input class="form-control" disabled
+											ng-model="entiteStockCourante.dateEntree" />
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Qte Act</span>
+										 <input class="form-control" disabled
+											ng-model="entiteStockCourante.qteActuelle" />
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Qte Reservee</span>
+										 <input class="form-control" disabled
+											ng-model="entiteStockCourante.qteReservee" />
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Nbre. Rouleaux</span>
+										 <input class="form-control" disabled
+											ng-model="entiteStockCourante.rouleauxActuel" />
+									</div>
+								</div>
+								
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Nbre Cones</span>
+										 <input class="form-control" disabled
+											ng-model="entiteStockCourante.conesActuel" />
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Nbre Fin Cones</span>
+										 <input class="form-control" disabled
+											ng-model="entiteStockCourante.finconeActuel" />
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Poids</span>
+										 <input class="form-control" disabled
+											ng-model="entiteStockCourante.poidsActuel" />
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Emplacement</span>
+										 <input class="form-control" disabled
+											ng-model="entiteStockCourante.emplacement" />
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">OA</span>
+										 <input class="form-control" disabled
+											ng-model="entiteStockCourante.oa" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div > 
+					<div class="title-ajout">Liste Entr&eacute;e</div>
+					<div class="panel panel-body">
+						<div class="form-group">
+							<div class="row">
+							<div class="panel panel-primary">
+								<table
+									class="table table-bordered table-condensed table-head-color">
+									<thead>
+										<tr>
+											<th style="width: 10%">Num BE</th>
+											<th style="width: 10%">Date</th>
+											<th style="width: 10%">OA</th>
+											<th style="width: 10%">Qte Reelle</th>
+											<th style="width: 10%">Nbre Rlx</th>
+											<th style="width: 10%">Nbre Cones</th>
+											<th style="width: 20%">Nbre FC</th>
+											<th style="width: 20%">Poids</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr
+											ng-repeat="element in listeEntrees">
+											<td>
+												{{element.numBonMvt|| 'empty' }} 
+											</td>
+											<td>
+												{{element.dateBonMvt |date : "dd/MM/yyyy" }}
+											</td>
+											<td>
+												{{element.oa || 'empty'}}
+											</td>
+											<td>
+												{{element.quantiteReelle }}
+											</td>
+											<td>
+												{{element.nbRouleauxReel }}
+											</td>
+											<td>
+												{{element.conesReel}}
+											</td>
+											<td>
+												{{element.finconesReel }}
+											</td>
+											<td>
+												{{element.poids}}
+											</td>
+										</tr>
+								</table>
+							</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div> 
+					<div class="title-ajout">Liste Sorties</div>
+					<div class="panel panel-body">
+						<div class="form-group">
+							<div class="row">
+								<div class="panel panel-primary">
+								<table
+									class="table table-bordered table-condensed table-head-color">
+									<thead>
+										<tr>
+											<th style="width: 15%">Num BE</th>
+											<th style="width: 10%">Date</th>
+											<th style="width: 10%">OA</th>
+											<th style="width: 15%">Qte Reelle</th>
+											<th style="width: 10%">Nbre Rlx</th>
+											<th style="width: 10%">Nbre Cones</th>
+											<th style="width: 20%">Nbre FC</th>
+											<th style="width: 10%">Poids</th>
+											<th style="width: 20%">OF</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr
+											ng-repeat="element in listeSorties">
+											<td>
+												{{element.numBonMvt || 'empty' }} 
+											</td>
+											<td>
+												{{element.bonMouvement.date |date : "dd/MM/yyyy"}}
+											</td>
+											<td>
+												{{element.oa || 'empty'}}
+											</td>
+											<td>
+												{{element.quantiteReelle }}
+											</td>
+											<td>
+												{{element.nbRouleauxReel }}
+											</td>
+											<td>
+												{{element.conesReel }}
+											</td>
+											<td>
+												{{element.finconesReel}}
+											</td>
+											<td>
+												{{element.poids}}
+											</td>
+											<td>
+												{{element.of }}
+											</td>
+										</tr>
+								</table>
+							</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			
+				<div class="title-ajout">Liste Reservation</div>
+				<div class="panel-body">
+					<div class="form-group">
+						<div class="row">
+							<div class="panel panel-primary">
+								<table
+									class="table table-bordered table-condensed table-head-color">
+									<thead>
+										<tr>
+											<th style="width: 15%">Num BE</th>
+											<th style="width: 10%">Date</th>
+											<th style="width: 10%">OA</th>
+											<th style="width: 15%">Qte Reelle</th>
+											<th style="width: 10%">Nbre Rlx</th>
+											<th style="width: 10%">Nbre Cones</th>
+											<th style="width: 20%">Nbre FC</th>
+											<th style="width: 10%">Poids</th>
+											<th style="width: 20%">OF</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr
+											ng-repeat="element in listeReservations">
+											<td>
+												{{element.numBonMvt || 'empty' }} 
+											</td>
+											<td>
+												{{element.bonMouvement.date |date : "dd/MM/yyyy"}}
+											</td>
+											<td>
+												{{element.oa || 'empty'}}
+											</td>
+											<td>
+												{{element.quantiteReelle}}
+											</td>
+											<td>
+												{{element.nbRouleauxReel }}
+											</td>
+											<td>
+												{{element.conesReel }}
+											</td>
+											<td>
+												{{element.finconesReel }}
+											</td>
+											<td>
+												{{element.poids }}
+											</td>
+											<td>
+												{{element.of }}
+											</td>
+										</tr>
+								</table>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

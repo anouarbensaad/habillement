@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- Bean article -->
+
+	<bean id="ebMatiererRest"
+		class=" com.gpro.consulting.tiers.commun.rest.impl.MatiereRestImpl">
+		<property name="ebMatiereService" ref="ebMatiereService" />
+	</bean>
+
+	<bean id="ebGrosseurRest"
+		class="com.gpro.consulting.tiers.commun.rest.impl.GrosseurRestImpl">
+		<property name="ebGrosseurService" ref="ebGrosseurService" />
+	</bean>
+
+	<bean id="ebMetrageRest"
+		class="com.gpro.consulting.tiers.commun.rest.impl.MetrageRestImpl">
+		<property name="ebMetrageService" ref="ebMetrageService" />
+	</bean>
+
+	<bean id="articleRest"
+		class="com.gpro.consulting.tiers.commun.rest.impl.ArticleRestImpl">
+		<property name="articleService" ref="articleService" />
+	</bean>
+
+	<bean id="uniteArticleRest"
+		class="com.gpro.consulting.tiers.commun.rest.impl.UniteArticleRestImpl">
+		<property name="uniteArticleService" ref="uniteArticleService" />
+	</bean>
+
+	<bean id="seuilArticleRest"
+		class="	com.gpro.consulting.tiers.commun.rest.impl.SeuilArticleRestImpl">
+		<property name="seuilArticleService" ref="seuilArticleService" />
+	</bean>
+	<!-- Bean produit -->
+	<bean id="ebCouleurRest"
+		class="com.gpro.consulting.tiers.commun.rest.impl.CouleurRestImpl">
+		<property name="ebCouleurService" ref="ebCouleurService" />
+	</bean>
+
+	<bean id="familleArticleRest"
+		class="com.gpro.consulting.tiers.commun.rest.impl.FamilleArticleRestImpl">
+		<property name="familleArticleService" ref="familleArticleService" />
+	</bean>
+
+	<bean id="ebPhaseRest"
+		class="com.gpro.consulting.tiers.commun.rest.impl.PhaseRestImpl">
+		<property name="ebPhaseService" ref="ebPhaseService" />
+	</bean>
+
+	<bean id="ebTailleRest"
+		class="com.gpro.consulting.tiers.commun.rest.impl.TailleRestImpl">
+		<property name="ebTailleService" ref="ebTailleService" />
+	</bean>
+
+	<bean id="ebStandardTailleRest"
+		class="com.gpro.consulting.tiers.commun.rest.impl.StandardTailleRestImpl">
+		<property name="ebStandardTailleService" ref="ebStandardTailleService" />
+	</bean>
+
+
+	<!-- Bean produit -->
+
+	<bean id="familleProduitRest"
+		class="com.gpro.consulting.tiers.commun.rest.impl.FamilleProduitRestImpl">
+		<property name="familleProduitService" ref="familleProduitService" />
+	</bean>
+
+	<bean id="sousFamilleProduitRest"
+		class="com.gpro.consulting.tiers.commun.rest.impl.SousFamilleProduitRestImpl">
+		<property name="sousFamilleProduitService" ref="sousFamilleProduitService" />
+	</bean>
+
+	<bean id="produitRest"
+		class="com.gpro.consulting.tiers.commun.rest.impl.ProduitRestImpl">
+		<property name="produitService" ref="produitService" />
+	</bean>
+	<!-- reportProduit -->
+	<bean id="gestionnaireReportCommunRest"
+		class="com.gpro.consulting.tiers.commun.rest.report.impl.GestionnaireReportCommunRestImpl">
+		<property name="gestionnaireReportCommunService" ref="gestionnaireReportCommunService" />
+	</bean>
+
+	<!-- Bean Partie Interessee -->
+
+	<bean id="partieInteresseeRest"
+		class="com.gpro.consulting.tiers.commun.rest.impl.PartieInteresseeRestImpl">
+		<property name="partieInteresseeService" ref="partieInteresseeService" />
+	</bean>
+
+	<bean id="cathegoriePartieInteresseeRest"
+		class="com.gpro.consulting.tiers.commun.rest.impl.CathegoriePartieInteresseRestImpl">
+		<property name="categoriePartieInteresseeService" ref="categoriePartieInteresseeService" />
+	</bean>
+
+	<bean id="famillePartieInteresseeRest"
+		class="com.gpro.consulting.tiers.commun.rest.impl.FamillePartieInteresseRestImpl">
+		<property name="famillePartieInteresseeService" ref="famillePartieInteresseeService" />
+	</bean>
+
+	<bean id="typePartieInteresseeRest"
+		class=" com.gpro.consulting.tiers.commun.rest.impl.TypePartieIntersseRestImpl">
+		<property name="typePartieInteresseeService" ref="typePartieInteresseeService" />
+	</bean>
+
+	<bean id="typeDocumentPartieInteresseeRest"
+		class=" com.gpro.consulting.tiers.commun.rest.impl.TypeDocumentRestImpl">
+		<property name="typeDocumentPartieInteresseeService" ref="typeDocumentPartieInteresseeService" />
+	</bean>
+
+	<bean id="devisePartieInteresseeRest"
+		class=" com.gpro.consulting.tiers.commun.rest.impl.DevisePartieInteresseeRestImpl">
+		<property name="devisePartieInteresseeService" ref="devisePartieInteresseeService" />
+	</bean>
+
+	<!-- Gestionnaire de document -->
+	<bean id="gestionnaireDocumentRest"
+		class="com.gpro.consulting.tiers.commun.rest.impl.GestionnaireDocumentRestImpl">
+		<property name="vGestionnaireDocument" ref="GestionnaireDocumentImpl"></property>
+	</bean>
+
+	<bean id="GestionnaireDocumentImpl"
+		class="com.erp.socle.j2ee.mt.socle.uploadFichier.impl.GestionnaireDocumentImpl"></bean>
+
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="50000000" />
+	</bean>
+
+	<bean id="ebFicheBesoinRest"
+		class="com.gpro.consulting.tiers.commun.rest.impl.FicheBesoinRestImpl">
+		<property name="ficheBesoinService" ref="ficheBesoinService" />
+	</bean>
+	
+	<bean id="baseInfoRestImpl"
+		class="com.gpro.consulting.tiers.commun.rest.impl.BaseInfoRestImpl">
+		<property name="baseInfoService" ref="baseInfoService" />
+	</bean>
+	
+	<bean id="userRestImpl"
+		class="com.gpro.consulting.tiers.commun.rest.impl.UserRestImpl">
+		<property name="userService" ref="userService" />
+	</bean>
+
+</beans>

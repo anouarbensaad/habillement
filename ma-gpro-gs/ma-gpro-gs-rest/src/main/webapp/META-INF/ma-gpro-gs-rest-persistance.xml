@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+    http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+    version="2.0">
+    <persistence-unit name="persistance" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		
+    <!-- stock entity -->
+		<class>com.gpro.consulting.tiers.gs.persistance.entity.SiteEntite</class>
+        <class>com.gpro.consulting.tiers.gs.persistance.entity.ArticleEntite</class>
+		<class>com.gpro.consulting.tiers.gs.persistance.entity.SeuilArticleEntity</class>
+		<class>com.gpro.consulting.tiers.gs.persistance.entity.DocumentArticleEntite</class>
+        <class>com.gpro.consulting.tiers.gs.persitance.entite.BLAchatEntite</class>
+        <class>com.gpro.consulting.tiers.gs.persitance.entite.BonMouvementEntite</class>
+        <class>com.gpro.consulting.tiers.gs.persitance.entite.DetailsInventaireEntite</class>
+        <class>com.gpro.consulting.tiers.gs.persitance.entite.EmplacementEntite</class>
+        <class>com.gpro.consulting.tiers.gs.persitance.entite.EntiteStockEntite</class>
+        <class>com.gpro.consulting.tiers.gs.persitance.entite.InventaireEntite</class>
+        <class>com.gpro.consulting.tiers.gs.persitance.entite.MagasinEntite</class>
+        <class>com.gpro.consulting.tiers.gs.persitance.entite.MouvementEntite</class>
+        <class>com.gpro.consulting.tiers.gs.persitance.entite.RaisonMouvementEntite</class>
+        
+        
+        <properties>
+        <!--           <property name="hibernate.hbm2ddl.auto" value="none" /> -->
+            <property name="hibernate.max_fetch_depth" value="0" />
+            <property name="hibernate.hbm2ddl.auto" value="none" />
+            <property name="hibernate.show_sql" value="false" />
+            <property name="hibernate.format_sql" value="false" />
+            <property name="use_sql_comments" value="false" />
+            <property name="hibernate.archive.autodetection" value="class" />
+            <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider" />
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+            <property name="hibernate.cache.use_second_level_cache" value="false" />
+            <property name="hibernate.cache.use_query_cache" value="false" />
+        </properties>
+    </persistence-unit>
+
+</persistence>

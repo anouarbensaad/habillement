@@ -1,0 +1,106 @@
+<div class="container-fluid" ng-controller="InterrogationReportingController">
+	<div class="row" ng-show="!modeConsultation">
+		<div class="panel-body ">
+			<!-- Critere de recherche -->
+			<div class="title-ajout">Reporting</div>
+			<div class="panel panel-primary">
+				<div class="panel-body">
+					<form class="form-horizontal" id="creationStockForm" name="creationStockForm">
+
+
+						<div class="form-group">
+
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Modèle
+										</span>
+										<select ui-select2 data-placeholder="..." style="width: 100%; max-width: 188px;"
+											ng-model="etatCourant.refProduit1" ng-init="etatCourant.refProduit1 = ''">
+											<option value=''>Tous</option>
+											<option ng-repeat="produit in listeProduit" value="{{produit.id}}">
+												{{produit.reference}}</option>
+										</select>
+									</div>
+								</div>
+
+								<div class="col-sm-2">
+									<button class="btn-action btn"
+										ng-click="genererReportModele(etatCourant,'1')">Accessoire</button>
+
+								</div>
+								<div class="col-sm-2">
+
+									<button class="btn btn-primary"
+										ng-click="genererReportModele(etatCourant,'2')">Composant</button>
+
+								</div>
+
+							</div>
+
+						</div>
+
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Modèle
+										</span>
+										<select ui-select2 data-placeholder="..." style="width: 100%; max-width: 188px;"
+											ng-model="etatCourant.refProduit2" ng-init="etatCourant.refProduit2 = ''">
+											<option value=''>Tous</option>
+											<option ng-repeat="produit in listeProduit" value="{{produit.id}}">
+												{{produit.reference}}</option>
+										</select>
+									</div>
+								</div>
+
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Accessoire
+										</span>
+										<select ui-select2 data-placeholder="..." style="width: 100%; max-width: 188px;"
+											ng-model="etatCourant.refArticle" ng-init="etatCourant.refArticle = ''">
+											<option value=''>Tous</option>
+											<option ng-repeat="article in listeArticle" value="{{article.id}}">
+												{{article.ref}}</option>
+										</select>
+									</div>
+
+
+								</div>
+
+								<div class="col-sm-2">
+									<button class="btn-action btn"
+										ng-click="genererReportModeleArticle(etatCourant,'1')">Accessoire</button>
+
+								</div>
+								<div class="col-sm-2">
+									<button class="btn btn-primary"
+										ng-click="genererReportModeleArticle(etatCourant,'2')">Composant</button>
+
+								</div>
+
+							</div>
+
+						</div>
+
+
+
+
+					</form>
+				</div>
+
+
+
+			</div>
+
+
+
+
+
+		</div>
+	</div>
+
+
+</div>

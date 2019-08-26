@@ -1,0 +1,27 @@
+<div ng-controller="stockMenuController">
+	<ul class="nav nav-gpro spacer">
+		<li class="active"><a href="#/stock" ng-click="goToStock()">Mvt. Stock</a></li>
+		<li><a href="#/stockMvtOF">Mvt. OF</a></li>
+		<li><a href="#/historiqueS">Historique</a></li>
+		<li><a href="#/etat">Etat</a></li>
+		<!-- <li><a href="#/historiqueS">Inventaire Magasin</a></li> -->
+		<li><a href="#/ChartGraphique">Tableau de Bord</a></li>
+	</ul>
+	<!-- Front M.V.T Stock -->
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-1">
+				<ul class="nav-gproS">
+					<li><a style="margin-top: 10px"
+						class="btn btn-action pull-right" href="#/stockEntree" >Entrée</a></li>
+					<li><a style="margin-top: 10px"
+						class="btn btn-action pull-right" href="#/stockSortie">Sortie</a></li>
+					<li><a style="margin-top: 10px"
+						class="btn btn-action pull-right" href="#/stockRetour">Retour</a></li>
+				</ul>
+			</div>
+<!-- 			<div ng-include="'views/stockEntree.html'"></div> -->
+		</div>
+	</div>
+</div>
+

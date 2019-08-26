@@ -1,0 +1,59 @@
+<!-- Menu Gestion commerciale -->
+<div ng-controller="MenuGestionCommercialeController">
+
+	<ul class="nav nav-gpro">
+<!-- 		<li ng-class="{active:ITEM == 'achat' }"><a ng-click="goAchat()">Achat</a></li> -->
+		<li ng-class="{active:ITEM == 'vente' }"><a ng-click="goVenteBC()">Vente</a></li>
+		<!-- <li ng-class="{active:ITEM == 'tableauBord' }"><a ng-click="goTableauBord()">Tableau de Bord</a></li> -->
+		<li ng-class="{active:ITEM == 'detailProduitCommande' }"><a ng-click="goDetailProduitCommande()">Detail Cmd</a></li>
+		<li ng-class="{active:ITEM == 'charts' }"><a ng-click="goToGestionCommercialeCharts()">Tableau de Bord</a></li>
+	</ul>
+
+	<div ng-if="ITEM == 'vente'">
+		<div class="container-fluid" ng-show="ITEM == 'vente'">
+			<div class="row">
+				<!-- Menu De Gauche -->
+				<div class="col-sm-1">
+					<ul class="nav-gproS" >
+						<li ng-class="(ITEM_Sub == 'bonCommande') ? 'active' : ''">
+							<a style="margin-top: 10px" class="btn btn-action pull-right menuH" 
+							href="#/gestionCommerciale" ng-click="goVenteBC()">BC</a>
+						</li>
+						<li ng-class="(ITEM_Sub == 'bonLiv') ? 'active' : ''">
+							<a class="btn btn-action pull-right menuH"
+							href="#/gestionCommerciale" ng-click="goVenteBL()">BL</a></li> 
+						<li ng-class="(ITEM_Sub == 'facture') ? 'active' : ''">
+							<a class="btn btn-action pull-right menuH"
+							href="#/gestionCommerciale" ng-click="goVenteFacture()">Facture</a></li>
+					</ul>
+				</div>
+				<!-- Body -->
+				<div class="col-sm-11 cadreERP">
+					<div ng-if="ITEM_Sub == 'bonCommande'">
+						<div ng-include="'views/gc_vente_bc.html'" ng-show="ITEM_Sub == 'bonCommande'"></div>
+					</div>
+					<div ng-if="ITEM_Sub == 'bonLiv'">
+						<div ng-include="'views/gc_vente_bl.html'" ng-show="ITEM_Sub == 'bonLiv'"></div>
+					</div>
+					<div ng-if="ITEM_Sub == 'facture'">
+						<div ng-include="'views/gc_vente_facture.html'" ng-show="ITEM_Sub == 'facture'"></div>
+					</div>
+				</div>	
+			</div>
+		</div>
+	</div>
+			<div ng-if="ITEM == 'achat'">
+				<div ng-include="'views/gc_achat.html'" ng-show="ITEM == 'achat'"></div>
+			</div>
+			<!-- <div ng-if="ITEM == 'tableauBord'">
+				<div ng-include="'views/gc_bord.html'" ng-show="ITEM == 'tableauBord'"></div>
+			</div> -->
+			<div ng-if="ITEM == 'detailProduitCommande'">
+				<div ng-include="'views/gc_detailCommandeVente.html'" ng-show="ITEM == 'detailProduitCommande'"></div>
+			</div>
+			<div ng-if="ITEM == 'charts'">
+				<div ng-include="'views/gc_charts.html'" ng-show="ITEM == 'charts'"></div>
+			</div>
+			
+</div>
+

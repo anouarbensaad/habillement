@@ -1,0 +1,450 @@
+<div class="container-fluid">
+	<div class="row">
+		<!-- Rapport OF -->
+		<div class="col-sm-12" ng-controller="GpaoReportingOFCtrl">
+			<div class="title-ajout">Rapport OF</div>
+			<div class="panel panel-primary">
+				<div class="panel-body">
+					<form class="form-horizontal" id="rechercheOFForm"
+						name="rechercheOFForm">
+						<div class="form-group">
+							<div class="row">
+								<!-- <div class="col-sm-4">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Ref.
+											OF </span> <input class="form-control"
+											ng-init="ordreFabricationCourant.vNumero =''"
+											ng-model="ordreFabricationCourant.vNumero" disabled />
+									</div>
+								</div> -->
+								<div class="col-sm-4" ng-controller="DatepickerDemoController">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Date
+											Introduction </span> <input type="text"
+											class="form-control datepicker" datepicker-popup="{{format}}"
+											ng-init="ordreFabricationCourant.dateIntroductionMin =''"
+											ng-model="ordreFabricationCourant.dateIntroductionMin"
+											is-open="opened" datepicker-options="dateOptions"
+											date-="enabled(date, mode)" ng-required="true"
+											close-text="Close" />
+										<div class="input-group-btn">
+											<button type="button" class="btn btn-default"
+												ng-click="open($event)">
+												<i class="glyphicon glyphicon-calendar"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-4" ng-controller="DatepickerDemoController">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Au
+										</span> <input type="text" class="form-control datepicker"
+											datepicker-popup="{{format}}"
+											ng-init="ordreFabricationCourant.dateIntroductionMax =''"
+											ng-model="ordreFabricationCourant.dateIntroductionMax"
+											is-open="opened" datepicker-options="dateOptions"
+											date-="enabled(date, mode)" ng-required="true"
+											close-text="Close" />
+										<div class="input-group-btn">
+											<button type="button" class="btn btn-default"
+												ng-click="open($event)">
+												<i class="glyphicon glyphicon-calendar"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Client
+										</span> <select ui-select2
+											ng-model="ordreFabricationCourant.partieInteresseId"
+											ng-init="ordreFabricationCourant.partieInteresseId =''"
+											data-placeholder="..." style="width: 100%">
+											<OPTION value="">Tous les Clients</OPTION>
+											<option ng-repeat="client in ListClientOFCache"
+												value="{{client.id}}">{{client.abreviation}}</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Produit
+										</span><select ui-select2
+											ng-model="ordreFabricationCourant.produitId"
+											ng-init="ordreFabricationCourant.produitId =''"
+											data-placeholder="..." style="width: 100%">
+											<OPTION value="">Tous les Produits</OPTION>
+											<option ng-repeat="produit in listProduitDrop"
+												value="{{produit.id}}">{{produit.reference}}</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Statut
+										</span><select ui-select2
+											ng-model="ordreFabricationCourant.statutId"
+											ng-init="ordreFabricationCourant.statutId =''"
+											data-placeholder="..." style="width: 100%" >
+											<OPTION value="">Tous les Status</OPTION>
+											<option ng-repeat="statut in listStatut"
+												value="{{statut.id}}">{{statut.designation}}</option>
+										</select>
+									</div>
+								</div>
+
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-4" ng-controller="DatepickerDemoController">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Date
+											Livraison </span> <input type="text" class="form-control datepicker"
+											datepicker-popup="{{format}}"
+											ng-init="ordreFabricationCourant.dateLivraisonMin =''"
+											ng-model="ordreFabricationCourant.dateLivraisonMin"
+											is-open="opened" datepicker-options="dateOptions"
+											date-="enabled(date, mode)" ng-required="true"
+											close-text="Close" />
+										<div class="input-group-btn">
+											<button type="button" class="btn btn-default"
+												ng-click="open($event)">
+												<i class="glyphicon glyphicon-calendar"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-4" ng-controller="DatepickerDemoController">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">A
+										</span> <input type="text" class="form-control datepicker"
+											datepicker-popup="{{format}}"
+											ng-init="ordreFabricationCourant.dateLivraisonMax =''"
+											ng-model="ordreFabricationCourant.dateLivraisonMax"
+											is-open="opened" datepicker-options="dateOptions"
+											date-="enabled(date, mode)" ng-required="true"
+											close-text="Close" />
+										<div class="input-group-btn">
+											<button type="button" class="btn btn-default"
+												ng-click="open($event)">
+												<i class="glyphicon glyphicon-calendar"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+					<div class="pull-right">
+						<button class="btn-action btn"
+							ng-click="downloadAllOrdreFabrication(ordreFabricationCourant,2)">Suivi
+							Global</button>
+						<!-- <button class="btn-action btn" disabled="true"
+							ng-click="downloadAllOrdreFabrication(ordreFabricationCourant,2)">Recap
+							Analyse</button> -->
+						<button class="btn-action btn" ng-click="annulerOFAjout()">Annuler</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Rapport Chaine -->
+		<div class="col-sm-12" ng-controller="GpaoReportingChaineCtrl">
+			<div class="title-ajout">Rapport Chaine</div>
+			<div class="panel panel-primary">
+				<div class="panel-body">
+					<form class="form-horizontal" id="rechercheOFForm"
+						name="rechercheOFForm">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Chaine
+										</span> <select ui-select2
+											ng-model="ordreFabricationCourant.chaineId"
+											ng-init="ordreFabricationCourant.chaineId =''"
+											data-placeholder="..." style="width: 100%">
+											<OPTION value="">Toutes les Chaines</OPTION>
+											<option ng-repeat="chaine in listChaine"
+												value="{{chaine.id}}">{{chaine.designation}}</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3">
+										<div class="input-group">
+											<span class="input-group-addon label1" id="basic-addon1">
+												Op&eacute;ration *</span> <select ui-select2
+												ng-model="ordreFabricationCourant.operation"
+												ng-init="ordreFabricationCourant.operation =''"
+												data-placeholder="..." style="width: 100%">
+												<option value="">Toutes les Op&eacute;rations</option>
+												<option ng-repeat="operation in listCodes"
+													value="{{operation.id}}">{{operation.designation}}</option>
+											</select>
+										</div>
+									</div>
+								<div class="col-sm-4" ng-controller="DatepickerDemoController">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Date
+											Saisie De : </span> <input type="text"
+											class="form-control datepicker" datepicker-popup="{{format}}"
+											ng-init="ordreFabricationCourant.dateSaisieMin =''"
+											ng-model="ordreFabricationCourant.dateSaisieMin"
+											is-open="opened" datepicker-options="dateOptions"
+											date-="enabled(date, mode)" ng-required="true"
+											close-text="Close" />
+										<div class="input-group-btn">
+											<button type="button" class="btn btn-default"
+												ng-click="open($event)">
+												<i class="glyphicon glyphicon-calendar"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+								
+							</div>
+							
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Client
+										</span> <select ui-select2
+											ng-model="ordreFabricationCourant.partieInteresseId"
+											ng-init="ordreFabricationCourant.partieInteresseId =''"
+											data-placeholder="..." style="width: 100%">
+											<OPTION value="">Tous les Clients</OPTION>
+											<option ng-repeat="client in ListClientOFCache"
+												value="{{client.id}}">{{client.abreviation}}</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Produit
+										</span><select ui-select2
+											ng-model="ordreFabricationCourant.produitId"
+											ng-init="ordreFabricationCourant.produitId =''"
+											data-placeholder="..." style="width: 100%">
+											<OPTION value="">Tous les Produits</OPTION>
+											<option ng-repeat="produit in listProduitDrop"
+												value="{{produit.id}}">{{produit.reference}}</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-4" ng-controller="DatepickerDemoController">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Au
+											: </span> <input type="text" class="form-control datepicker"
+											datepicker-popup="{{format}}"
+											ng-init="ordreFabricationCourant.dateSaisieMax =''"
+											ng-model="ordreFabricationCourant.dateSaisieMax"
+											is-open="opened" datepicker-options="dateOptions"
+											date-="enabled(date, mode)" ng-required="true"
+											close-text="Close" />
+										<div class="input-group-btn">
+											<button type="button" class="btn btn-default"
+												ng-click="open($event)">
+												<i class="glyphicon glyphicon-calendar"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						
+						</div>
+					</form>
+					<div class="pull-right">
+						<button class="btn-action btn"
+							ng-click="GenerateAllOuProductivite(ordreFabricationCourant, 1)">Recap</button>
+						<button class="btn-action btn"
+							ng-click="GenerateAllOuProductivite(ordreFabricationCourant, 2)">Comptage</button>
+						<button class="btn-action btn"
+							ng-click="GenerateAllOuProductivite(ordreFabricationCourant, 3)">Global
+							/Operation</button>
+						<button class="btn-action btn"
+							ng-click="GenerateAllOuProductivite(ordreFabricationCourant, 4)">OF</button>
+<!-- 						<button class="btn-action btn" -->
+<!-- 							ng-click="GenerateAllOuProductivite(ordreFabricationCourant, 5)">Jour -->
+<!-- 							/OF</button> -->
+						<button class="btn-action btn" ng-click="annulerChaineAjout()">Annuler</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Rapport OF -->
+		<div class="col-sm-12"
+			ng-controller="GpaoReportingOperateurCompetenceCtrl">
+			<div class="title-ajout">Rapport Operateur</div>
+			<div class="panel panel-primary">
+				<div class="panel-body">
+					<form class="form-horizontal" id="rechercheOFForm"
+						name="rechercheOFForm">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Matricule
+										</span> <select ui-select2
+											ng-model="operateurCompetenceCourant.matricule"
+											ng-init="operateurCompetenceCourant.matricule=''"
+											data-placeholder="..." style="width: 100%" required>
+											<option value="">Tout les Matricules</option>
+											<option ng-repeat="pi in listMatricule"
+												value="{{pi.matricule}}">{{pi.matricule}}</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-4" ng-controller="DatepickerDemoController">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Date
+											Saisie Du : </span> <input type="text"
+											class="form-control datepicker" datepicker-popup="{{format}}"
+											ng-init="operateurCompetenceCourant.dateSaisieMin =''"
+											ng-model="operateurCompetenceCourant.dateSaisieMin"
+											is-open="opened" datepicker-options="dateOptions"
+											date-="enabled(date, mode)" close-text="Close" />
+										<div class="input-group-btn">
+											<button type="button" class="btn btn-default"
+												ng-click="open($event)">
+												<i class="glyphicon glyphicon-calendar"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-4" ng-controller="DatepickerDemoController">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Au
+											: </span> <input type="text" class="form-control datepicker"
+											datepicker-popup="{{format}}"
+											ng-init="operateurCompetenceCourant.dateSaisieMax =''"
+											ng-model="operateurCompetenceCourant.dateSaisieMax"
+											is-open="opened" datepicker-options="dateOptions"
+											date-="enabled(date, mode)" close-text="Close" />
+										<div class="input-group-btn">
+											<button type="button" class="btn btn-default"
+												ng-click="open($event)">
+												<i class="glyphicon glyphicon-calendar"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+					<div class="pull-right">
+						<button ng-disabled="!rechercheOFForm.$valid"
+							class="btn-action btn"
+							ng-click="downloadOperateur(operateurCompetenceCourant,1)">Comp&eacute;tence</button>
+						<button ng-disabled="!rechercheOFForm.$valid"
+							class="btn-action btn"
+							ng-click="downloadOperateur(operateurCompetenceCourant,2)">Historique</button>
+						<button class="btn-action btn" ng-click="annulerAjout()">Annuler</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- Rapport ALEA -->
+		<div class="col-sm-12" ng-controller="GpaoReportingAleaCtrl">
+			<div class="title-ajout">Rapport Al&eacute;a</div>
+			<div class="panel panel-primary">
+				<div class="panel-body">
+					<form class="form-horizontal" id="rechercheAleaForm"
+						name="rechercheOFForm">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Matricule
+										</span> <select ui-select2 ng-model="aleaCourant.matricule"
+											ng-init="aleaCourant.matricule =''" style="width: 100%"
+											required>
+											<option value="">Toutes les Matricules</option>
+											<option ng-repeat="pi in listMatricule"
+												value="{{pi.matricule}}">{{pi.matricule}}</option>
+										</select>
+									</div>
+								</div>
+
+								<div class="col-sm-4" ng-controller="DatepickerDemoController">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Date
+											Saisie Du : </span> <input type="text"
+											class="form-control datepicker" datepicker-popup="{{format}}"
+											ng-init="aleaCourant.dateSaisieMin =''"
+											ng-model="aleaCourant.dateSaisieMin" is-open="opened"
+											datepicker-options="dateOptions" date-="enabled(date, mode)"
+											close-text="Close" />
+										<div class="input-group-btn">
+											<button type="button" class="btn btn-default"
+												ng-click="open($event)">
+												<i class="glyphicon glyphicon-calendar"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-4" ng-controller="DatepickerDemoController">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Au
+											: </span> <input type="text" class="form-control datepicker"
+											datepicker-popup="{{format}}"
+											ng-init="aleaCourant.dateSaisieMax =''"
+											ng-model="aleaCourant.dateSaisieMax" is-open="opened"
+											datepicker-options="dateOptions" date-="enabled(date, mode)"
+											close-text="Close" />
+										<div class="input-group-btn">
+											<button type="button" class="btn btn-default"
+												ng-click="open($event)">
+												<i class="glyphicon glyphicon-calendar"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Chaine
+										</span> <select ui-select2 ng-model="aleaCourant.chaineId"
+											ng-init="aleaCourant.chaineId =''" data-placeholder="..."
+											style="width: 100%">
+											<OPTION value="">Toutes les Chaines</OPTION>
+											<option ng-repeat="chaine in listChaine"
+												value="{{chaine.id}}">{{chaine.designation}}</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Al&eacute;a
+										</span> <select ui-select2 ng-model="aleaCourant.aleaId"
+											ng-init="aleaCourant.aleaId =''" data-placeholder="..."
+											style="width: 100%">
+											<OPTION value="">Tous les Al&eacute;a</OPTION>
+											<option ng-repeat="alea in listAleas" value="{{alea.id}}">{{alea.designation}}</option>
+										</select>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</form>
+					<div class="pull-right">
+						<button class="btn-action btn"
+							ng-click="downloadAlea(aleaCourant)">G&eacute;n&eacute;rer</button>
+						<button class="btn-action btn" ng-click="annulerAjout()">Annuler</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

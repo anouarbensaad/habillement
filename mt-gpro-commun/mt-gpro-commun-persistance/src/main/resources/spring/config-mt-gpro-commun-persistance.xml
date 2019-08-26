@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- bean partie intersse -->
+	<bean id="categoriePartieInteresseePersistance"
+		class="com.gpro.consulting.tiers.commun.persistance.impl.CategoriePartieInteresseePersistanceImpl" />
+
+	<bean id="partieInteressePersistance"
+		class="com.gpro.consulting.tiers.commun.persistance.impl.PartieInteresseePersistanceImpl">
+		<property name="vPersistanceUtilities" ref="persistanceUtilities"></property>
+	</bean>
+
+	<bean id="persistanceUtilities"
+		class="com.gpro.consulting.tiers.commun.persistance.utilities.PersistanceUtilities"
+		init-method="getInstance" />
+
+	<bean id="typePartieInteressePersistance"
+		class="com.gpro.consulting.tiers.commun.persistance.impl.TypePartieInteresseePersistanceImpl" />
+
+	<bean id="famillePartieInteressePersistance"
+		class="com.gpro.consulting.tiers.commun.persistance.impl.FamillePartieInteresseePersistanceImpl" />
+
+	<bean id="sitePartieInteressePersistance"
+		class="com.gpro.consulting.tiers.commun.persistance.impl.SitePartieInteresseePersistanceImpl" />
+
+	<bean id="typeDocumentPartieInteressePersistance"
+		class="com.gpro.consulting.tiers.commun.persistance.impl.TypeDocumentPersistanceImpl" />
+
+	<bean id="devisePartieInteressePersistance"
+		class="com.gpro.consulting.tiers.commun.persistance.impl.DevisePersistanceImpl" />
+
+	<!-- bean article -->
+	<bean id="articlePersistance"
+		class="com.gpro.consulting.tiers.commun.persistance.impl.ArticlePersistanceImpl" />
+
+	<bean id="ebMatierePersistance"
+		class="com.gpro.consulting.tiers.commun.persistance.impl.MatierePersistanceImpl" />
+
+	<bean id="ebMetragePersistance"
+		class="com.gpro.consulting.tiers.commun.persistance.impl.MetragePersistanceImpl" />
+
+	<bean id="ebGrosseurPersistance"
+		class="com.gpro.consulting.tiers.commun.persistance.impl.GrosseurPersistanceImpl" />
+
+	<bean id="familleArticlePersistance"
+		class="com.gpro.consulting.tiers.commun.persistance.impl.FamilleArticlePersistanceImpl" />
+
+	<bean id="sousFamilleArticlePersistance"
+		class="com.gpro.consulting.tiers.commun.persistance.impl.SousFamilleArticlePersistanceImpl" />
+
+	<bean id="typeArticlePersistance"
+		class=" com.gpro.consulting.tiers.commun.persistance.impl.TypeArticlePersistanceImpl" />
+
+	<bean id="uniteArticlePersistance"
+		class="com.gpro.consulting.tiers.commun.persistance.impl.UniteArticlePersistanceImpl" />
+	<bean id="seuilArticlePersistance"
+		class="com.gpro.consulting.tiers.commun.persistance.impl.SeuilArticlePersistanceImpl" />
+
+	<!-- bean produit -->
+	<bean id="ebCouleurPersistance"
+		class="com.gpro.consulting.tiers.commun.persistance.impl.CouleurPersistanceImpl" />
+
+	<bean id="ebPhasePersistance"
+		class="com.gpro.consulting.tiers.commun.persistance.impl.PhasePersistanceImpl" />
+
+	<bean id="ebTaillePersistance"
+		class="com.gpro.consulting.tiers.commun.persistance.impl.TaillePersistanceImpl" />
+
+	<bean id="ebStandardTaillePersistance"
+		class="com.gpro.consulting.tiers.commun.persistance.impl.StandardTaillePersistanceImpl" />
+
+	<bean id="produitPersistance"
+		class="com.gpro.consulting.tiers.commun.persistance.impl.ProduitPersistanceImpl">
+		<property name="ficheBesoinPersistance" ref="ficheBesoinPersistance"></property>
+	</bean>
+
+	<bean id="familleProduitPersistance"
+		class="com.gpro.consulting.tiers.commun.persistance.impl.FamilleProduitPersistanceImpl" />
+
+	<bean id="sousFamilleProduitPersistance"
+		class="com.gpro.consulting.tiers.commun.persistance.impl.SousFamilleProduitPersistanceImpl" />
+
+	<bean id="ficheBesoinPersistance"
+		class="com.gpro.consulting.tiers.commun.persistance.impl.FicheBesoinPersistanceImpl" />
+
+
+	<bean id="ebProduitCouleur"
+		class="com.gpro.consulting.tiers.commun.persistance.impl.ProduitCouleurPersistanceImpl" />
+
+	<bean id="ebProduitTaille"
+		class="com.gpro.consulting.tiers.commun.persistance.impl.ProduitTaillePersistanceImpl" />
+		
+	<bean id="baseInfoPersistanceUtility"
+		class="com.gpro.consulting.tiers.commun.persistance.baseinfo.utility.BaseInfoPersistanceUtility"
+		init-method="getInstance" />
+
+	<bean id="baseInfoPersistance"
+		class="com.gpro.consulting.tiers.commun.persistance.baseinfo.impl.BaseInfoPersistanceImpl" />
+		
+	<bean id="userPersistance"
+		class="com.gpro.consulting.tiers.commun.persistance.login.impl.UserPersistanceImpl" />
+
+
+</beans>

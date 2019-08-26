@@ -1,0 +1,258 @@
+<div class="container-fluid" ng-controller="mouvementEnvoiController">
+	<div class="row" ng-show="displayMode != 'edit'">
+		<div class="col-sm-12">
+			<button class="btn btn-action2 pull-right"
+				ng-click="Affectation(objectCourant)" ng-disabled="">Ajouter</button>
+		</div>
+		<!-- Critere de recherche -->
+		<div class="col-sm-12">
+			<div class="title-ajout">Crit&eacute;res de recherche</div>
+			<div class="panel panel-primary">
+				<div class="panel-body">
+					<form class="form-horizontal" id="rechercheForm"
+						name="rechercheForm">
+						<div class="form-group">
+							<div class="row">
+
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Num
+											BON </span> <input type="text" class="form-control"
+											ng-init="objectCourant.numeroBon =''"
+											ng-model="objectCourant.numeroBon">
+									</div>
+								</div>
+
+
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">OF
+										</span> <input type="text" class="form-control"
+											ng-init="objectCourant.numeroOf =''"
+											ng-model="objectCourant.numeroOf">
+									</div>
+								</div>
+
+
+								<div class="col-sm-3" ng-controller="DatepickerDemoController">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Date
+											De </span> <input type="text" class="form-control datepicker"
+											uib-datepicker-popup="{{format}}"
+											ng-init="objectCourant.dateDe =''"
+											ng-model="objectCourant.dateDe" is-open="opened"
+											datepicker-options="dateOptions" date-="enabled(date, mode)"
+											ng-required="true" close-text="Close" />
+										<div class="input-group-btn">
+											<button type="button" class="btn btn-default"
+												ng-click="open($event)">
+												<i class="glyphicon glyphicon-calendar"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-sm-3" ng-controller="DatepickerDemoController">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Date
+											A </span> <input type="text" class="form-control datepicker"
+											uib-datepicker-popup="{{format}}"
+											ng-init="objectCourant.dateA =''"
+											ng-model="objectCourant.dateA" is-open="opened"
+											datepicker-options="dateOptions" date-="enabled(date, mode)"
+											ng-required="true" close-text="Close" />
+										<div class="input-group-btn">
+											<button type="button" class="btn btn-default"
+												ng-click="open($event)">
+												<i class="glyphicon glyphicon-calendar"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+
+
+
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="row"></div>
+						</div>
+
+
+					</form>
+					<div class="pull-right">
+						<button class="btn-action btn"
+							ng-click="rechercher(objectCourant)">Recherecher</button>
+
+						<button class="btn-action btn"
+							ng-click="downloadProduction(objectCourant)">Générer</button>
+						<button class="btn-action btn" ng-click="annulerAjout()">Annuler</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- container d'ajout,  modification et de consultation GPAO-->
+	<div class="row" ng-show="displayMode == 'edit'">
+		<div class="col-sm-12">
+			<div class="pull-right">
+				<button class="btn btn-action"
+					ng-click="sauvegarderAjout(objectCourant)"
+					ng-disabled="!creationForm.$valid || numOfVerifier == 'false' || objectCourant.quantite > objectCourant.quantiteStock ">Enregistrer</button>
+				<button class="btn btn-action" ng-click="annulerAjout()">Retour</button>
+			</div>
+		</div>
+		<div class="col-md-12">
+			<div class="title-ajout">Mouvement Reception</div>
+			<div class="panel panel-primary">
+				<div class="panel-body">
+					<form name="creationForm" id="creationForm">
+
+						<div class="form-group">
+							<div class="row">
+
+
+
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Num
+											BON </span> <input type="text" class="form-control"
+											ng-init="objectCourant.numeroBon =''"
+											ng-model="objectCourant.numeroBon">
+									</div>
+								</div>
+
+
+								<div class="col-sm-3" ng-controller="DatepickerDemoController">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Date
+										</span> <input type="text" class="form-control datepicker"
+											uib-datepicker-popup="{{format}}"
+											ng-init="objectCourant.date =''"
+											ng-model="objectCourant.date" is-open="opened"
+											datepicker-options="dateOptions" date-="enabled(date, mode)"
+											ng-required="true" close-text="Close" />
+										<div class="input-group-btn">
+											<button type="button" class="btn btn-default"
+												ng-click="open($event)">
+												<i class="glyphicon glyphicon-calendar"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+
+
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">OF
+										</span> <input type="text" class="form-control"
+											ng-init="objectCourant.numeroOf =''"
+											ng-model="objectCourant.numeroOf" ng-change="ofChanged()">
+									</div>
+								</div>
+
+								<div class="col-sm-1">
+									<div class="input-group input-group-sm">
+										<button type="button" class="btn btn-sky"
+											ng-style="numOfVerifier == 'true' && myStyleBtnOF"
+											ng-click="validerOF(objectCourant.numeroOf,'SEARCH')">V&eacute;rifier</button>
+									</div>
+								</div>
+
+
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="row"></div>
+						</div>
+
+
+
+
+						<div class="title-ajout" ng-show="numOfVerifier == 'true'">Information
+						</div>
+						<div class="panel panel-primary" ng-show="numOfVerifier == 'true'">
+							<div class="panel-body">
+								<form class="form-horizontal" id="creationStockForm25"
+									name="creationStockForm25">
+
+
+									<div class="form-group">
+										<div class="row">
+
+											<div class="col-sm-4">
+												<div class="input-group">
+													<span class="input-group-addon label1" id="basic-addon1">Couleur/Taille</span>
+													<select ui-select2 ng-model="objectCourant.detailOfId"
+														ng-init="objectCourant.detailOfId =''" ng-change="onChangeDetailOf(objectCourant.detailOfId)"
+														data-placeholder="..." style="width: 100%">
+														<option value="">Tous</option>
+														<option ng-repeat="detail in listeDetailOf"
+															value="{{detail.id}}">C
+															:{{detail.couleurDesignation}} / T
+															:{{detail.tailleDesignation}}</option>
+													</select>
+												</div>
+											</div>
+
+
+											<div class="col-sm-3">
+												<div class="input-group input-group-sm">
+													<span class="input-group-addon label1" id="basic-addon1">Quantite Stock
+													</span> <input type="number" class="form-control" disabled
+														ng-init="objectCourant.quantiteStock =''"
+														ng-model="objectCourant.quantiteStock">
+												</div>
+											</div>
+
+											<div class="col-sm-3">
+												<div class="input-group input-group-sm">
+													<span class="input-group-addon label1" id="basic-addon1">Quantite
+													</span> <input type="number" class="form-control" required
+														ng-init="objectCourant.quantite =''"
+														ng-model="objectCourant.quantite">
+												</div>
+											</div>
+
+
+										</div>
+									</div>
+
+
+
+
+								</form>
+
+							</div>
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- container Grid-->
+	<div class="row" ng-show="displayMode != 'edit'">
+		<div class="col-md-12">
+			<div class="title-ajout line">Liste mouvement envoi</div>
+			<div class="row">
+				<div class="input-icon right mb10 col-md-3 pull-right">
+					<input placeholder="Taper un terme de recherche" type="text"
+						ng-model="filterOptions.filterText" class="form-control">
+				</div>
+			</div>
+			<div style="height: 500px;" ng-grid="gridOptions"></div>
+		</div>
+	</div>
+
+	<!-- Popup de la suppression -->
+	<!-- <div id="light" class="white_content"> -->
+	<!-- <pop-up type="delete-article"></pop-up> -->
+	<!-- </div> -->
+	<!-- <div id="fade" class="black_overlay"></div> -->
+	<!-- <!-- Fin Popup de la suppression -->
+
+</div>

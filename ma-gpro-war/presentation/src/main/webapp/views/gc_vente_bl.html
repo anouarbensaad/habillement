@@ -1,0 +1,575 @@
+<!-- Front -->
+<div ng-controller="VenteBLCtrl">
+	
+	<!-- Critere de recherche -->
+	<div class="panel-body" ng-show="displayMode != 'edit'">
+		<div class="title-ajout" style="font-size: 18px;">Bon de Livraison
+		<button class="btn btn-action2 pull-right"
+				ng-click="AffectationVenteBC(bonLivVenteCourant)"
+				ng-disabled="">Ajouter</button>
+		</div>
+		<div class="title-ajout">Crit&eacute;res de recherche</div>
+		<div class="panel panel-primary">
+			<div class="panel-body">
+				<form class="form-horizontal" id="rechercheSSForm"
+					name="rechercheSSForm">
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="input-group input-group-sm">
+									<span class="input-group-addon label1" id="basic-addon1">R&eacute;f&eacute;rence
+									</span> <input type="text" class="form-control"
+										ng-init="bonLivVenteCourant.reference =''"
+										ng-model="bonLivVenteCourant.reference">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="input-group input-group-sm">
+									<span class="input-group-addon label1" id="basic-addon1">Client
+									</span> 
+									<select ui-select2
+									ng-model="bonLivVenteCourant.partieInteresseeId"
+									ng-init="bonLivVenteCourant.partieInteresseeId =''"
+									data-placeholder="..." style="width: 100%">
+									<OPTION value="">Tous les Clients</OPTION>
+									<option ng-repeat="pi in ListClientCommandeVenteCache"
+										value="{{pi.id}}">{{pi.abreviation}}</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="input-group input-group-sm">
+									<span class="input-group-addon label1" id="basic-addon1">R&eacute;f.Produit
+									</span>
+									<select ui-select2
+									ng-model="bonLivVenteCourant.reference"
+									ng-init="bonLivVenteCourant.reference =''"
+									data-placeholder="..." style="width: 100%">
+									<OPTION value="">Tous les Produits</OPTION>
+									<option ng-repeat="pi in listProduitDrop"
+										value="{{pi.id}}">{{pi.reference}}</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="input-group input-group-sm">
+									<span class="input-group-addon label1" id="basic-addon1">
+										Produit </span> 
+										<select ui-select2
+										ng-model="bonLivVenteCourant.produitId"
+										ng-init="bonLivVenteCourant.produitId =''"
+										data-placeholder="..." style="width: 100%">
+										<OPTION value="">Tous les Produits</OPTION>
+										<option ng-repeat="pi in listProduitDrop"
+											value="{{pi.id}}">{{pi.designation}}</option>
+										</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-3" ng-controller="DatepickerDemoController">
+								<div class="input-group input-group-sm">
+									<span class="input-group-addon label1" id="basic-addon1">Date
+										Commande de</span> <input type="text"
+										class="form-control datepicker"
+										datepicker-popup="{{format}}"
+										ng-init="bonLivVenteCourant.dateIntroductionDu =''"
+										ng-model="bonLivVenteCourant.dateIntroductionDu"
+										is-open="opened" datepicker-options="dateOptions"
+										date-="enabled(date, mode)" ng-required="true"
+										close-text="Close" />
+									<div class="input-group-btn">
+										<button type="button" class="btn btn-default"
+											ng-click="open($event)">
+											<i class="glyphicon glyphicon-calendar"></i>
+										</button>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-3" ng-controller="DatepickerDemoController">
+								<div class="input-group input-group-sm">
+									<span class="input-group-addon label1" id="basic-addon1">A
+									</span> <input type="text" class="form-control datepicker"
+										datepicker-popup="{{format}}"
+										ng-init="bonLivVenteCourant.dateIntroductionA =''"
+										ng-model="bonLivVenteCourant.dateIntroductionA"
+										is-open="opened" datepicker-options="dateOptions"
+										date-="enabled(date, mode)" ng-required="true"
+										close-text="Close" />
+									<div class="input-group-btn">
+										<button type="button" class="btn btn-default"
+											ng-click="open($event)">
+											<i class="glyphicon glyphicon-calendar"></i>
+										</button>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-3" ng-controller="DatepickerDemoController">
+								<div class="input-group input-group-sm">
+									<span class="input-group-addon label1" id="basic-addon1">Date
+										Livraison de</span> <input type="text"
+										class="form-control datepicker"
+										datepicker-popup="{{format}}"
+										ng-init="bonLivVenteCourant.dateLivraisonDu =''"
+										ng-model="bonLivVenteCourant.dateLivraisonDu"
+										is-open="opened" datepicker-options="dateOptions"
+										date-="enabled(date, mode)" ng-required="true"
+										close-text="Close" />
+									<div class="input-group-btn">
+										<button type="button" class="btn btn-default"
+											ng-click="open($event)">
+											<i class="glyphicon glyphicon-calendar"></i>
+										</button>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-3" ng-controller="DatepickerDemoController">
+								<div class="input-group input-group-sm">
+									<span class="input-group-addon label1" id="basic-addon1">A
+									</span> <input type="text" class="form-control datepicker"
+										datepicker-popup="{{format}}"
+										ng-init="bonLivVenteCourant.dateLivraisonA =''"
+										ng-model="bonLivVenteCourant.dateLivraisonA"
+										is-open="opened" datepicker-options="dateOptions"
+										date-="enabled(date, mode)" ng-required="true"
+										close-text="Close" />
+									<div class="input-group-btn">
+										<button type="button" class="btn btn-default"
+											ng-click="open($event)">
+											<i class="glyphicon glyphicon-calendar"></i>
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="input-group input-group-sm">
+									<span class="input-group-addon label1" id="basic-addon1">Quantit&eacute; Du
+									</span> <input type="text" class="form-control"
+										ng-init="bonLivVenteCourant.quantiteDu =''"
+										ng-model="bonLivVenteCourant.quantiteDu">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="input-group input-group-sm">
+									<span class="input-group-addon label1" id="basic-addon1">Quantit&eacute; A
+									</span> 
+									<input type="text" class="form-control"
+										ng-init="bonLivVenteCourant.quantiteA =''"
+										ng-model="bonLivVenteCourant.quantiteA">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="input-group input-group-sm">
+									<span class="input-group-addon label1" id="basic-addon1">co&ucirc;t Du
+									</span>
+									<input type="text" class="form-control"
+										ng-init="bonLivVenteCourant.coutDu =''"
+										ng-model="bonLivVenteCourant.coutDu">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="input-group input-group-sm">
+									<span class="input-group-addon label1" id="basic-addon1">
+										co&ucirc;t A</span> 
+									<input type="text" class="form-control"
+										ng-init="bonLivVenteCourant.coutA =''"
+										ng-model="bonLivVenteCourant.coutA">
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+				<div class="pull-right">
+					<button class="btn-action btn" ng-click="downloadAllCommandeVente(bonLivVenteCourant)">G&eacute;n&eacute;rer</button>
+					<button class="btn-action btn"
+						ng-click="rechercherLivraisonVente(bonLivVenteCourant)">Recherecher</button>
+					<button class="btn-action btn" ng-click="annulerAjout()">Annuler</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- container d'ajout,  modification et de consultation Gestion Commerciale BC Vente-->
+	<div class="panel-body" ng-show="displayMode == 'edit'">
+		<div class="title-ajout" style="font-size: 18px;">Bon de Livraison
+			<div class="pull-right">
+				<button class="btn btn-action"
+					ng-click="sauvegarderAjout(bonLivVenteCourantEdit)" ng-disabled="">Enregistrer</button>
+				<button ng-show="modePdf == 'actif'" class="btn-action btn" ng-click="download(bonLivVenteCourantEdit.id)">G&eacute;n&eacute;rer</button>
+				<button class="btn btn-action" ng-click="annulerAjout()">Retour</button>
+			</div>
+		</div>
+
+			<div class="title-ajout" ng-show="modePdf != 'actif'" >Cr&eacute;ation Bon de Livraison</div>
+			<div class="title-ajout" ng-show="modePdf == 'actif'" >Modification Bon de Livraison</div>
+			<div class="panel panel-primary">
+				<div class="panel-body">
+					<form name="creationSSForm">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">R&eacute;f&eacute;rence
+										</span> <input type="text" class="form-control"
+											ng-model="bonLivVenteCourantEdit.reference">
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Client
+										</span>
+										<select ui-select2
+										ng-model="bonLivVenteCourantEdit.partieIntersseId"
+										ng-init="bonLivVenteCourantEdit.partieIntersseId =''"
+										data-placeholder="..." style="width: 100%">
+										<option ng-repeat="pi in ListClientCommandeVenteCache"
+											value="{{pi.id}}">{{pi.abreviation}}</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3" ng-controller="DatepickerDemoController">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Date
+											Commande</span> <input type="text" class="form-control datepicker"
+											datepicker-popup="{{format}}"
+											ng-model="bonLivVenteCourantEdit.dateCommande"
+											is-open="opened" datepicker-options="dateOptions"
+											date-="enabled(date, mode)" ng-required="true"
+											close-text="Close" />
+										<div class="input-group-btn">
+											<button type="button" class="btn btn-default"
+												ng-click="open($event)">
+												<i class="glyphicon glyphicon-calendar"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-3" ng-controller="DatepickerDemoController">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Date
+											Livraison</span> <input type="text"
+											class="form-control datepicker"
+											datepicker-popup="{{format}}"
+											ng-model="bonLivVenteCourantEdit.dateLivraison"
+											is-open="opened" datepicker-options="dateOptions"
+											date-="enabled(date, mode)" ng-required="true"
+											close-text="Close" />
+										<div class="input-group-btn">
+											<button type="button" class="btn btn-default"
+												ng-click="open($event)">
+												<i class="glyphicon glyphicon-calendar"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Saison
+										</span> <input type="text" class="form-control"
+											ng-model="bonLivVenteCourantEdit.saison">
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Site
+										</span> <select class="form-control"
+											ng-model="bonLivVenteCourantEdit.siteId">
+											<option ng-repeat="site in listeSitePartieInteresseeCache"
+												value="{{site.id}}">{{site.nom}}</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Quantite
+										</span> <input class="form-control"
+										ng-model="bonLivVenteCourantEdit.quantite" readonly="readonly"
+										value="{{bonLivVenteCourantEdit.quantite}}" />
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Co&ucirc;t
+											Total </span> <input class="form-control"
+									ng-model="bonLivVenteCourantEdit.prixTotal" readonly="readonly"
+									value="{{bonLivVenteCourantEdit.prixTotal}}" />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Agent
+										</span><select ui-select2
+										ng-model="bonLivVenteCourantEdit.agentId"
+										ng-init="bonLivVenteCourantEdit.agentId =''"
+										data-placeholder="..." style="width: 100%">
+										<option ng-repeat="agent in listAgent"
+											value="{{agent.id}}">{{agent.nom}}</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Mode Reglement
+										</span> 
+										<input type="text" class="form-control"
+											ng-model="bonLivVenteCourantEdit.modeReglement">
+											<!-- <select ui-select2
+											ng-model="factureVenteCouranteEdit.modeReglement"
+											ng-init="factureVenteCouranteEdit.modeReglement =''" data-placeholder=""
+											style="width: 100%">
+											<option value=""></option>
+											<option ng-repeat="modeP in listeModePaiement" value="{{modeP.designation}}">{{modeP.designation}}</option>
+										</select> -->
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Observations</span>
+										<textarea class="form-control"
+											ng-model="bonLivVenteCourantEdit.observations" rows="4"></textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="input-group" ng-show="modePdf != 'actif'">
+										<label class="input-group-addon label1" id="basic-addon1">R&eacute;f
+											BC</label> <input ui-select2="select2TaggingOptions" 
+											ng-model="tagReferenceBCList" style="width: 100%" />
+									</div>
+									<!-- mode Modification -->
+									<div class="input-group" ng-show="modePdf == 'actif'">
+										<label class="input-group-addon label1" id="basic-addon1">R&eacute;f
+											BC</label>
+											<input class="form-control"	 readonly="readonly" value="{{tagReferenceBCList}}" />
+									</div>
+								</div>
+								<div class="col-sm-2" ng-show="modePdf != 'actif'">
+									<div class="input-group input-group-sm">
+										<button type="button" class="btn btn-action"
+											ng-click="validerBS()">Valider</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<!-- Produits Liste -->
+			<div class="title-ajout line">Produits</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<div class="row">
+						<div class="panel panel-primary">
+							<!-- mode Creation -->
+							<div ng-show="modePdf != 'actif'">
+							<table 
+								class="table table-bordered table-condensed table-head-color">
+								<thead>
+									<tr>
+										<th style="width: 15%">R&eacute;f.BC</th>
+										<th style="width: 15%">R&eacute;f.Produit</th>
+										<th style="width: 20%">Produit</th>
+										<th style="width: 10%">Sous Famille</th>
+										<th style="width: 10%">Quantit&eacute;</th>
+										<th style="width: 10%">Prix Unitaire</th>
+										<th style="width: 20%"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="produit in listProduitLivraisonVentePRBC">
+										<td><span e-form="rowform">{{produit.referenceCommande}}</span>
+										</td>
+										<td><span e-form="rowform">{{showStatusReferenceProduit(listProduitLivraisonVentePRBC[$index].produitId)}}</span>
+										</td>
+										<td>
+											<select ui-select2
+											ng-model="listProduitLivraisonVentePRBC[$index].produitId"
+											ng-change="clickProduit(listProduitLivraisonVentePRBC[$index]., $index)" 
+											data-placeholder="..." style="width: 100%">
+											<option ng-repeat="produitDrop in listProduitDrop"
+												value="{{produitDrop.id}}">{{produitDrop.designation}}</option>
+											</select> 
+										</td>
+										<td><span e-form="rowform">
+												{{showStatusSousFamilleProduit(listProduitLivraisonVentePRBC[$index].produitId) }}  </span></td>
+										<td>
+											<input type="text" class="form-control" ng-model="listProduitLivraisonVentePRBC[$index].quantite"/>
+										<td>
+											<input type="text" class="form-control" ng-model="listProduitLivraisonVentePRBC[$index].prix" 
+											ng-keyup="changePrix($event,listProduitLivraisonVentePRBC [$index].prix, $index)">
+											</input>
+											
+										</td>
+										<td style="white-space: nowrap">
+											<!-- form -->
+											<form editable-form name="rowform"
+												onbeforesave="saveProduit($data, produit.id)"
+												ng-show="rowform.$visible"
+												class="form-buttons form-inline"
+												shown="produitInserree == produit">
+												<button type="submit" ng-disabled="rowform.$waiting"
+													class="btn btn-sm glyphicon glyphicon-save"
+													aria-hidden="true"></button>
+												<button type="button" ng-disabled="rowform.$waiting"
+													ng-click="cancelAddBonLivraisonVente(rowform, $index,  produit.id, produit.produitId, listProduitLivraisonVentePRBC  )"
+													class="btn btn-sm glyphicon glyphicon-remove"></button>
+											</form>
+											<div class="buttons" ng-show="!rowform.$visible">
+												<button class="rawform-icon" ng-controller="DetailProduitLivraisonVenteController" ng-click="open('lg',$index,listProduitLivraisonVentePRBC,1)">Detail</button>
+												<button data-nodrag
+													class="btn btn-sm glyphicon glyphicon-trash"
+													ng-click="removeProduitLivraison($index)"></button>
+											</div>
+										</td>
+									</tr>
+							</table>
+							</div>
+							<!-- mode Modification -->
+							<div ng-show="modePdf == 'actif'">
+							<table 
+								class="table table-bordered table-condensed table-head-color">
+								<thead>
+									<tr>
+										<th style="width: 15%">R&eacute;f.BC</th>
+										<th style="width: 15%">R&eacute;f.Produit</th>
+										<th style="width: 20%">Produit</th>
+										<th style="width: 10%">Sous Famille</th>
+										<th style="width: 10%">Quantit&eacute;</th>
+										<th style="width: 10%">Prix Unitaire</th>
+										<th style="width: 20%"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="produit in listProduitLivraisonVentePRBC ">
+									    <td><span e-form="rowform">{{produit.referenceCommande}}</span>
+										</td>
+										<td><span e-form="rowform">{{showProduitDetails(listProduitLivraisonVentePRBC[$index].produitId,"reference")}}</span></td>
+										<td>
+										<!-- ** {{produit.checked}} -->
+											<select ui-select2
+												ng-model="produit.produitId"
+												ng-change="clickProduit(produit.produitId, $index)" 
+												data-placeholder="..." style="width: 100%" ng-disabled="produit.checked">
+												<option ng-repeat="produitDrop in listProduitDrop"
+													value="{{produitDrop.id}}">{{produitDrop.designation}}</option>
+											</select>
+										</td>
+										<td><span e-form="rowform">{{showProduitDetails(listProduitLivraisonVentePRBC [$index].produitId,"type")}}</span>
+										</td>
+										<td>
+											<input type="text" class="form-control" ng-model="listProduitLivraisonVentePRBC [$index].quantite"/>
+										</td>
+										<td>
+											<input type="text" class="form-control" ng-model="listProduitLivraisonVentePRBC [$index].prix" 
+											ng-keyup="changePrix($event,listProduitLivraisonVentePRBC [$index].prix, $index)">
+											</input>
+										</td>
+										<td style="white-space: nowrap">
+											<!-- form -->
+											<form editable-form name="rowform"
+												onbeforesave="saveProduit($data, produit.id)"
+												ng-show="rowform.$visible"
+												class="form-buttons form-inline"
+												shown="produitInserree == produit">
+												<button type="submit" ng-disabled="rowform.$waiting"
+													class="btn btn-sm glyphicon glyphicon-save"
+													aria-hidden="true"></button>
+												<button type="button" ng-disabled="rowform.$waiting"
+													ng-click="cancelAddCommandeVente(rowform, $index,  produit.id, produit.produitId, listProduitLivraisonVentePRBC  )"
+													class="btn btn-sm glyphicon glyphicon-remove"></button>
+											</form>
+											<div class="buttons" ng-show="!rowform.$visible">
+												<button class="rawform-icon" ng-controller="DetailProduitLivraisonVenteController" ng-click="open('lg',$index,listProduitLivraisonVentePRBC ,2)">Detail</button>
+												<button data-nodrag
+													class="btn btn-sm glyphicon glyphicon-trash"
+													ng-click="removeProduitLivraison($index)"></button>
+											</div>
+										</td>
+									</tr>
+							</table>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			
+		
+	</div>
+
+	<!-- Popup Couleur Taille-->
+	<script type="text/ng-template" id="couleurPopUp.html" >
+		<div class="modal-header"  >
+			<div class='title-ajout'>D&eacute;tails Produit Taille / Couleur</div>
+		</div>
+		<div class="modal-body">
+		<!-- * maGprogetMatrixEdit: {{maGprogetMatrixEdit}} </br>
+		   	 * maGproDetailPrCmd : {{maGproDetailPrCmd}}  -->
+		   
+			<table class="table table-bordered table-condensed table-head-color">
+				<thead>
+					<tr>
+						<th>COULEUR \ TAILLE</th>
+						<th ng-repeat="taille in listeTaille">{{taille.designation}}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="couleur in listeColor" class="taille">
+						<td> {{couleur.designation}} </td>
+						<td ng-repeat="taille in listeTaille track by $index">
+							<input
+							class="form-control"
+							ng-model="maGprotapedValue[$index][$parent.$index]"
+							ng-keyup="addNewElement($event,maGprotapedValue[$index][$parent.$index],[$index],[$parent.$index],taille,couleur)"
+							ng-init="maGprotapedValue[$index][$parent.$index] = demoQuantite(couleur.id,taille.id)">
+							
+							<!-- ng-init="maGprotapedValue[$index][$parent.$index] = demoQuantite(couleur.id,taille.id)">
+							  {{demoQuantite(couleur.id,taille.id)}} -->
+							  	
+							</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="modal-footer">
+			<button class="btn-action btn" ng-click="ok()">Valider</button>
+			<button class="btn-action btn" ng-click="cancel()">Annuler</button>
+		</div>
+	</script>	 
+
+		<div id="fade" class="black_overlay"></div>
+	<!-- Fin Popup TailleCouleur ProduitCommande -->
+
+	<!-- ng-grid -->
+	<div class="panel-body" ng-show="displayMode != 'edit'">
+		<div class="col-md-12">
+			<div class="title-ajout line">Liste des Bons de Livraison</div>
+			<div style="height: 500px;" ng-grid="BLivGridOptions"></div>
+		</div>
+	</div>
+
+	<!-- popup Delete -->
+	<div id="light" class="white_content">
+		<pop-up type="delete-livraisonVente"></pop-up>
+	</div>
+	<div id="fade" class="black_overlay"></div>
+</div>
+	

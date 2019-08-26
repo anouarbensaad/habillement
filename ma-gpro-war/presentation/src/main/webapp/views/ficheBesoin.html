@@ -1,0 +1,769 @@
+<div class="col-sm-12" ng-controller="FicheBesoinController">
+
+	<!-- container d'ajout,  modification et de consultation Gestion Stock Entree-->
+	<div class="panel-body">
+
+		<div class="col-sm-3">
+			<span ng-hide="hiddenNotif"> <alert type="success"
+					class="alert-success-sauvegarde"> <span
+					ng-bind-html="'Enregistrement avec succ&egrave;s.' | safe_html"></span>
+				<a> <i class="fa fa-times close-notif" ng-click="closeNotif()"></i>
+				</a> </alert>
+			</span>
+		</div>
+		<div class="col-sm-9">
+			<div class="pull-right">
+				<button class="btn btn-action"
+					ng-click="creerOuModifierFicheBesoin(ficheBesoinCourante)"
+					ng-disabled="">Enregistrer</button>
+				<button class="btn-action btn" ng-click="download()">G&eacute;n&eacute;rer</button>
+				<button class="btn btn-action" ng-click="retour()">Retour</button>
+			</div>
+		</div>
+		<div class="col-md-12">
+			<div class="title-ajout">Donn&eacute;es G&eacute;n&eacute;rales</div>
+			<div class="panel panel-primary">
+				<div class="panel-body">
+					<form class="form-horizontal" id="creationProduitForm"
+						name="creationProduitForm">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Ref&eacute;r&eacute;nce
+										</span> <input ng-hide="creation" class="form-control"
+											readonly="readonly"
+											value="{{ficheBesoinCourante.produitValue.reference}}" />
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">D&eacute;signation
+										</span> <input ng-hide="creation" class="form-control"
+											readonly="readonly"
+											value="{{ficheBesoinCourante.produitValue.designation}}" />
+									</div>
+								</div>
+								<div class="col-sm-3" ng-controller="DateIntroCtrl">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Date
+											Intro</span> <input type="text" class="form-control datepicker"
+											datepicker-popup="{{format}}" max-date="{{maxToDay}}"
+											date-disabled="true" disabled
+											ng-model="ficheBesoinCourante.produitValue.dateIntroduction"
+											is-open="opened" datepicker-options="dateOptions"
+											date-="enabled(date, mode)" ng-required="true"
+											close-text="Close" />
+										<div class="input-group-btn">
+											<button type="button" class="btn btn-default">
+												<i class="glyphicon glyphicon-calendar"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">
+											Famille</span> <input ng-hide="creation" class="form-control"
+											readonly="readonly"
+											value="{{ficheBesoinCourante.produitValue.familleDesignation}}" />
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Sous
+											Famille</span> <input ng-hide="creation" class="form-control"
+											readonly="readonly"
+											value="{{ficheBesoinCourante.produitValue.sousFamilleDesignation}}" />
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Partie
+											Int&eacute;r&eacute;sse</span> <input ng-hide="creation"
+											class="form-control" readonly="readonly"
+											value="{{ficheBesoinCourante.produitValue.partieIntersseDesignation}}" />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-3" ng-controller="DateIntroCtrl">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Date
+											Cr&eacute;ation</span> <input type="text"
+											class="form-control datepicker" datepicker-popup="{{format}}"
+											max-date="{{maxToDay}}"
+											ng-model="ficheBesoinCourante.dateCreation" is-open="opened"
+											datepicker-options="dateOptions" date-="enabled(date, mode)"
+											ng-required="true" close-text="Close" />
+										<div class="input-group-btn">
+											<button type="button" class="btn btn-default"
+												ng-click="open($event)">
+												<i class="glyphicon glyphicon-calendar"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Responsable
+										</span> <input class="form-control"
+											ng-model="ficheBesoinCourante.responsable" />
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Observation</span>
+										<textarea class="form-control"
+											ng-model="ficheBesoinCourante.observation"
+											placeholder="Observation ..."></textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row" ng-if="!idFicheBesoin">
+								<div class="col-sm-3">
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon label1" id="basic-addon1">Fiche Similaire</span>
+												<select ui-select2
+													ng-model="produit.id"
+													ng-init="produit.id =''"
+													data-placeholder="..." style="width: 100%">
+													<option value="">Tous</option>
+													<option ng-repeat="produit in listProduitDrop"
+														value="{{produit.id}}">{{produit.reference}}</option>
+												</select>
+										</div>
+									</div>
+									<div>
+											<button class="btn-action btn" ng-click="validerFicheSimilaire(produit.id)" ng-disabled="">Valider</button>
+									</div>
+							 </div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<!-- End Données génrales -->
+
+			<div class="title-ajout line">Fiche Besoin</div>
+			<div class="title-ajout">
+				Articles<span class="fadeIn hidePlus" id="articles">+</span>
+			</div>
+			<div class="panel panel-primary">
+				<div class="panel-body">
+					<!-- Fourniture -->
+					<div style="display: none" id="panel-articles">
+						<div class="row">
+							<div class="col-sm-2">
+								<div class="title-ajout2">
+									Fournitures<span id="fournituresBtn"
+										class="fadeOut pull-right hidePlusFourniture">-</span>
+								</div>
+							</div>
+						</div>
+						<div class="line4"></div>
+						<div id="fournitures" ng-controller="MyCtrl">
+							<div class="form-group">
+								<div class="row">
+									<button class="btn btn-action pull-right spacer2"
+										ng-disabled="isLoading"
+										ng-click="open('fourniture')">Rechercher</button>
+								</div>
+							</div>
+							<table
+								class="table table-bordered table-condensed table-head-color"
+								id="tableElementBesoin">
+								<thead>
+									<tr>
+										<th style="width: 15%">R&eacute;f.</th>
+										<th style="width: 20%">D&eacute;signation</th>
+										<th style="width: 10%">S.Famille</th>
+										<th style="width: 5%">Quantit&eacute;</th>
+										<th style="width: 5%">P.U</th>
+										<th style="width: 10%">Prix Total</th>
+										<th style="width: 5%">Bloq.</th>
+										<th style="width: 10%">Phase</th>
+										<th style="width: 10%">Taille</th>
+										<th style="width: 10%">Couleur</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr
+										ng-repeat="articleF in listArticlesFournituresES track by $index">
+
+										<td><span editable-text="articleF.article.ref"
+											e-name="article.ref" e-form="rowform" e-required>
+												{{articleF.article.ref || 'empty' }} </span></td>
+										<td><span editable-text="articleF.article.designation"
+											e-name="article.designation" e-form="rowform" e-required>
+												{{articleF.article.designation || 'empty' }} </span></td>
+										<td><span
+											editable-text="articleF.article.sousFamilleArtEntiteDesignation"
+											e-name="article.sousFamilleArtEntiteDesignation"
+											e-form="rowform" e-required>
+												{{articleF.article.sousFamilleArtEntiteDesignation|| 'empty'
+												}}</span></td>
+										<td><input ng-model="articleF.quantite"
+											e-name="articleF.quantite" e-form="rowform" e-required
+											value="articleF.quantite" class="form-control" />
+										<td><input
+											ng-model="listArticlesFournituresES[$index].article.pu"
+											e-name="article.pu" e-form="rowform" e-required value=""
+											class="form-control" disabled /></td>
+										<td><input
+											ng-model="listArticlesFournituresES[$index].prixTotal"
+											value="" e-form="rowform" e-name="prixTotal"
+											class="form-control" disabled /></td>
+										<td><input type="checkbox" ng-model="articleF.bloQuatite"
+											e-name="bloQuatite"
+											style="float: none; margin-right: auto; margin-left: auto; width: 45%;"
+											e-form="rowform" class="form-control" e-required /></td>
+										<td><select ng-model="articleF.phase"
+											class="form-control">
+												<option ng-repeat="phase in listePhaseCache"
+													value="{{phase.designation}}"
+													ng-selected="{{phase.designation == articleF.phase}}">{{phase.designation}}</option>
+										</select></td>
+										<td><span editable-text="articleF.designationTaille"
+											e-name="taille.designation" e-form="rowform" disabled>
+												{{articleF.designationTaille}} </span></td>
+
+										<td><span editable-text="articleF.designationCouleur"
+											e-name="taille.designation" e-form="rowform" disabled>
+												{{articleF.designationCouleur}} </span></td>
+										<td style="white-space: nowrap" class="pull-right">
+											<!-- form -->
+											<form editable-form name="rowform" onbeforesave=""
+												ng-show="rowform.$visible" class="form-buttons form-inline"
+												shown="">
+												<button type="submit" ng-disabled="!rowform.$valid"
+													class="btn btn-sm glyphicon glyphicon-save"
+													aria-hidden="true"></button>
+												<button type="button" ng-disabled="rowform.$waiting"
+													ng-click="rowform.$cancel()"
+													class="btn btn-sm glyphicon glyphicon-remove"></button>
+											</form>
+											<div class="buttons" ng-show="!rowform.$visible"
+												ng-controller="ModalsDemoController">
+												<button class="btn btn-xs"
+													ng-click="open('lg',$index,listArticlesFournituresES)"
+													ng-show="!articleF.designationCouleur">
+													<i class="fa fa-fw fa-pencil"></i>
+												</button>
+												<button data-nodrag class="btn btn-xs"
+													ng-click="deleteItem($index, 'fourniture')">
+													<i class="fa fa-fw fa-trash-o"></i>
+												</button>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<!-- En chargement -->
+							<div ng-show="isLoading" class="col-sm-2"
+								style="float: none; margin-left: auto; margin-right: auto; font-weight: bold;"
+								class="col-sm-1">Chargement ...
+							</div>
+						</div>
+					</div>
+
+
+					<!-- Tissu -->
+					<div style="display: none" id="panel-articles">
+						<div class="row">
+							<div class="col-sm-2">
+								<div class="title-ajout2">
+									Tissu<span id="tissuBtn"
+										class="fadeOut pull-right hidePlusTissu">-</span>
+								</div>
+							</div>
+						</div>
+						<div class="line4"></div>
+						<div id="tissu" style="display: none" ng-controller="MyCtrl">
+							<div class="form-group">
+								<div class="row">
+									<button class="btn btn-action pull-right spacer2"
+										ng-disabled="isLoading"	
+										ng-click="open('tissu')">Rechercher</button>
+								</div>
+							</div>
+							<table
+								class="table table-bordered table-condensed table-head-color">
+								<thead>
+									<tr>
+										
+										<th style="width: 15%">R&eacute;f.</th>
+										<th style="width: 20%">D&eacute;signation</th>
+										<th style="width: 10%">S.Famille</th>
+										<th style="width: 5%">Quantit&eacute;</th>
+										<th style="width: 5%">P.U</th>
+										<th style="width: 10%">Prix Total</th>
+										<th style="width: 5%">Bloq.</th>
+										<th style="width: 10%">Phase</th>
+										<th style="width: 10%">Taille</th>
+										<th style="width: 10%">Couleur</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="mvtT in listArticlesTissusE">
+
+										<td><span editable-text="mvtT.article.ref" e-name="ref"
+											e-form="rowform" e-required> {{mvtT.article.ref ||
+												'empty' }} </span></td>
+										<td><span editable-text="mvtT.article.designation"
+											e-name="famille" e-form="rowform" e-required>
+												{{mvtT.article.designation || 'empty' }} </span></td>
+										<td><span
+											editable-text="mvtT.article.sousFamilleArtEntiteDesignation"
+											e-name="sousFamilleArticle" e-form="rowform" e-required>
+												{{mvtT.article.sousFamilleArtEntiteDesignation || 'empty' }}</span></td>
+										<td><input ng-model="mvtT.quantite"
+											e-name="mvtT.quantite" e-form="rowform" e-required
+											value="mvtT.quantite" class="form-control" /></td>
+
+										<td><input ng-model="MvtTissu[$index].prixUnitaire"
+											value="" class="form-control"
+											ng-change="changeMvtTissu($index,MvtTissu[$index].prixUnitaire,'prixUnitaire')"
+											disabled /></td>
+										<td><input ng-model="MvtTissu[$index].prixTotal" value=""
+											class="form-control"
+											ng-change="changeMvtTissu($index,MvtTissu[$index].prixTotal,'prixTotal')"
+											disabled /></td>
+
+										<td><input type="checkbox" ng-model="mvtT.bloQuatite"
+											e-name="bloQuatite"
+											style="float: none; margin-right: auto; margin-left: auto; width: 45%;"
+											e-form="rowform" class="form-control" e-required /></td>
+										<td><select ng-model="mvtT.phase" class="form-control">
+												<option ng-repeat="phase in listePhaseCache"
+													value="{{phase.designation}}"
+													ng-selected="{{phase.designation == mvtT.phase}}">{{phase.designation}}</option>
+										</select></td>
+
+										<td><span editable-text="mvtT.designationTaille"
+											e-name="mvtT.designation" e-form="rowform" disabled>
+												{{mvtT.designationTaille}} </span></td>
+
+										<td><span editable-text="mvtT.designationCouleur"
+											e-name="taille.designation" e-form="rowform" disabled>
+												{{mvtT.designationCouleur}} </span></td>
+
+										<td style="white-space: nowrap" class="pull-right">
+											<!-- form -->
+											<form editable-form name="rowform" onbeforesave=""
+												ng-show="rowform.$visible" class="form-buttons form-inline"
+												shown="">
+												<button type="submit" ng-disabled="!rowform.$valid"
+													class="btn btn-sm glyphicon glyphicon-save"
+													aria-hidden="true" ng></button>
+												<button type="button" ng-disabled="rowform.$waiting"
+													ng-click="rowform.$cancel()"
+													class="btn btn-sm glyphicon glyphicon-remove"></button>
+											</form>
+											<div class="buttons" ng-show="!rowform.$visible">
+												<button ng-controller="ModalsDemoController"
+													class="btn btn-xs"
+													ng-click="open('lg',$index,listArticlesTissusE)"
+													ng-show="!mvtT.designationCouleur">
+													<i class="fa fa-fw fa-pencil"></i>
+												</button>
+												<button data-nodrag class="btn btn-xs"
+													ng-click="deleteItem($index, 'tissue')">
+													<i class="fa fa-fw fa-trash-o"></i>
+												</button>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+
+							<!-- En chargement -->
+							<div ng-show="isLoading" class="col-sm-2"
+								style="float: none; margin-left: auto; margin-right: auto; font-weight: bold;"
+								class="col-sm-1">Chargement ...</div>
+						</div>
+					</div>
+					<!-- Fil A Coudre -->
+					<div style="display: none" id="panel-articles">
+						<div class="row">
+							<div class="col-sm-2">
+								<div class="title-ajout2">
+									Fil &agrave; coudre<span id="filBtn"
+										class="fadeOut pull-right hidePlusFil">+</span>
+								</div>
+							</div>
+						</div>
+						<div class="line4"></div>
+						<div id="fil" style="display: none">
+							<div class="form-group">
+								<div class="row">
+									<button class="btn btn-action pull-right spacer2"
+										ng-controller="MyCtrl" 
+										ng-disabled="isLoading"
+										ng-click="open('coudre')">Rechercher</button>
+								</div>
+							</div>
+							<table
+								class="table table-bordered table-condensed table-head-color">
+								<thead>
+									<tr>
+										<th style="width: 15%">R&eacute;f.</th>
+										<th style="width: 20%">D&eacute;signation</th>
+										<th style="width: 10%">S.Famille</th>
+										<th style="width: 5%">Quantit&eacute;</th>
+										<th style="width: 5%">P.U</th>
+										<th style="width: 10%">Prix Total</th>
+										<th style="width: 5%">Bloq.</th>
+										<th style="width: 10%">Phase</th>
+										<th style="width: 10%">Taille</th>
+										<th style="width: 10%">Couleur</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="MvtFAC in listArticlesFACE">
+										<td><span editable-text="MvtFAC.article.ref"
+											e-name="article.ref" e-form="rowform" e-required>
+												{{MvtFAC.article.ref || 'empty' }} </span></td>
+										<td><span editable-text="MvtFAC.article.designation"
+											e-name="article.designation" e-form="rowform" e-required>
+												{{MvtFAC.article.designation || 'empty' }} </span></td>
+										<td><span
+											editable-text="MvtFAC.article.sousFamilleArtEntiteDesignation"
+											e-name="article.sousFamilleArticle" e-form="rowform"
+											e-required>
+												{{MvtFAC.article.sousFamilleArtEntiteDesignation || 'empty'
+												}}</span></td>
+										<td><input ng-model="MvtFAC.quantite"
+											e-name="MvtFAC.quantite" e-form="rowform" e-required
+											value="MvtFAC.quantite" class="form-control" /></td>
+										<td><input ng-model="MvtFAC[$index].prixUnitaire"
+											value="" class="form-control"
+											ng-change="changeMvtFAC($index,MvtFAC[$index].prixUnitaire,'prixUnitaire')"
+											disabled /></td>
+										<td><input ng-model="MvtFAC[$index].prixTotal" value=""
+											class="form-control"
+											ng-change="changeMvtFAC($index,MvtFAC[$index].prixTotal,'prixTotal')"
+											disabled /></td>
+
+										<td><input type="checkbox" ng-model="MvtFAC.bloQuatite"
+											e-name="bloQuatite"
+											style="float: none; margin-right: auto; margin-left: auto; width: 45%;"
+											e-form="rowform" class="form-control" e-required /></td>
+										<td><select ng-model="MvtFAC.phase" class="form-control">
+												<option ng-repeat="phase in listePhaseCache"
+													value="{{phase.designation}}"
+													ng-selected="{{phase.designation == MvtFAC.phase}}">{{phase.designation}}</option>
+										</select></td>
+										<td><span editable-text="MvtFAC.designationTaille"
+											e-name="MvtFAC.designation" e-form="rowform" disabled>
+												{{MvtFAC.designationTaille}} </span></td>
+
+										<td><span editable-text="MvtFAC.designationCouleur"
+											e-name="MvtFAC.designation" e-form="rowform" disabled>
+												{{MvtFAC.designationCouleur}} </span></td>
+
+										<td style="white-space: nowrap" class="pull-right">
+											<!-- form -->
+											<form editable-form name="rowform" onbeforesave=""
+												ng-show="rowform.$visible" class="form-buttons form-inline"
+												shown="">
+												<button type="submit" ng-disabled="!rowform.$valid"
+													class="btn btn-sm glyphicon glyphicon-save"
+													aria-hidden="true"></button>
+												<button type="button" ng-disabled="rowform.$waiting"
+													ng-click="rowform.$cancel()"
+													class="btn btn-sm glyphicon glyphicon-remove"></button>
+											</form>
+											<div class="buttons" ng-show="!rowform.$visible">
+												<button ng-controller="ModalsDemoController"
+													class="btn btn-xs"
+													ng-click="open('lg',$index,listArticlesFACE)"
+													ng-show="!MvtFAC.designationCouleur">
+													<i class="fa fa-fw fa-pencil"></i>
+												</button>
+												<button data-nodrag class="btn btn-xs"
+													ng-click="deleteItem($index, 'fil')">
+													<i class="fa fa-fw fa-trash-o"></i>
+												</button>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<!-- En chargement -->
+							<div ng-show="isLoading" class="col-sm-2"
+								style="float: none; margin-left: auto; margin-right: auto; font-weight: bold;"
+								class="col-sm-1">Chargement ...</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+<!-- Popup Recherche Stock -->
+<script type="text/ng-template" id="myModalContent.html">
+ <div class="modal-header"  >
+	<div class='title-ajout'>Ajouter des Articles</div>
+ </div>
+	 <div class="modal-body" >
+
+		<div class="panel-body">
+			<div class="form-group">
+					<!-- Recherche avec plusieurs champs -->
+					<!--
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Famille
+								</span> <select class="form-control"
+									ng-model="articleCourantrecherchePopup.familleQuery"
+									ng-change = "listeSousFamilleFiltree(articleCourantrecherchePopup.familleQuery)">
+									<option
+										ng-repeat="famille in listeFamilleCacheParCategorie "
+										 value="{{famille.designation}}">{{famille.designation}}</option></select>
+							</div>
+						</div> 
+						<div class="col-sm-4">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Sous
+									Famille </span>
+									<select ui-select2
+										ng-model="articleCourantrecherchePopup.sousFamilleQuery" data-placeholder="..."
+										style="width: 100%">
+										<optgroup ng-repeat="famille in listeFamilleCacheParCategorieFiltree"
+											label="famille : {{famille.designation}} -- {{famille.designationType}}">
+											<option ng-repeat="sousFamille in famille.sousFamille"
+												value="{{sousFamille.designation}}">{{sousFamille.designation}}</option>
+										</optgroup>
+									</select>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">R&eacute;f&eacute;rence
+								</span> <input class="search-input" type="text" class="form-control"
+									ng-model="articleCourantrecherchePopup.referenceQuery" />
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">D&eacute;signation
+								</span> <input class="form-control"
+									ng-model="articleCourantrecherchePopup.designationQuery" />
+							</div>
+						</div>
+					</div>
+					-->
+					<!-- Recherche avec un champ universel -->
+					
+					<div class="row">
+						<div class="col-sm-5">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">1er crit&egrave;re de recherche :
+								</span> 
+								<input type="text" ng-model="articleCourantrecherchePopup.query1" class="form-control">	
+							</div>
+						</div>
+
+						<div class="col-sm-5">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">2&egrave;me crit&egrave;re de recherche :
+								</span> 
+								<input type="text" ng-model="articleCourantrecherchePopup.query2" class="form-control">	
+							</div>
+						</div>
+
+					<div class="pull-right">
+						<button class="btn-action3 btn" ng-click="annulerAjoutPopUp()">Annuler</button>
+					</div>
+				</div>
+			</div>
+
+	    <div style="max-height: 300px; overflow: scroll" >
+		
+			<table
+											class="table table-bordered table-condensed table-head-color">
+											<thead>
+												<tr>
+													<th style="width:5%"></th>
+													<th style="width:20%">R&eacute;ference</th>
+													<th style="width:30%">D&eacute;signation</th>
+													<th style="width:15%">Famille</th>
+													<th style="width:15%">Sous Famille</th>
+													<th style="width:5%">PU.</th>
+												</tr>
+											</thead>
+											<tbody>
+												<!-- Plusieurs champs de recherche -->
+												<!--
+												<tr
+													ng-repeat="article in myCurrentList | filter:articleCourantrecherchePopup.referenceQuery | filter:articleCourantrecherchePopup.designationQuery | filter:articleCourantrecherchePopup.familleQuery | filter:articleCourantrecherchePopup.sousFamilleQuery">
+												
+														<td>
+															<input type="checkbox" ng-model="article.isChecked" ng-change="addSelectedArticle(article)">
+														</td>
+														<td>
+														<span
+														ng-model="article.ref"
+														>{{article.ref || 'empty' }}</span></td>
+													<td>
+														<span
+														ng-model="article.designation"
+														>{{article.designation || 'empty' }}</span></td>
+													<td>
+														<span
+														ng-model="article.familleArticleDesignation"
+														>{{article.familleArticleDesignation || 'empty' }}</span></td>
+													<td>
+														<span
+														ng-model="article.sousFamille"
+														>{{article.sousFamille || 'empty' }}</span></td>
+													<td>
+														<span
+														ng-model="article.pu"
+														>{{article.pu || 'empty'}}</span>
+													</td>
+												</tr>
+												-->
+
+												<!-- Un champ de recherche universel -->
+												<tr
+													ng-repeat="article in myCurrentList | filter:articleCourantrecherchePopup.query1 | filter:articleCourantrecherchePopup.query2">
+												
+														<td>
+															<input type="checkbox" ng-model="article.isChecked" ng-change="addSelectedArticle(article)">
+														</td>
+														<td>
+														<span
+														ng-model="article.ref"
+														>{{article.ref || 'empty' }}</span></td>
+													<td>
+														<span
+														ng-model="article.designation"
+														>{{article.designation || 'empty' }}</span></td>
+													<td>
+														<span
+														ng-model="article.familleArticleDesignation"
+														>{{article.familleArticleDesignation || 'empty' }}</span></td>
+													<td>
+														<span
+														ng-model="article.sousFamille"
+														>{{article.sousFamille || 'empty' }}</span></td>
+													<td>
+														<span
+														ng-model="article.pu"
+														>{{article.pu || 'empty'}}</span>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+
+		</div>
+	    </div>
+	    <div class="modal-footer">
+	        <button class="btn-action btn" ng-click="ok()">OK</button>
+	        <button class="btn-action btn" ng-click="cancel()">Cancel</button>
+	    </div>
+
+	 </script>
+
+	<!-- Popup Couleur Taille-->
+	<script type="text/ng-template" id="couleurPopUp.html">
+	 <div class="modal-header"  >
+        <div class='title-ajout text-warning'>D&eacute;tails  </div>
+	 	<div class='text-left'><strong> {{ xArticleFicheBesoin.designation}}</strong> </div>
+	 </div>
+		    <div class="modal-body" >
+
+			<form class="form-horizontal" id="StockEntreeFournitureForm"
+				name="StockEntreeFournitureForm">
+				<div class="form-group">
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">R&eacute;f&eacute;rence
+								</span> <input class="form-control" ng-model="xArticleFicheBesoin.ref" />
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Famille
+								</span><input class="form-control"
+									ng-model="xArticleFicheBesoin.familleArticleDesignation" />
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">S.
+									Famille </span><input class="form-control"
+									ng-model="xArticleFicheBesoin.sousFamilleArtEntiteDesignation" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						
+					</div>
+				</div>
+			</form>
+			<table class="table table-bordered table-condensed table-head-color">
+				<thead>
+					<tr>
+						<th></th>
+						<th ng-repeat="taille in listeTaille">{{taille.designation}}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="couleur in listeColor" class="taille">
+						<td>{{couleur.designation}}</td>
+						<td ng-repeat="taille in listeTaille track by $index">
+						    <input
+							class="form-control" 
+							ng-model="tapedValue[$index][$parent.$index]"
+							
+							ng-keyup="addNewElement($event,tapedValue[$index][$parent.$index],[$index],[$parent.$index],taille,couleur)"
+							
+							></td>
+					</tr>
+				</tbody>
+			</table>
+
+			</div>
+
+		    <div class="modal-footer">
+		        <button class="btn-action btn" ng-click="ok()">OK</button>
+		        <button class="btn-action btn" ng-click="cancel()">Cancel</button>
+		    </div>
+
+	</script>
+
+
+
+
+
+
+
+
+
+	<div id="fade" class="black_overlay"></div>
+	<!-- Fin Popup de la suppression -->
+</div>

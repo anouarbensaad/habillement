@@ -1,0 +1,24 @@
+<ul class="nav nav-gpro spacer">
+		<li ><a
+			href="#/stock">Mvt. Stock</a></li>
+		<li class="active"><a href="#/stockMvtOF" >Mvt. OF</a></li>
+		<li><a href="#/historiqueS">Historique</a></li>
+		<li><a href="#/etat">Etat</a></li>
+		<!-- <li><a href="#/historiqueS">Inventaire Magasin</a></li> -->
+	    <li><a href="#/ChartGraphique">Tableau de Bord</a></li>
+	</ul>
+	
+	<!-- Front Mvt. OF -->
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-1">
+				<ul class="nav-gproS">
+					<li class="active" ><a style="margin-top: 10px"
+						class="btn btn-action pull-right" href="#/stockMvtOF">Réservation</a></li>
+						<li><a style="margin-top: 10px"
+						class="btn btn-action pull-right" href="#/stockMvtOFSortie">Sortie</a></li>
+				</ul>
+			</div>
+			<div ng-include="'views/stockMvtOFReservation.html'"></div>
+		</div>
+	</div>

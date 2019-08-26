@@ -1,0 +1,145 @@
+        <div id="page-heading" ng-show="isLoggedIn">
+            <h1>Tableau de bord</h1>
+            <!-- div class="options">
+                <div class="btn-toolbar">
+                    <div class="btn-group" dropdown>
+                        <button type="button" class="btn btn-default dropdown-toggle">
+                           Exporter <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">PDF</a></li>
+                          <li><a href="#">Image</a></li>
+                        </ul>
+                    </div>
+                    <a href="#" class="btn btn-default hidden-xs"><i class="fa fa-cog"></i></a>
+                </div>
+            </div -->
+        </div>
+
+        <div class="container-fluid" ng-controller="DashboardController" ng-show="isLoggedIn">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-6">
+                            <a class="info-tiles tiles-danger" href="#">
+                                <div class="tiles-heading">
+                                    <div class="pull-left">Stock</div>
+                                    <div class="pull-right"></div>
+                                </div>
+                                <div class="tiles-body">
+                                    <div class="pull-left"><i class="fa fa-exchange"></i></div>
+                                    <div class="pull-right">{{stockValeur}}{{stockUnite}}</div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <a class="info-tiles tiles-indigo" href="#">
+                                <div class="tiles-heading">
+                                    <div class="pull-left">Production</div>
+                                    <div class="pull-right"></div>
+                                </div>
+                                <div class="tiles-body">
+                                    <div class="pull-left"><i class="fa fa-cogs"></i></div>
+                                    <div class="pull-right">{{productionValeur}}{{productionUnite}}</div>
+                                </div>
+                            </a>
+                        </div>
+                       <div class="col-md-3 col-sm-6">
+                            <a class="info-tiles tiles-success" href="#">
+                                <div class="tiles-heading">
+                                    <div class="pull-left">Produit</div>
+                                    <div class="pull-right"></div>
+                                </div>
+                                <div class="tiles-body">
+                                    <div class="pull-left"><i class="fa fa-gift"></i></div>
+                                    <div class="pull-right">{{produitValeur}}{{produitUnite}}</div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <a class="info-tiles tiles-midnightblue" href="#">
+                                <div class="tiles-heading">
+                                    <div class="pull-left">Clients</div>
+                                    <div class="pull-right"></div>
+                                </div>
+                                <div class="tiles-body">
+                                    <div class="pull-left"><i class="fa fa-group"></i></div>
+                                    <div class="pull-right">{{clientValeur}}{{clientUnite}}</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <panel heading="Client">
+                        <div class="panel panel-gray">
+                            <div class="panel-body no-border">
+                                <!-- Client -->
+                                <div ng-show="totalClient != 0">
+                                    <div id="chartClient"></div>
+                                </div>
+                                
+                                <div ng-show="totalClient == 0">   
+                                     <div class="alert alert-dismissable alert-danger" style="margin-top: 70px;">
+                                        <strong> Pas de donn&eacute;es disponibles !</strong>
+                                      </div>
+                                </div>
+                                <!-- endClient -->
+                            </div>
+                        </div>
+                    </panel>
+                </div>
+                <div class="col-md-6">
+                    <panel heading="Rendement">
+                        <div class="panel panel-gray">
+                            <!-- V.Prod -->
+                            <div ng-show="totalVProd != 0">
+                                <div id="chartVProd"></div>
+                            </div>
+                            
+                            <div ng-show="totalVProd == 0">   
+                                <div class="alert alert-dismissable alert-danger" style="margin-top: 70px;">
+                                   <strong> Pas de donn&eacute;es disponibles !</strong>
+                                </div>
+                            </div> 
+                            <!-- endVProd  -->
+                        </div>
+                    </panel>
+                </div>
+            </div>
+        </div> <!-- container -->
+
+    <div ng-controller="SignupPageController" ng-show="!isLoggedIn">
+        <a href="#/"><img src="images/logo.png" alt="Logo" class="brand" /></a>
+        <div class="panel panel-primary" style="margin: 0 auto;">
+            <div class="panel-body">
+                <h4 class="text-center" style="margin-bottom: 25px;">Log in!</h4>
+                    <form action="#" class="form-horizontal" name="loginForm">
+                        <div class="form-group">
+                            <label for="userName" class="control-label col-sm-4" style="text-align: left;">Login</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" placeholder="Login" ng-model="userlogin.userName">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="control-label col-sm-4" style="text-align: left;">Password</label>
+                            <div class="col-sm-8">
+                                <input type="password" class="form-control" placeholder="Password" ng-model="userlogin.password">
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <a href="#/" class="btn btn-primary btn-block" ng-click="logIn(userlogin)" data-pulsate="{reach:10, pause: 2000}">Log In</a>
+                        
+                        <div class="text-center" style="margin-top: 25px;" ng-show="loginError">   
+                            <div class="alert alert-dismissable alert-danger">
+                                <strong>Login ou mot de passe invalide !</strong>
+                            </div>
+                        </div>
+                    </form>
+            </div>
+            <div class="panel-footer"></div>
+        </div>
+    </div> 

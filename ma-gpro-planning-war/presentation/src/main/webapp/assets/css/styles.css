@@ -1,0 +1,299 @@
+.btn-cancel-down {
+	margin-bottom: -73px;
+	margin-top: 38px;
+}
+
+.save-btn, .cancel-btn {
+	border-radius: 9px;
+	width: 42px;
+	height: 38px;
+	border: none;
+    margin-left: 15px;
+}
+
+.save-btn {
+	background-color: #4DB76A;
+}
+
+.cancel-btn {
+	background-color: #CC4335;;
+}
+
+.plus-btn {
+	margin-top: -40px;
+	margin-left: 140px;
+}
+
+.iconPlus {
+	float: right;
+	margin-top: 2px;
+	position: absolute;
+	right: 30px;
+}
+
+.edit-icon {
+	font-size: 12px;
+	color: #9E9A96;
+	float: right;
+	margin-top: 12px;
+}
+
+.edit-entreprise {
+    margin-right: 15;
+    margin-left: 76px;
+}
+
+input.search-input {
+    margin-top: -45px;
+    padding: 3px 0px 3px 5px;
+    border: none;
+    background-color: #E9EAEC;
+    width: 15%;
+    float: right;
+    margin-right: 3%;
+}
+
+.search-icon{
+	margin-top: -40px;
+    margin-right: 4%;
+    float: right;
+}
+
+.project-options {
+    float: right;
+    margin-top: -50px;
+    margin-right: -5px;
+}
+
+.panel-danger .panel-heading {
+    color: #ffffff;
+    background-color: #4697ce;
+    border-color: #4697ce;
+}
+
+.showDetailsArch {
+    margin-left: 16%;
+    margin-top: -41px;
+}
+.showDetailsEntrep {
+    margin-left: 18%;
+    margin-top: -41px;
+}
+
+.select-form {
+    border: 1px solid #e1e3e8;
+    width: 25%;
+    color: #656b79;
+    height: 34px;
+    padding: 7px 9px;
+    box-shadow: none!important;
+    display: block;
+    font-size: 13px;
+    line-height: 1.46153846;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    border-radius: 3px;
+}
+
+.btn-save-bordereau {
+    float: right;
+    margin-top: 4%;
+    margin-bottom: -3%;
+    margin-right: 10px;
+}
+
+.btn-quitter {
+    float: right;
+    margin-top: 4%;
+    margin-bottom: -3%;
+}
+
+.btn-quitter-details {
+    float: right;
+    margin-right: -19%;
+    margin-top: -12%;
+    margin-bottom: 1%;
+    width: 83px;
+}
+
+.btn-valider-form {
+    float: right;
+}
+
+.datepickerGrid {
+    right: initial;
+    padding: 15px 27px 0px 6px;
+}
+
+li.barVisibility {
+    visibility: hidden;
+    height: initial;
+    padding: 0px !important;
+}
+
+.angular-google-map-container {
+    height: 300px;
+}
+.angular-google-map {
+    height: 300px;
+}
+
+span.error {
+    color: #bf1c1c;
+}
+.display {
+    display: -webkit-box;
+}
+
+.display-unite {
+    padding-left: 40%;
+}
+
+.charts {
+    display: -webkit-box;
+    margin-top: -93px;
+    margin-left: 22%;
+}	
+.charts-titles {
+	display: -webkit-box;
+    margin-top: -13%;
+    margin-left: 20%;
+}
+.chart-title {
+    margin-right: 17%;
+    margin-left: 19%;
+}
+.panel-dashboard {
+    height: 234px!important;
+    background-color: #eee!important;
+}
+
+#login-page{
+	margin-top: -7%;
+}
+
+.alert-success-sauvegarde {
+/*     margin-top: 34px; */
+    width: 40%;
+/*     margin-bottom: -2%; */
+}
+
+.close-notif {
+/*     margin-left: 81px; */
+/*     width: -11%; */
+	float: right;
+    color: rgba(18, 95, 24, 0.27);
+}
+#chartdiv {
+    width: 80%;
+    height: 400px;
+    font-size: 11px;
+    margin-left: 8%;
+    margin-top: -2%;
+    margin-bottom: 4%;
+}		
+
+.panel-avancement{
+	margin-top:-2%;
+}
+
+.panel-avancement-sub{
+	color: #ffffff;
+    background-color: rgba(47, 125, 178, 0.6);
+    border-color: rgba(47, 125, 178, 0.6);
+}
+
+.div-avancement{
+	border: 1px solid #4697ce !important;	
+}
+
+.panel-depenses{
+	background-color: rgba(251, 251, 251, 0.88);
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 10px 0 rgb(0,0,0);
+    box-shadow: 0 2px 10px 0 rgba(0,0,0,0.1);
+}
+
+
+.focusedform {
+    background-color: #f3f4f6!important;
+}
+
+.focusedform .brand {
+	    margin-top: 75% !important;
+}
+
+#sidebar > li.active > a {
+    background: #4697ce;
+}
+
+.panel-primary {
+    border: none;
+}
+
+.dashboard-tiles{
+	margin: 0 2% 4%;
+    width: 20%;
+}
+
+.tiles-wrapper{
+	margin: 0 7%;
+}
+
+.logo-wrapper {
+    margin: 3% 0 3% -5%;
+}
+
+.tiles-wrapper .fa{
+	font-size : 21px !important;
+}
+
+
+
+/**************** Calendar ******************/
+
+mwl-calendar .cal-month-day {
+    height: 62px;
+}
+
+mwl-calendar .cal-month-box [class*=cal-cell], mwl-calendar .cal-year-box [class*=span]{
+	min-height: 62px;
+}
+
+mwl-calendar .cal-month-day .cal-events-num {
+    margin-left: 3px;
+    margin-top: 2px;
+}
+
+mwl-calendar .cal-month-box .cal-day-today span[data-cal-date] {
+    font-size: 1em;
+}
+
+.btn-group{
+    margin: 10px 0;
+}
+
+.cal-day-weekend {
+    background-color: #d4cfcf;
+}
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+
+.accordion-toggle i{
+	color: #b1b0b0 !important;
+    margin: 11px;
+}
+
+a.accordion-toggle span{
+color: #b1b0b0 !important;	
+}
+
+.planning .panel-heading{
+	background-color: rgba(251, 251, 253, 0.46);
+}
+
+.planning .panel-group .panel{
+	border-top: none;
+    border-right: none;
+}

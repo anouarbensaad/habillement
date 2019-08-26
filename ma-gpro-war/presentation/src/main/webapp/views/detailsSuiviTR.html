@@ -1,0 +1,174 @@
+<div class="container-fluid">
+	<div class="row">
+
+    <div class="col-sm-1">
+			<ul class="nav-gproS">
+					<li>
+							<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+								ng-click="goPersonnel()">Personnel</a>
+						</li>
+		
+		
+						<li>
+							<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+								ng-click="goFicheSuiveuse()">F.Suiveuse
+							</a>
+						</li>
+		
+		
+						<li>
+							<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+								ng-click="goFeuilleSaisie()">Suivi/Poste</a>
+						</li>
+		
+						<li class="active">
+							<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+								ng-click="goDetailsSuiviTR()">Suivi/PDA</a>
+						</li>
+		
+						<li >
+							<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+								ng-click="goDetailsSaisie()">Detail Saisie</a>
+						</li>
+		
+						<li>
+							<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+								ng-click="goAvancementOF()">Avct OF</a>
+						</li>
+		
+						<li >
+							<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+								ng-click="goDetailsSuivi()">D&eacute;tails Suivi</a>
+						</li>
+		
+						<li>
+							<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+								ng-click="goFeuilleSaisieJournalier()">SuiviGlobal</a>
+						</li>
+			</ul>
+		</div>
+	
+	<div class="col-sm-11 cadreERP" ng-controller="detailsSuiviTRController"
+				style="background-color: #fff;">
+
+		
+			<!-- Critere de recherche -->
+	<div class="row" ng-show="displayMode != 'edit'">
+		<div class="col-sm-12 ">
+			<div class="title-ajout">Saisie Temps R&eacute;el</div>
+			<div class="panel panel-primary">
+				<div class="panel-body collapse in" >
+					<form class="form-horizontal" name="detailsSaisieTRForm"
+						id="detailsSaisieTRForm">
+
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-4">
+                                   <div class="input-group input-group-sm">
+													<span class="input-group-addon label1" id="basic-addon1">Chaine
+													</span> <select ui-select2 required
+														ng-model="detailsSuiviTRCourante.chaine"
+														ng-init="detailsSuiviTRCourante.chaine=''"
+														data-placeholder="..." style="width: 100%">
+														<option value="">Toutes les chaines</option>
+														<option ng-repeat="chaine in listChaine"
+														value="{{chaine.id}}">{{chaine.designation}}</option>
+													</select>
+									</div>
+								  </div>
+								  
+								  <div class="col-sm-4">
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">Min
+											Pr&eacute;sence</span> <input type="number" class="form-control"
+											ng-model="detailsSuiviTRCourante.minPresence" required />
+									</div>
+								</div>
+								  
+								<div class="col-sm-2">
+									<div class="input-group input-group-sm">
+								
+										<button class="btn btn-action"
+										ng-click="ajoutOuUpdateFeuilleSaisie()"
+										ng-disabled="detailsSaisieTRForm.$invalid"
+										>Enregistrer</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">
+										D&eacute;tails de sortie</span>
+									</div>
+									<table
+										class="table table-bordered table-condensed table-head-color">
+										<thead>
+										<tr>
+											<th style="width: 20%">Code &agrave; barre</th>
+											<th style="width: 20%">Matricule</th>
+											<th style="width: 20%">Date</th>
+										</tr>
+									</thead>
+										<tbody ng-repeat="element in listeDetailsCSV ">
+											<tr>
+												<td>{{element.code}}</td>
+												<td>{{element.matricule}}</td>
+												<td>{{element.dateSaisie}}</td>
+
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								
+								 <div class="col-sm-2">
+									<div class="input-group input-group-sm">
+										<ng-csv-import 
+								            class="btn btn-action"
+								            content="csv.content"
+								            header="csv.header" 
+								            header-visible="csv.headerVisible" 
+								            separator="csv.separator"
+								            separator-visible="csv.separatorVisible"
+								            result="csv.result"
+								            encoding="csv.encoding"
+								            encoding-visible="csv.encodingVisible"></ng-csv-import>
+									</div>
+								</div>	
+								
+								
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-4">
+								<div class="input-group input-group-sm">
+                                   <span class="input-group-addon label1" id="basic-addon1">Nombre codes &agrave; barre</span> 
+									<input class="form-control"	type='text' ng-model="nbreCodesABarres" disabled/>
+								  </div>
+								  </div>
+								 </div>
+							</div>
+							<div class="form-group">
+							<div class="row">
+								<div class="col-sm-4">
+								<div class="input-group input-group-sm">
+                                   <span class="input-group-addon label1" id="basic-addon1">Nombre matricules</span> 
+									<input class="form-control"	type='text' ng-model="nbreMatricules" disabled/>
+								  </div>
+								  </div>
+								 </div>
+							</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+	
+</div>
+</div>

@@ -1,0 +1,185 @@
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-1">
+			<ul class="nav-gproS">
+					<li class="active">
+							<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+								ng-click="goPersonnel()">Personnel</a>
+						</li>
+		
+		
+						<li >
+							<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+								ng-click="goFicheSuiveuse()">F.Suiveuse
+							</a>
+						</li>
+		
+		
+						<li >
+							<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+								ng-click="goFeuilleSaisie()">Suivi/Poste</a>
+						</li>
+		
+						<li >
+							<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+								ng-click="goDetailsSuiviTR()">Suivi/PDA</a>
+						</li>
+		
+						<li >
+							<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+								ng-click="goDetailsSaisie()">Detail Saisie</a>
+						</li>
+		
+						<li>
+							<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+								ng-click="goAvancementOF()">Avct OF</a>
+						</li>
+		
+						<li >
+							<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+								ng-click="goDetailsSuivi()">D&eacute;tails Suivi</a>
+						</li>
+		
+						<li>
+							<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+								ng-click="goFeuilleSaisieJournalier()">SuiviGlobal</a>
+						</li>
+			</ul>
+		</div>
+		<!-- Front -->
+		<div class="col-sm-11 cadreERP" ng-controller="PersonnelCtrl"
+				style="background-color: #fff;">
+
+	<!-- Critere de recherche -->
+	<div class="row" ng-show="displayMode != 'edit'">
+		<div class="col-sm-12">
+			<button class="btn btn-action2 pull-right"
+				ng-click="AffectationPersonne(personneCourante)">Ajouter</button>
+		</div>
+		<div class="col-sm-12 ">
+			<div class="title-ajout">Crit&eacute;res de recherche</div>
+			<div class="panel panel-primary">
+				<div class="panel-body collapse in">
+					<form class="form-horizontal" name="recherchePersonneForm"
+						id="recherchePersonneForm">
+
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">
+											Matricule</span> <input class="form-control" ng-model="personneCourante.matricule"/>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">
+											Nom</span> <input class="form-control" ng-model="personneCourante.nom"/>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">
+											Prenom</span> <input class="form-control" ng-model="personneCourante.prenom"/>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+
+					<div class="pull-right">
+						<button class="btn-action btn">Generer</button>
+						<button class="btn-action btn"
+							ng-click="recherchePersonne(personneCourante)">Rechercher</button>
+						<button class="btn-action btn" ng-click="annulerAjout()">Annuler</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- container d'ajout,  modification et de consultation d'une gamme -->
+	<div class="row" ng-show="displayMode == 'edit'">
+		<div class="col-sm-12">
+			<div class="pull-right">
+				<button class="btn btn-action generate">Generer</button>
+				<button class="btn btn-action"
+					ng-click="sauvegarderAjout(personneCourante)"
+					>Enregistrer</button>
+				<button class="btn btn-action" ng-click="annulerAjout()">Retour</button>
+			</div>
+		</div>
+		<div class="col-md-12">
+			<div class="panel panel-primary">
+				<div class="title-ajout">Ajout/Modification Personnel</div>
+				<div class="panel-body" ng-show="displayMode == 'edit'">
+					<form id="creationPersonneForm" name="creationPersonneForm">
+
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">
+											Matricule</span> <input class="form-control" ng-model="personneCourante.matricule"/>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">
+											Nom</span> <input class="form-control" ng-model="personneCourante.nom"/>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">
+											Prenom</span> <input class="form-control" ng-model="personneCourante.prenom"/>
+									</div>
+								</div>
+								<div class="col-sm-1">
+									<div class="input-group">
+										<input type="checkbox" ng-model="personneCourante.indirect" ng-checked="personneCourante.indirect" />
+										Indirect
+									</div>
+								</div>
+							</div>
+
+
+						</div>
+						
+					</form>
+					
+				</div>
+
+
+			</div>
+		</div>
+	</div>
+
+	<!-- container Grid-->
+	<div class="row" ng-show="displayMode != 'edit'">
+		<div class="col-md-12">
+			<div class="title-ajout line">Liste Personnels</div>
+			<div style="height: 500px;" ng-grid="gridOptions"></div>
+		</div>
+	</div>
+
+	<!-- Popup de la suppression -->
+	<div id="light" class="white_content">
+		<pop-up type="delete-article"></pop-up>
+	</div>
+	<div id="fade" class="black_overlay"></div>
+	<!-- Fin Popup de la suppression -->
+
+
+		
+
+				
+		</div>
+
+				
+
+		
+	</div>
+</div>
+

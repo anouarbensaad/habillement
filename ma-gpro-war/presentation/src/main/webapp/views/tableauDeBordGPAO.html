@@ -1,0 +1,1138 @@
+<div class="container-fluid" ng-controller="tableauBordGPAO">
+	<div class="row">
+		<!-- Menu De Gauche -->
+		<div class="col-sm-1">
+			<ul class="nav-gproS">
+
+				<li ng-class="{active: subMenu == 'OF' }">
+					<a
+					class="btn btn-action pull-right menuH"
+					ng-click="switchSubMenu('PRODUCTION')">
+					OF
+					</a>
+				</li>
+				<li ng-class="{active: subMenu == 'RENDEMENT' }">
+					<a
+					class="btn btn-action pull-right menuH"
+					ng-click="switchSubMenu('RENDEMENT')">
+					Rendement
+					</a>
+				</li>
+				<li ng-class="{active: subMenu == 'PRODUCTION' }">
+					<a
+						class="btn btn-action pull-right menuH"
+						ng-click="switchSubMenu('PRODUCTION')">
+						Production
+					</a>
+				</li>
+				<li ng-class="{active: subMenu == 'RECAP' }">
+					<a
+						class="btn btn-action pull-right menuH"
+						ng-click="switchSubMenu('RECAP')">
+						Recap
+					</a>
+				</li>
+			</ul>
+		</div>
+
+		<div class="col-sm-11 cadreERP">
+
+			<div class="panel-body">
+
+				<!------------------------------------------------ Répartition des Quantités/Of par Client---------------------------------------------------->
+			<div ng-show="subMenu == 'OF'" >
+				<div class="title-ajout">R&eacute;partition des
+					Quantit&eacute;s Par client</div>
+				<div class="panel panel-primary" style="">
+					<div class="panel-body">
+						<form name="requestParClientForm">
+
+							<div class="form-group">
+								<div class="row">
+									<div class="col-sm-3" ng-controller="DatepickerDemoController">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Date
+												Min </span> <input type="text" class="form-control datepicker"
+												datepicker-popup="{{format}}"
+												ng-model="currentRequestParClient.vDateIntroductionDu"
+												is-open="opened" datepicker-options="dateOptions"
+												date-="enabled(date, mode)" close-text="Close" />
+											<div class="input-group-btn">
+												<button type="button" class="btn btn-default"
+													ng-click="open($event)">
+													<i class="glyphicon glyphicon-calendar"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3" ng-controller="DatepickerDemoController">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Date
+												Max </span> <input type="text" class="form-control datepicker"
+												datepicker-popup="{{format}}"
+												ng-model="currentRequestParClient.vDateIntroductionAu"
+												is-open="opened" datepicker-options="dateOptions"
+												date-="enabled(date, mode)" close-text="Close" />
+											<div class="input-group-btn">
+												<button type="button" class="btn btn-default"
+													ng-click="open($event)">
+													<i class="glyphicon glyphicon-calendar"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+
+									<div class="pull-right">
+										<button class="btn-action btn"
+											ng-click="rechercherOFParClient(currentRequestParClient)">Valider</button>
+										<button class="btn-action btn"
+											ng-click="downloadQteParClient(currentRequestParClient)">G&eacute;n&eacute;rer</button>
+										<button class="btn-action btn" ng-click="annulerClient()">Annuler</button>
+									</div>
+
+								</div>
+							</div>
+
+
+						</form>
+						<div ng-show="chartType == 'client'">
+							<div style="">
+								<div ng-hide="nombreResultaRechercherClient == 0">
+									<div id="chartdiv" style="width: 75%; height: 310px;"
+										ng-init="chartgc()"></div>
+
+								</div>
+							</div>
+							<div ng-hide="nombreResultaRechercherClient != 0">
+								<div class="alert alert-dismissable alert-danger"
+									style="margin-top: 70px;">
+									<strong> Pas de donn&eacute;es disponibles !</strong>
+								</div>
+							</div>
+						</div>
+						<!-- fin chart -->
+
+					</div>
+				</div>
+				<!-- 		</div> -->
+				<!------------------------------------------------ Répartition des Quantités/OF Par Produit---------------------------------------------------->
+
+				<!-- 		<div  ng-show="chartType == 'produit'" > -->
+
+				<div class="title-ajout">R&eacute;partition des
+					Quantit&eacute;s Par Produit</div>
+				<div class="panel panel-primary">
+					<div class="panel-body">
+						<form name="requestParProduitForm">
+
+							<div class="form-group">
+								<div class="row">
+									<div class="col-sm-3" ng-controller="DatepickerDemoController">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Date
+												Min </span> <input type="text" class="form-control datepicker"
+												datepicker-popup="{{format}}"
+												ng-model="currentRequestParProduit.vDateIntroductionDu"
+												is-open="opened" datepicker-options="dateOptions"
+												date-="enabled(date, mode)" close-text="Close" />
+											<div class="input-group-btn">
+												<button type="button" class="btn btn-default"
+													ng-click="open($event)">
+													<i class="glyphicon glyphicon-calendar"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3" ng-controller="DatepickerDemoController">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Date
+												Max </span> <input type="text" class="form-control datepicker"
+												datepicker-popup="{{format}}"
+												ng-model="currentRequestParProduit.vDateIntroductionAu"
+												is-open="opened" datepicker-options="dateOptions"
+												date-="enabled(date, mode)" close-text="Close" />
+											<div class="input-group-btn">
+												<button type="button" class="btn btn-default"
+													ng-click="open($event)">
+													<i class="glyphicon glyphicon-calendar"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Client
+											</span> <select ui-select2
+												ng-model="currentRequestParProduit.clientId"
+												ng-init="currentRequestParProduit.clientId =''"
+												data-placeholder="..." style="width: 100%">
+												<OPTION value="">Tous les Clients</OPTION>
+												<option ng-repeat="client in ListClientOFCache"
+													value="{{client.id}}">{{client.abreviation}}</option>
+											</select>
+										</div>
+
+									</div>
+
+									<div class="pull-right">
+										<button class="btn-action btn"
+											ng-click="rechercherOFParProduit(currentRequestParProduit)">Valider</button>
+										<button class="btn-action btn"
+											ng-click="downloadQteParProduit(currentRequestParProduit)">G&eacute;n&eacute;rer</button>
+										<button class="btn-action btn" ng-click="annulerProduit()">Annuler</button>
+									</div>
+
+								</div>
+							</div>
+
+						</form>
+
+						<div ng-show="chartTypeP == 'produit'">
+							<div style="">
+								<div ng-hide="nombreResultaRechercherProduit == 0">
+									<!-- 							<div id="chartdiv2" style="width: 75%; height: 300px;" ng-init="chartgc2()"></div> -->
+									<div id="chartdiv2" style="width: 75%; height: 310px;"
+										ng-init="chartgc()"></div>
+
+
+								</div>
+							</div>
+
+							<div ng-hide="nombreResultaRechercherProduit != 0">
+								<div class="alert alert-dismissable alert-danger"
+									style="margin-top: 70px;">
+									<strong> Pas de donn&eacute;es disponibles !</strong>
+								</div>
+							</div>
+						</div>
+						<!-- fin chart -->
+
+						<!-- 					</div> -->
+					</div>
+				</div>
+				<!------------------------------------------------ Répartition des Quantités/Of par Sous Famille---------------------------------------------------->
+				<div class="title-ajout">R&eacute;partition des
+					Quantit&eacute;s Par Sous Famille</div>
+				<div class="panel panel-primary">
+
+					<div class="panel-body">
+						<form name="requestParSFamilleForm">
+
+							<div class="form-group">
+								<div class="row">
+									<div class="col-sm-3" ng-controller="DatepickerDemoController">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Date
+												Min </span> <input type="text" class="form-control datepicker"
+												datepicker-popup="{{format}}"
+												ng-model="currentRequestParSFamille.vDateIntroductionDu"
+												is-open="opened" datepicker-options="dateOptions"
+												date-="enabled(date, mode)" close-text="Close" />
+											<div class="input-group-btn">
+												<button type="button" class="btn btn-default"
+													ng-click="open($event)">
+													<i class="glyphicon glyphicon-calendar"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3" ng-controller="DatepickerDemoController">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Date
+												Max </span> <input type="text" class="form-control datepicker"
+												datepicker-popup="{{format}}"
+												ng-model="currentRequestParSFamille.vDateIntroductionAu"
+												is-open="opened" datepicker-options="dateOptions"
+												date-="enabled(date, mode)" close-text="Close" />
+											<div class="input-group-btn">
+												<button type="button" class="btn btn-default"
+													ng-click="open($event)">
+													<i class="glyphicon glyphicon-calendar"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Client
+											</span> <select ui-select2
+												ng-model="currentRequestParSFamille.clientId"
+												ng-init="currentRequestParSFamille.clientId =''"
+												data-placeholder="..." style="width: 100%">
+												<OPTION value="">Tous les Clients</OPTION>
+												<OPTION ng-repeat="client in ListClientOFCache"
+													value="{{client.id}}">{{client.abreviation}}</option>
+											</select>
+										</div>
+									</div>
+
+									<div class="pull-right">
+										<button class="btn-action btn"
+											ng-click="rechercherOFParSFamille(currentRequestParSFamille)">Valider</button>
+										<button class="btn-action btn"
+											ng-click="downloadQteParSFamille(currentRequestParSFamille)">G&eacute;n&eacute;rer</button>
+										<button class="btn-action btn" ng-click="annulerSFamille()">Annuler</button>
+									</div>
+								</div>
+							</div>
+						</form>
+
+						<div ng-show="chartTypeS == 'SFamille'">
+							<div style="">
+								<div ng-hide="nombreResultaRechercherSFamille == 0">
+									<!-- 							<div id="chartdiv3" style="width: 75%; height: 300px;" ng-init="chartgc()"></div> -->
+									<div id="chartdiv3" style="width: 75%; height: 310px;"
+										ng-init="chartgc()"></div>
+
+								</div>
+							</div>
+							<div ng-hide="nombreResultaRechercherSFamille != 0">
+								<div class="alert alert-dismissable alert-danger"
+									style="margin-top: 70px;">
+									<strong> Pas de donn&eacute;es disponibles !</strong>
+								</div>
+							</div>
+
+						</div>
+						<!-- fin chart -->
+						<!-- 						</div> -->
+					</div>
+				</div>
+
+				</div> <!-- Close ng-show subMenu=="OF" -->
+				<!------------------------------------------------ Rendement Chaine par Matricule ---------------------------------------------------->
+				
+				<div ng-show="subMenu == 'RENDEMENT'" >
+				<div class="title-ajout">Rendement Chaine par Matricule</div>
+				<div class="panel panel-primary">
+					<div class="panel-body">
+						<form name="requestParChaineParMatriculeForm">
+
+							<div class="form-group">
+								<div class="row">
+									<div class="col-sm-3" ng-controller="DatepickerDemoController">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Date
+												D&eacute;but *</span> <input type="text"
+												class="form-control datepicker"
+												datepicker-popup="{{format}}"
+												ng-model="currentRequestChaineParMatricule.vDateIntroductionDu"
+												is-open="opened" datepicker-options="dateOptions"
+												date-="enabled(date, mode)" close-text="Close" required />
+											<div class="input-group-btn">
+												<button type="button" class="btn btn-default"
+													ng-click="open($event)">
+													<i class="glyphicon glyphicon-calendar"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3" ng-controller="DatepickerDemoController">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Date
+												Fin *</span> <input type="text" class="form-control datepicker"
+												datepicker-popup="{{format}}"
+												ng-model="currentRequestChaineParMatricule.vDateIntroductionAu"
+												is-open="opened" datepicker-options="dateOptions"
+												date-="enabled(date, mode)" close-text="Close" required />
+											<div class="input-group-btn">
+												<button type="button" class="btn btn-default"
+													ng-click="open($event)">
+													<i class="glyphicon glyphicon-calendar"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Chaine
+												* </span> <select ui-select2
+												ng-model="currentRequestChaineParMatricule.chaineId"
+												ng-init="currentRequestChaineParMatricule.chaineId=''"
+												data-placeholder="..." style="width: 100%" required>
+												<OPTION value="">Toutes les Chaines</OPTION>
+												<option ng-repeat="chaine in listChaine"
+													value="{{chaine.id}}">{{chaine.designation}}</option>
+											</select>
+										</div>
+									</div>
+
+									<div class="pull-right">
+										<button class="btn-action btn"
+											ng-disabled="rendementParChaineIsLoading || requestParChaineParMatriculeForm.$invalid"
+											ng-click="rechercherRendementChaineParMatricule(currentRequestChaineParMatricule, 'COLUMN')">B&acirc;tons</button>
+										<button class="btn-action btn"
+											ng-disabled="rendementParChaineIsLoading || requestParChaineParMatriculeForm.$invalid"
+											ng-click="rechercherRendementChaineParMatricule(currentRequestChaineParMatricule, 'COURBE')">Courbe</button>
+										<button class="btn-action btn"
+											ng-click="annulerChaineParMatricule()">Annuler</button>
+									</div>
+								</div>
+							</div>
+						</form>
+
+
+						<div ng-if="rendementParChaineIsLoading"
+							style="font-weight: bold; text-align: center;">Recherche en
+							cours ...</div>
+
+						<div ng-hide="chartData === null">
+							<div style="">
+								<div ng-hide="chartData.length === 0">
+									<div id="chartdiv4" style="width: 100%; height: 310px;"></div>
+
+								</div>
+							</div>
+							<div ng-hide="chartData.length !== 0">
+								<div class="alert alert-dismissable alert-danger"
+									style="margin-top: 70px;">
+									<strong> Pas de donn&eacute;es disponibles !</strong>
+								</div>
+							</div>
+
+
+
+						</div>
+					</div>
+				</div>
+				<!--  panel -->
+
+
+				<!------------------------------------------------ Rendement Individuel par jour / matricule ---------------------------------------------------->
+				<div class="title-ajout">Rendement Individuel par jour</div>
+				<div class="panel panel-primary">
+					<div class="panel-body">
+						<form name="requestParMatriculeParJourForm">
+							<div class="form-group">
+								<div class="row">
+									<div class="col-sm-3" ng-controller="DatepickerDemoController">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Date
+												D&eacute;but *</span> <input type="text"
+												class="form-control datepicker"
+												datepicker-popup="{{format}}"
+												ng-model="currentRequestMatriculeParJour.vDateIntroductionDu"
+												is-open="opened" datepicker-options="dateOptions"
+												date-="enabled(date, mode)" close-text="Close" required />
+											<div class="input-group-btn">
+												<button type="button" class="btn btn-default"
+													ng-click="open($event)">
+													<i class="glyphicon glyphicon-calendar"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3" ng-controller="DatepickerDemoController">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Date
+												Fin *</span> <input type="text" class="form-control datepicker"
+												datepicker-popup="{{format}}"
+												ng-model="currentRequestMatriculeParJour.vDateIntroductionAu"
+												is-open="opened" datepicker-options="dateOptions"
+												date-="enabled(date, mode)" close-text="Close" required />
+											<div class="input-group-btn">
+												<button type="button" class="btn btn-default"
+													ng-click="open($event)">
+													<i class="glyphicon glyphicon-calendar"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Matricule
+												* </span> <select ui-select2
+												ng-model="currentRequestMatriculeParJour.matricule"
+												ng-init="currentRequestMatriculeParJour.matricule=''"
+												data-placeholder="..." style="width: 100%" required>
+												<option value="">Tout les Matricules</option>
+												<option ng-repeat="pi in listMatricule"
+													value="{{pi.matricule}}">{{pi.matricule}}</option>
+											</select>
+										</div>
+									</div>
+
+									<div class="pull-right">
+										<button class="btn-action btn"
+											ng-disabled="rendementParMatriculeParJourIsLoading || requestParMatriculeParJourForm.$invalid"
+											ng-click="rechercherRendementMatriculeParJour(currentRequestMatriculeParJour, 'COLUMN')">B&acirc;tons</button>
+										<button class="btn-action btn"
+											ng-disabled="rendementParMatriculeParJourIsLoading || requestParMatriculeParJourForm.$invalid"
+											ng-click="rechercherRendementMatriculeParJour(currentRequestMatriculeParJour, 'COURBE')">Courbe</button>
+										<button class="btn-action btn"
+											ng-click="annulerChaineParJour()">Annuler</button>
+									</div>
+								</div>
+							</div>
+						</form>
+
+						<div ng-if="rendementParMatriculeParJourIsLoading"
+							style="font-weight: bold; text-align: center;">Recherche en
+							cours ...</div>
+
+						<div ng-hide="chartDataRendementParMatricule === null">
+							<div style="">
+								<div ng-hide="chartDataRendementParMatricule.length === 0">
+									<div id="chartdiv5" style="width: 100%; height: 310px;"></div>
+
+								</div>
+							</div>
+							<div ng-hide="chartDataRendementParMatricule.length !== 0">
+								<div class="alert alert-dismissable alert-danger"
+									style="margin-top: 70px;">
+									<strong> Pas de donn&eacute;es disponibles !</strong>
+								</div>
+							</div>
+
+
+
+						</div>
+					</div>
+				</div>
+				<!--  panel -->
+
+
+
+				<!------------------------------------------------ Rendement Individuel par jour / chaine ---------------------------------------------------->
+				<div class="title-ajout">Rendement Chaine par jour</div>
+				<div class="panel panel-primary">
+					<div class="panel-body">
+						<form name="requestParChaineParJourForm">
+
+							<div class="form-group">
+								<div class="row">
+									<div class="col-sm-3" ng-controller="DatepickerDemoController">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Date
+												D&eacute;but *</span> <input type="text"
+												class="form-control datepicker"
+												datepicker-popup="{{format}}"
+												ng-model="currentRequestChaineParJour.vDateIntroductionDu"
+												is-open="opened" datepicker-options="dateOptions"
+												date-="enabled(date, mode)" close-text="Close" required />
+											<div class="input-group-btn">
+												<button type="button" class="btn btn-default"
+													ng-click="open($event)">
+													<i class="glyphicon glyphicon-calendar"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3" ng-controller="DatepickerDemoController">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Date
+												Fin * </span> <input type="text" class="form-control datepicker"
+												datepicker-popup="{{format}}"
+												ng-model="currentRequestChaineParJour.vDateIntroductionAu"
+												is-open="opened" datepicker-options="dateOptions"
+												date-="enabled(date, mode)" close-text="Close" required />
+											<div class="input-group-btn">
+												<button type="button" class="btn btn-default"
+													ng-click="open($event)">
+													<i class="glyphicon glyphicon-calendar"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Chaine
+											</span> <select ui-select2
+												ng-model="currentRequestChaineParJour.chaineId"
+												ng-init="currentRequestChaineParJour.chaineId=''"
+												data-placeholder="..." style="width: 100%">
+												<OPTION value="">Toutes les Chaines</OPTION>
+												<option ng-repeat="chaine in listChaine"
+													value="{{chaine.id}}">{{chaine.designation}}</option>
+											</select>
+										</div>
+									</div>
+
+									<div class="pull-right">
+										<button class="btn-action btn"
+											ng-disabled="rendementParChaineParJourIsLoading || requestParChaineParJourForm.$invalid"
+											ng-click="rechercherRendementChaineParJour(currentRequestChaineParJour, 'COLUMN')">B&acirc;tons</button>
+										<button class="btn-action btn"
+											ng-disabled="rendementParChaineParJourIsLoading || requestParChaineParJourForm.$invalid"
+											ng-click="rechercherRendementChaineParJour(currentRequestChaineParJour, 'COURBE')">Courbe</button>
+										<button class="btn-action btn"
+											ng-click="annulerChaineParJour()">Annuler</button>
+									</div>
+								</div>
+							</div>
+						</form>
+
+
+						<div ng-if="rendementParChaineParJourIsLoading"
+							style="font-weight: bold; text-align: center;">Recherche en
+							cours ...</div>
+
+						<div ng-hide="chartDataRendementParChaine === null">
+							<div style="">
+								<div ng-hide="chartDataRendementParChaine.length == 0">
+									<div id="chartdiv6" style="width: 100%; height: 310px;"></div>
+
+								</div>
+							</div>
+							<div ng-hide="chartDataRendementParChaine.length != 0">
+								<div class="alert alert-dismissable alert-danger"
+									style="margin-top: 70px;">
+									<strong> Pas de donn&eacute;es disponibles !</strong>
+								</div>
+							</div>
+
+
+
+						</div>
+					</div>
+				</div>
+				<!--  panel -->
+
+<!-- ------------------------------------------------------------------ -->
+
+
+			</div> <!-- ng-show subMenu == 'RENDEMENT' -->
+			
+			<div ng-show="subMenu == 'PRODUCTION'" >
+				
+			
+			<!------------------------------------------------ Rendement Of Operation par jour  ---------------------------------------------------->
+				<div class="title-ajout">Production Of par Op&eacute;ration  : Qt&eacute; produite par jour</div>
+				<div class="panel panel-primary">
+					<div class="panel-body">
+						<form name="requestOfOperationForm">
+
+							<div class="form-group">
+								<div class="row">
+									<div class="col-sm-3" ng-controller="DatepickerDemoController">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Date
+												D&eacute;but *</span> <input type="text"
+												class="form-control datepicker"
+												datepicker-popup="{{format}}"
+												ng-model="currentRequestOfOperation.vDateIntroductionDu"
+												is-open="opened" datepicker-options="dateOptions"
+												date-="enabled(date, mode)" close-text="Close" required />
+											<div class="input-group-btn">
+												<button type="button" class="btn btn-default"
+													ng-click="open($event)">
+													<i class="glyphicon glyphicon-calendar"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3" ng-controller="DatepickerDemoController">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Date
+												Fin * </span> <input type="text" class="form-control datepicker"
+												datepicker-popup="{{format}}"
+												ng-model="currentRequestOfOperation.vDateIntroductionAu"
+												is-open="opened" datepicker-options="dateOptions"
+												date-="enabled(date, mode)" close-text="Close" required />
+											<div class="input-group-btn">
+												<button type="button" class="btn btn-default"
+													ng-click="open($event)">
+													<i class="glyphicon glyphicon-calendar"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">R&eacute;f.OF *
+											</span> <select ui-select2 ng-model="currentRequestOfOperation.ofId"
+												ng-init="currentRequestOfOperation.ofId =''"
+												data-placeholder="..." style="width: 100%"
+												ng-change="getListOperations('OF',currentRequestOfOperation.ofId)">
+												<OPTION value="">Tous les R&eacute;f.OF</OPTION>
+												<option ng-repeat="of in listeOFDrop" value="{{of.id}}">{{of.numero}}</option>
+											</select>
+										</div>
+									</div>
+									
+									<div class="col-sm-3">
+										<div class="input-group">
+											<span class="input-group-addon label1" id="basic-addon1">
+												Op&eacute;ration *</span> <select ui-select2 ng-model="currentRequestOfOperation.operation"
+												ng-init="detailsSaisieCourante.operation =''" data-placeholder="..."
+												style="width: 100%">
+												<option value="">Toutes les Op&eacute;rations</option>
+												<option ng-repeat="operation in listCodesOperations" value="{{operation.id}}">{{operation.code}}</option>
+											</select>
+										</div>
+									</div>
+
+									<div class="pull-right" style="margin-top: 15px;">
+										<button class="btn-action btn"
+											ng-disabled="productionOfOperationIsLoading || requestOfOperationForm.$invalid"
+											ng-click="rechercherProductionOfOperation(currentRequestOfOperation, 'COLUMN')">B&acirc;tons</button>
+										<button class="btn-action btn"
+											ng-disabled="productionOfOperationIsLoading || requestOfOperationForm.$invalid"
+											ng-click="rechercherProductionOfOperation(currentRequestOfOperation, 'COURBE')">Courbe</button>
+										<button class="btn-action btn"
+											ng-click="annulerProductionOfOperation()">Annuler</button>
+									</div>
+								</div>
+							</div>
+						</form>
+
+
+						<div ng-if="productionOfOperationIsLoading"
+							style="font-weight: bold; text-align: center;">Recherche en
+							cours ...</div>
+
+						<div ng-hide="chartDataProductionOfOperation === null">
+							<div style="">
+								<div ng-hide="chartDataProductionOfOperation == 0">
+									<div id="chartdiv7" style="width: 100%; height: 310px;"></div>
+
+								</div>
+							</div>
+							<div ng-hide="chartDataProductionOfOperation.length != 0">
+								<div class="alert alert-dismissable alert-danger"
+									style="margin-top: 70px;">
+									<strong> Pas de donn&eacute;es disponibles !</strong>
+								</div>
+							</div>
+
+
+
+						</div>
+					</div>
+				</div>
+				<!--  panel -->
+
+
+<!------------------------------------------------ Rendement Produit Operation par jour  ---------------------------------------------------->
+					<div class="title-ajout">Production Produit par Op&eacute;ration :
+						Qt&eacute; produite par jour</div>
+					<div class="panel panel-primary">
+						<div class="panel-body">
+							<form name="requestProduitOperationForm">
+
+								<div class="form-group">
+									<div class="row">
+										<div class="col-sm-3" ng-controller="DatepickerDemoController">
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon label1" id="basic-addon1">Date
+													D&eacute;but *</span> <input type="text"
+													class="form-control datepicker"
+													datepicker-popup="{{format}}"
+													ng-model="currentRequestProduitOperation.vDateIntroductionDu"
+													is-open="opened" datepicker-options="dateOptions"
+													date-="enabled(date, mode)" close-text="Close" required />
+												<div class="input-group-btn">
+													<button type="button" class="btn btn-default"
+														ng-click="open($event)">
+														<i class="glyphicon glyphicon-calendar"></i>
+													</button>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-3" ng-controller="DatepickerDemoController">
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon label1" id="basic-addon1">Date
+													Fin * </span> <input type="text" class="form-control datepicker"
+													datepicker-popup="{{format}}"
+													ng-model="currentRequestProduitOperation.vDateIntroductionAu"
+													is-open="opened" datepicker-options="dateOptions"
+													date-="enabled(date, mode)" close-text="Close" required />
+												<div class="input-group-btn">
+													<button type="button" class="btn btn-default"
+														ng-click="open($event)">
+														<i class="glyphicon glyphicon-calendar"></i>
+													</button>
+												</div>
+											</div>
+										</div>
+										
+										<div class="col-sm-3">
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon label1" id="basic-addon1">R&eacute;f.Produit *</span>
+												 <select ui-select2
+													ng-model="currentRequestProduitOperation.produitId"
+													ng-init="currentRequestProduitOperation.produitId =''"
+													data-placeholder="..." style="width: 100%"
+													ng-change="getListOperations('PRODUIT',currentRequestProduitOperation.produitId)">
+													<OPTION value="">Toutes les
+														R&eacute;f&eacute;rences</OPTION>
+													<option ng-repeat="produit in listProduitDrop" value="{{produit.id}}">{{produit.reference}}</option>
+												</select>
+											</div>
+										</div>
+
+										<div class="col-sm-3">
+											<div class="input-group">
+												<span class="input-group-addon label1" id="basic-addon1">
+													Op&eacute;ration *</span> <select ui-select2
+													ng-model="currentRequestProduitOperation.operation"
+													ng-init="detailsSaisieCourante.operation =''"
+													data-placeholder="..." style="width: 100%">
+													<option value="">Toutes les Op&eacute;rations</option>
+													<option ng-repeat="operation in listCodesOperations"
+														value="{{operation.id}}">{{operation.code}}</option>
+												</select>
+											</div>
+										</div>
+
+										<div class="pull-right" style="margin-top: 15px;">
+											<button class="btn-action btn"
+												ng-disabled="productionProduitOperationIsLoading || requestProduitOperationForm.$invalid"
+												ng-click="rechercherProductionProduitOperation(currentRequestProduitOperation, 'COLUMN')">B&acirc;tons</button>
+											<button class="btn-action btn"
+												ng-disabled="productionProduitOperationIsLoading || requestProduitOperationForm.$invalid"
+												ng-click="rechercherProductionProduitOperation(currentRequestProduitOperation, 'COURBE')">Courbe</button>
+											<button class="btn-action btn"
+												ng-click="annulerProductionProduitOperation()">Annuler</button>
+										</div>
+									</div>
+								</div>
+							</form>
+
+
+							<div ng-if="productionProduitOperationIsLoading"
+								style="font-weight: bold; text-align: center;">Recherche
+								en cours ...</div>
+
+							<div ng-hide="chartDataProductionProduitOperation === null">
+								<div style="">
+									<div ng-hide="chartDataProductionProduitOperation == 0">
+										<div id="chartdiv8" style="width: 100%; height: 310px;"></div>
+
+									</div>
+								</div>
+								<div ng-hide="chartDataProductionProduitOperation.length != 0">
+									<div class="alert alert-dismissable alert-danger"
+										style="margin-top: 70px;">
+										<strong> Pas de donn&eacute;es disponibles !</strong>
+									</div>
+								</div>
+
+
+
+							</div>
+						</div>
+					</div>
+					<!--  panel -->
+
+
+<!------------------------------------------------ Rendement chaine Operation par jour  ---------------------------------------------------->
+					
+					<div class="title-ajout">Production Chaine par Op&eacute;ration :
+						Qt&eacute; produite par jour</div>
+					<div class="panel panel-primary">
+						<div class="panel-body">
+							<form name="requestChaineOperationForm">
+
+								<div class="form-group">
+									<div class="row">
+										<div class="col-sm-3" ng-controller="DatepickerDemoController">
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon label1" id="basic-addon1">Date
+													D&eacute;but *</span> <input type="text"
+													class="form-control datepicker"
+													datepicker-popup="{{format}}"
+													ng-model="currentRequestChaineOperation.vDateIntroductionDu"
+													is-open="opened" datepicker-options="dateOptions"
+													date-="enabled(date, mode)" close-text="Close" required />
+												<div class="input-group-btn">
+													<button type="button" class="btn btn-default"
+														ng-click="open($event)">
+														<i class="glyphicon glyphicon-calendar"></i>
+													</button>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-3" ng-controller="DatepickerDemoController">
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon label1" id="basic-addon1">Date
+													Fin * </span> <input type="text" class="form-control datepicker"
+													datepicker-popup="{{format}}"
+													ng-model="currentRequestChaineOperation.vDateIntroductionAu"
+													is-open="opened" datepicker-options="dateOptions"
+													date-="enabled(date, mode)" close-text="Close" required />
+												<div class="input-group-btn">
+													<button type="button" class="btn btn-default"
+														ng-click="open($event)">
+														<i class="glyphicon glyphicon-calendar"></i>
+													</button>
+												</div>
+											</div>
+										</div>
+										
+										<div class="col-sm-3">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Chaine
+												 </span> <select ui-select2
+												ng-model="currentRequestChaineOperation.chaineId"
+												ng-init="currentRequestChaineOperation.chaineId=''"
+												data-placeholder="..." style="width: 100%" >
+												<OPTION value="">Toutes les Chaines</OPTION>
+												<option ng-repeat="chaine in listChaine"
+													value="{{chaine.id}}">{{chaine.designation}}</option>
+											</select>
+										</div>
+									</div>
+
+										<div class="col-sm-3">
+											<div class="input-group">
+												<span class="input-group-addon label1" id="basic-addon1">
+													Op&eacute;ration*</span> <select ui-select2
+													ng-model="currentRequestChaineOperation.operation"
+													ng-init="detailsSaisieCourante.operation =''"
+													data-placeholder="..." style="width: 100%">
+													<option value="">Toutes les Op&eacute;rations</option>
+													<option ng-repeat="operation in listCodesOperationsComptage"
+														value="{{operation.id}}">{{operation.code}}</option>
+												</select>
+											</div>
+										</div>
+
+										<div class="pull-right" style="margin-top: 15px;">
+											<button class="btn-action btn"
+												ng-disabled="productionChaineOperationIsLoading || requestChaineOperationForm.$invalid"
+												ng-click="rechercherProductionChaineOperation(currentRequestChaineOperation, 'COLUMN')">B&acirc;tons</button>
+											<button class="btn-action btn"
+												ng-disabled="productionChaineOperationIsLoading || requestChaineOperationForm.$invalid"
+												ng-click="rechercherProductionChaineOperation(currentRequestChaineOperation, 'COURBE')">Courbe</button>
+											<button class="btn-action btn"
+												ng-click="annulerProductionChaineOperation()">Annuler</button>
+										</div>
+									</div>
+								</div>
+							</form>
+
+
+							<div ng-if="productionChaineOperationIsLoading"
+								style="font-weight: bold; text-align: center;">Recherche
+								en cours ...</div>
+
+							<div ng-hide="chartDataProductionChaineOperation === null">
+								<div style="">
+									<div ng-hide="chartDataProductionChaineOperation == 0">
+										<div id="chartdiv9" style="width: 100%; height: 310px;"></div>
+
+									</div>
+								</div>
+								<div ng-hide="chartDataProductionChaineOperation.length != 0">
+									<div class="alert alert-dismissable alert-danger"
+										style="margin-top: 70px;">
+										<strong> Pas de donn&eacute;es disponibles !</strong>
+									</div>
+								</div>
+
+
+
+							</div>
+						</div>
+					</div>
+					<!--  panel -->
+					
+				</div>
+				<!--  subMenu = "PRODUCTION" -->
+					
+				
+				<div ng-show="subMenu == 'RECAP'" >
+						
+			<!------------------------------------------------ Recap de rendement ---------------------------------------------------->
+			
+				<div class="title-ajout">Recap de rendement</div>
+				<div class="panel panel-primary">
+					<div class="panel-body">
+						<form name="requestRecapRendementForm">
+
+							<div class="form-group">
+								<div class="row">
+									<div class="col-sm-3" ng-controller="DatepickerDemoController">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Date
+												D&eacute;but *</span> <input type="text"
+												class="form-control datepicker"
+												datepicker-popup="{{format}}"
+												ng-model="currentRequestRecapRendement.vDateIntroductionDu"
+												is-open="opened" datepicker-options="dateOptions"
+												date-="enabled(date, mode)" close-text="Close" required />
+											<div class="input-group-btn">
+												<button type="button" class="btn btn-default"
+													ng-click="open($event)">
+													<i class="glyphicon glyphicon-calendar"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3" ng-controller="DatepickerDemoController">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Date
+												Fin *</span> <input type="text" class="form-control datepicker"
+												datepicker-popup="{{format}}"
+												ng-model="currentRequestRecapRendement.vDateIntroductionAu"
+												is-open="opened" datepicker-options="dateOptions"
+												date-="enabled(date, mode)" close-text="Close" required />
+											<div class="input-group-btn">
+												<button type="button" class="btn btn-default"
+													ng-click="open($event)">
+													<i class="glyphicon glyphicon-calendar"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+									
+
+									<div class="pull-right">
+										<button class="btn-action btn"
+											ng-disabled="recapRendementIsLoading || requestRecapRendementForm.$invalid"
+											ng-click="rechercherRecapRendement(currentRequestRecapRendement, 'COLUMN')">B&acirc;tons</button>
+										<button class="btn-action btn"
+											ng-disabled="recapRendementIsLoading || requestRecapRendementForm.$invalid"
+											ng-click="rechercherRecapRendement(currentRequestRecapRendement, 'COURBE')">Courbe</button>
+										<button class="btn-action btn"
+											ng-click="annulerRecapRendement()">Annuler</button>
+									</div>
+								</div>
+							</div>
+						</form>
+
+
+						<div ng-if="recapRendementIsLoading"
+							style="font-weight: bold; text-align: center;">Recherche en
+							cours ...</div>
+
+						<div ng-hide="chartDataRecapRendement === null">
+							<div style="">
+								<div ng-hide="chartDataRecapRendement.length === 0">
+									<div id="chartdiv10" style="width: 100%; height: 310px;"></div>
+
+								</div>
+							</div>
+							<div ng-hide="chartDataRecapRendement.length !== 0">
+								<div class="alert alert-dismissable alert-danger"
+									style="margin-top: 70px;">
+									<strong> Pas de donn&eacute;es disponibles !</strong>
+								</div>
+							</div>
+
+
+
+						</div>
+					</div>
+				</div>
+				<!--  panel -->
+				
+				
+				
+				<!------------------------------------------------ Recap de production ---------------------------------------------------->
+			
+				<div class="title-ajout">Recap de production</div>
+				<div class="panel panel-primary">
+					<div class="panel-body">
+						<form name="requestRecapProductionForm">
+
+							<div class="form-group">
+								<div class="row">
+									<div class="col-sm-3" ng-controller="DatepickerDemoController">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Date
+												D&eacute;but *</span> <input type="text"
+												class="form-control datepicker"
+												datepicker-popup="{{format}}"
+												ng-model="currentRequestRecapProduction.vDateIntroductionDu"
+												is-open="opened" datepicker-options="dateOptions"
+												date-="enabled(date, mode)" close-text="Close" required />
+											<div class="input-group-btn">
+												<button type="button" class="btn btn-default"
+													ng-click="open($event)">
+													<i class="glyphicon glyphicon-calendar"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3" ng-controller="DatepickerDemoController">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Date
+												Fin *</span> <input type="text" class="form-control datepicker"
+												datepicker-popup="{{format}}"
+												ng-model="currentRequestRecapProduction.vDateIntroductionAu"
+												is-open="opened" datepicker-options="dateOptions"
+												date-="enabled(date, mode)" close-text="Close" required />
+											<div class="input-group-btn">
+												<button type="button" class="btn btn-default"
+													ng-click="open($event)">
+													<i class="glyphicon glyphicon-calendar"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+									
+									
+										<div class="col-sm-3">
+											<div class="input-group">
+												<span class="input-group-addon label1" id="basic-addon1">
+													Op&eacute;ration*</span> <select ui-select2
+													ng-model="currentRequestRecapProduction.operation"
+													ng-init="currentRequestRecapProduction.operation =''"
+													data-placeholder="..." style="width: 100%">
+													<option value="">Toutes les Op&eacute;rations</option>
+													<option ng-repeat="operation in listCodesOperationsComptage"
+														value="{{operation.id}}">{{operation.code}}</option>
+												</select>
+											</div>
+										</div>
+									
+									
+
+									<div class="pull-right">
+										<button class="btn-action btn"
+											ng-disabled="recapProductionIsLoading || requestRecapProductionForm.$invalid"
+											ng-click="rechercherRecapProduction(currentRequestRecapProduction, 'COLUMN')">B&acirc;tons</button>
+										<button class="btn-action btn"
+											ng-disabled="recapProductionIsLoading || requestRecapProductionForm.$invalid"
+											ng-click="rechercherRecapProduction(currentRequestRecapProduction, 'COURBE')">Courbe</button>
+										<button class="btn-action btn"
+											ng-click="annulerRecapProduction()">Annuler</button>
+									</div>
+								</div>
+							</div>
+						</form>
+
+
+						<div ng-if="recapProductionIsLoading"
+							style="font-weight: bold; text-align: center;">Recherche en
+							cours ...</div>
+
+						<div ng-hide="chartDataRecapProduction === null">
+							<div style="">
+								<div ng-hide="chartDataRecapProduction.length === 0">
+									<div id="chartdiv11" style="width: 100%; height: 310px;"></div>
+
+								</div>
+							</div>
+							<div ng-hide="chartDataRecapProduction.length !== 0">
+								<div class="alert alert-dismissable alert-danger"
+									style="margin-top: 70px;">
+									<strong> Pas de donn&eacute;es disponibles !</strong>
+								</div>
+							</div>
+
+
+
+						</div>
+					</div>
+				</div>
+				<!--  panel -->
+
+				</div>
+			<!-- ng-show subMenu == 'RECAP' -->
+				
+				
+				
+				
+				
+			<!-- Fin charts -->
+			</div>
+
+
+		</div> <!--  /panel -->
+	</div>
+	<!-- row -->
+</div>
+<!--  container -->

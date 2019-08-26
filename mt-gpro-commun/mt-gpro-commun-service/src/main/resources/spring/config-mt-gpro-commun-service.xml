@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/mvc     http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+
+	<!-- Gestionnaire du cache -->
+	<!-- ehcache -->
+	<cache:annotation-driven />
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager"
+		p:cache-manager-ref="ehcache" />
+	<bean id="ehcache"
+		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<property name="configLocation" value="classpath:/spring/ehcache.xml" />
+	</bean>
+	<bean id="gestionnaireCommunCacheService"
+		class="com.gpro.consulting.tiers.commun.service.impl.GestionnaireCommunCacheServiceImpl"
+		factory-method="getInstance" init-method="init">
+
+		<property name="typeArticleService" ref="typeArticleService"></property>
+		<property name="familleArticleService" ref="familleArticleService"></property>
+		<property name="sousFamilleArticleService" ref="sousFamilleArticleService"></property>
+		<property name="sitePartieInteresseeService" ref="sitePartieInteresseeService"></property>
+		<property name="uniteArticleService" ref="uniteArticleService"></property>
+		<property name="matiereArticleService" ref="ebMatiereService"></property>
+		<property name="metrageArticleService" ref="ebMetrageService"></property>
+		<property name="grosseurArticleService" ref="ebGrosseurService"></property>
+		<property name="typeDocumentPartieInteresseeService" ref="typeDocumentPartieInteresseeService"></property>
+		<property name="famillePartieInteresseeService" ref="famillePartieInteresseeService"></property>
+		<property name="categoriePartieInteresseeService" ref="categoriePartieInteresseeService"></property>
+		<property name="typePartieInteresseeService" ref="typePartieInteresseeService"></property>
+		<property name="devisePartieInteresseeService" ref="devisePartieInteresseeService"></property>
+		<property name="familleProduitService" ref="familleProduitService"></property>
+		<property name="sousFamilleProduitService" ref="sousFamilleProduitService"></property>
+		<property name="ebCouleurService" ref="ebCouleurService"></property>
+		<property name="ebTailleService" ref="ebTailleService"></property>
+		<property name="ebStandardTailleService" ref="ebStandardTailleService"></property>
+		<property name="ebPhaseService" ref="ebPhaseService"></property>
+		<property name="partieInteresseeService" ref="partieInteresseeService"></property>
+
+		<property name="cacheManager" ref="cacheManager">
+		</property>
+	</bean>
+	<!-- End Gestionnaire du cache -->
+
+	<bean id="devisePartieInteresseeService"
+		class="com.gpro.consulting.tiers.commun.service.impl.DevisePartieInteresseeServiceImpl">
+		<property name="devisePartieInteresseeDomaine" ref="devisePartieInteresseeDomaine" />
+	</bean>
+
+	<!-- bean article -->
+	<bean id="ebMatiereService"
+		class="com.gpro.consulting.tiers.commun.service.impl.MatiereServiceImpl">
+		<property name="ebMatiereDomaine" ref="ebMatiereDomaine" />
+	</bean>
+
+	<bean id="articleService"
+		class="com.gpro.consulting.tiers.commun.service.impl.ArticleServiceImpl">
+		<property name="articleDomaine" ref="articleDomaine" />
+	</bean>
+
+	<bean id="ebMetrageService"
+		class="com.gpro.consulting.tiers.commun.service.impl.MetrageServiceImpl">
+		<property name="ebMetrageDomaine" ref="ebMetrageDomaine" />
+	</bean>
+
+	<bean id="ebGrosseurService"
+		class="com.gpro.consulting.tiers.commun.service.impl.GrosseurServiceImpl">
+		<property name="ebGrosseurDomaine" ref="ebGrosseurDomaine" />
+	</bean>
+
+
+	<bean id="familleArticleService"
+		class="com.gpro.consulting.tiers.commun.service.impl.FamilleArticleServiceImpl">
+		<property name="familleArticleDomaine" ref="familleArticleDomaine" />
+	</bean>
+
+	<bean id="sousFamilleArticleService"
+		class="com.gpro.consulting.tiers.commun.service.impl.SousFamilleArticleServiceImpl">
+		<property name="sousFamilleArticleDomaine" ref="sousFamilleArticleDomaine" />
+	</bean>
+
+	<bean id="typeArticleService"
+		class="com.gpro.consulting.tiers.commun.service.impl.TypeArticleServiceImpl">
+		<property name="typeArticleDomaine" ref="typeArticleDomaine" />
+	</bean>
+
+	<bean id="uniteArticleService"
+		class="com.gpro.consulting.tiers.commun.service.impl.UniteArticleServiceImpl">
+		<property name="uniteArticleDomaine" ref="uniteArticleDomaine" />
+	</bean>
+
+	<bean id="seuilArticleService"
+		class="com.gpro.consulting.tiers.commun.service.impl.SeuilArticleServiceImpl">
+		<property name="seuilArticleDomaine" ref="seuilArticleDomaine" />
+	</bean>
+
+	<!-- bean produit -->
+	<bean id="ebCouleurService"
+		class="com.gpro.consulting.tiers.commun.service.impl.CouleurServiceImpl">
+		<property name="ebCouleurDomaine" ref="ebCouleurDomaine" />
+	</bean>
+
+	<bean id="ebPhaseService"
+		class="com.gpro.consulting.tiers.commun.service.impl.PhaseServiceImpl">
+		<property name="ebPhaseDomaine" ref="ebPhaseDomaine" />
+	</bean>
+
+	<bean id="ebTailleService"
+		class="com.gpro.consulting.tiers.commun.service.impl.TailleServiceImpl">
+		<property name="ebTailleDomaine" ref="ebTailleDomaine" />
+	</bean>
+
+	<bean id="ebStandardTailleService"
+		class="com.gpro.consulting.tiers.commun.service.impl.StandardTailleServiceImpl">
+		<property name="ebStandardTailleDomaine" ref="ebStandardTailleDomaine" />
+	</bean>
+
+	<bean id="produitService"
+		class="com.gpro.consulting.tiers.commun.service.impl.ProduitServiceImpl">
+		<property name="produitDomaine" ref="produitDomaine" />
+	</bean>
+	<bean id="familleProduitService"
+		class="com.gpro.consulting.tiers.commun.service.impl.FamilleProduitServiceImpl">
+		<property name="familleProduitDomaine" ref="familleProduitDomaine" />
+	</bean>
+	<bean id="sousFamilleProduitService"
+		class="com.gpro.consulting.tiers.commun.service.impl.SousFamilleProduitServiceImpl">
+		<property name="sousFamilleProduitDomaine" ref="sousFamilleProduitDomaine" />
+	</bean>
+
+	<!-- reportProduit -->
+	<bean id="gestionnaireReportCommunService"
+		class="com.gpro.consulting.tiers.commun.service.report.impl.GestionnaireReportCommunServiceImpl">
+		<property name="gestionnaireReportCommunDomaine" ref="gestionnaireReportCommunDomaine" />
+	</bean>
+
+	<!-- bean partie intersse -->
+
+	<bean id="categoriePartieInteresseeService"
+		class="com.gpro.consulting.tiers.commun.service.impl.CategoriePartieInteresseeServiceImpl">
+		<property name="categoriePartieInteresseeDomaine" ref="categoriePartieInteresseeDomaine" />
+	</bean>
+
+	<bean id="partieInteresseeService"
+		class="com.gpro.consulting.tiers.commun.service.impl.PartieInteresseeServiceeImpl">
+		<property name="partieInteresseeDomaine" ref="partieInteresseeDomaine" />
+	</bean>
+
+	<bean id="typePartieInteresseeService"
+		class="com.gpro.consulting.tiers.commun.service.impl.TypePartieInteresseeServiceImpl">
+		<property name="typePartieInteresseeDomaine" ref="typePartieInteresseeDomaine" />
+	</bean>
+
+	<bean id="sitePartieInteresseeService"
+		class="com.gpro.consulting.tiers.commun.service.impl.SitePartieInteresseeServiceImpl">
+		<property name="sitePartieInteresseeDomaine" ref="sitePartieInteresseeDomaine" />
+	</bean>
+
+	<bean id="typeDocumentPartieInteresseeService"
+		class="com.gpro.consulting.tiers.commun.service.impl.TypeDocumentServiceImpl">
+		<property name="typeDocumentDomaine" ref="typeDocumentPartieInteresseeDomaine" />
+	</bean>
+
+	<bean id="famillePartieInteresseeService"
+		class="com.gpro.consulting.tiers.commun.service.impl.FamillePartieInteresseeServiceImpl">
+		<property name="famillePartieInteresseeDomaine" ref="famillePartieInteresseeDomaine" />
+	</bean>
+
+	<bean id="ficheBesoinService"
+		class="com.gpro.consulting.tiers.commun.service.impl.FicheBesoinServiceImpl">
+		<property name="ficheBesoinDomaine" ref="ficheBesoinDomaine" />
+	</bean>
+
+	<bean id="produitCouleurService"
+		class="com.gpro.consulting.tiers.commun.service.impl.ProduitCouleurServiceImpl">
+		<property name="produitCouleurDomaine" ref="produitCouleurDomaine" />
+	</bean>
+
+	<bean id="produitTailleService"
+		class="com.gpro.consulting.tiers.commun.service.impl.ProduitTailleServiceImpl">
+		<property name="produitTailleDomaine" ref="produitTailleDomaine" />
+	</bean>
+
+	<bean id="baseInfoService"
+		class="com.gpro.consulting.tiers.commun.service.baseinfo.impl.BaseInfoServiceImpl">
+		<property name="baseInfoDomaine" ref="baseInfoDomaine" />
+	</bean>
+	
+	<bean id="userService"
+		class="com.gpro.consulting.tiers.commun.service.login.impl.UserServiceImpl">
+		<property name="userDomaine" ref="userDomaine" />
+	</bean>
+</beans>

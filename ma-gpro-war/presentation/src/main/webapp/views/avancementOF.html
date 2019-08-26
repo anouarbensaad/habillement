@@ -1,0 +1,305 @@
+<div class="container-fluid">
+	<div class="row">
+       <div class="col-sm-1">
+			<ul class="nav-gproS">
+					<li>
+							<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+								ng-click="goPersonnel()">Personnel</a>
+						</li>
+		
+		
+						<li>
+							<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+								ng-click="goFicheSuiveuse()">F.Suiveuse
+							</a>
+						</li>
+		
+		
+						<li>
+							<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+								ng-click="goFeuilleSaisie()">Suivi/Poste</a>
+						</li>
+		
+						<li >
+							<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+								ng-click="goDetailsSuiviTR()">Suivi/PDA</a>
+						</li>
+		
+						<li >
+							<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+								ng-click="goDetailsSaisie()">Detail Saisie</a>
+						</li>
+		
+						<li class="active">
+							<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+								ng-click="goAvancementOF()">Avct OF</a>
+						</li>
+		
+						<li >
+							<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+								ng-click="goDetailsSuivi()">D&eacute;tails Suivi</a>
+						</li>
+		
+						<li>
+							<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+								ng-click="goFeuilleSaisieJournalier()">SuiviGlobal</a>
+						</li>
+			</ul>
+		</div>
+		
+		<div class="col-sm-11 cadreERP" ng-controller="AvancementOFController"
+				style="background-color: #fff;">
+		
+	<!-- container d'ajout,  modification et de consultation d'une gamme -->
+	<div class="row" >
+		<div class="col-sm-12">
+			<div class="pull-right">
+			   <button ng-disabled="creationavctOFForm.$invalid" class="btn-action btn" ng-click="download(avctOFCourante.ordreFabricationId)">G&eacute;n&eacute;rer</button>
+			   <button class="btn btn-action" ng-click="annulerAjout()">Annuler</button>
+			</div>
+		</div>
+		<div class="col-md-12">
+			<div class="panel panel-primary">
+				<!-- Critère de recherche -->
+				<div class="title-ajout">Crit&egrave;res de Recherche</div>
+				<div class="panel-body" >
+					<form id="creationavctOFForm" name="creationavctOFForm">
+
+						<div class="form-group">
+							<div class="row ">
+
+
+							<!-- 	<div class="col-sm-5">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">R&eacute;f.OF
+										</span> <select ui-select2 ng-model="avctOFCourante.ordreFabricationId"
+											ng-init="avctOFCourante.ordreFabricationId =''" 
+											data-placeholder="..." style="width: 100%"  aria-required="true" required
+											name="avctOFCourante.ordreFabricationId" required>
+											<option ng-repeat="pi in listGammeOF" value="{{pi.id}}">{{pi.numero}}</option>
+										</select>
+									</div>
+								</div> -->
+
+
+								<div class="col-sm-3">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">OF
+											</span> <input type="text" class="form-control" ng-model="avctOFCourante.ordreFabricationNumero"
+												ng-init="avctOFCourante.ordreFabricationNumero =''" ng-change="ofChanged()" required>
+										</div>
+									</div>
+	
+	
+									<div class="col-sm-1">
+											<div class="input-group input-group-sm">
+												<button type="button" class="btn btn-action" ng-style="numOfVerifier == 'true' && myStyleBtnOF"
+													ng-click="validerOF(avctOFCourante.ordreFabricationNumero,'SEARCH')">Vérifier</button>
+											</div>
+										</div>
+
+								<div class="col-sm-1">
+									<button class="btn btn-action"
+									ng-disabled="creationavctOFForm.$invalid" 
+									ng-click="rechercheavctOF(avctOFCourante.ordreFabricationId)">Valider</button>
+								</div>
+								<div class="col-sm-6" >
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">
+											Client</span> <input class="form-control" ng-model="avctOFCourante.clientAbreviation" ng-disabled="true"/>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-3">
+									
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">Temps
+											Total OF</span> <input type="number" step="any" class="form-control"
+											ng-model="avctOFCourante.tempsTotal" ng-disabled="true"/>
+									</div>
+								</div>
+								<div class="col-sm-3">
+
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">Nombre
+											des Op&eacute;rations OF</span> <input type="number" step="any"
+											class="form-control" ng-model="avctOFCourante.nbOperation" ng-disabled="true"/>
+									</div>
+
+								</div>
+									  <!--  <div class="col-sm-3">
+
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">R&eacute;f.Produit
+										</span> <select ui-select2 ng-model="avctOFCourante.produitId"
+											ng-init="avctOFCourante.produitId =''"
+											data-placeholder="..." style="width: 100%" ng-disabled="true">
+											<option ng-repeat="pi in listProduitDrop" value="{{pi.id}}">{{pi.reference}}</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Produit 
+										</span> <select ui-select2
+											ng-model="avctOFCourante.produitId"
+											ng-init="avctOFCourante.produitId =''"
+											data-placeholder="..." style="width: 100%" ng-disabled="true">
+											<option ng-repeat="pi in listProduitDrop" value="{{pi.id}}">{{pi.designation}}</option>
+										</select>
+									</div>
+								</div> -->
+
+
+								
+								
+								<div class="col-sm-3" >
+										<div class="input-group">
+											<span class="input-group-addon label1" id="basic-addon1">
+												R&eacute;f.Produit</span> <input class="form-control" ng-model="avctOFCourante.produitReference" ng-disabled="true"/>
+										</div>
+									</div>
+	
+									<div class="col-sm-3" >
+										<div class="input-group">
+											<span class="input-group-addon label1" id="basic-addon1">
+												D&eacute;s.Produit</span> <input class="form-control" ng-model="avctOFCourante.produitDesignation" ng-disabled="true"/>
+										</div>
+									</div>
+								
+
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<!-- Tableau -->
+				<div class="title-ajout">Avancement OF</div>
+				<div class="panel-body">
+					<div class="form-group">
+						<div class="row">
+							<div class="panel panel-primary">
+							
+								<table
+									class="table table-bordered table-condensed table-head-color">
+									<thead>
+										<tr>
+											<th class="TableHeaderalignment" style="width: 5%">Ordre</th>
+											<th class="TableHeaderalignment" style="width: 5%">Code Op&eacute;ration</th>
+											<th class="TableHeaderalignment" style="width: 15%">Op&eacute;ration</th>
+											<th class="TableHeaderalignment" style="width: 5%">Temps</th>
+											<th class="TableHeaderalignment" style="width: 5%">PDH</th>
+											<th class="TableHeaderalignment" style="width: 10%">Qte Produite </th>
+											<th class="TableHeaderalignment" style="width: 10%"></th>
+										</tr>
+									</thead>
+									<tbody ng-model="finalOperationsList">
+										<tr ng-repeat="item in finalOperationsList track by $index">
+											<td>
+												<input class="form-control"	readonly="readonly" value="{{item.ordre}}"/></td>
+											<td>
+												<input class="form-control"	readonly="readonly" value="{{item.operationCode}}" />
+											</td>
+											<td>
+											   <input class="form-control" readonly="readonly" value="{{item.operationDesignation}}" />
+											</td>
+											<td>
+											   <input type="text" class="form-control" value="{{item.temps}}"  readonly="readonly" />
+											</td>
+											<td >
+											   <input type="text" class="form-control" value="{{item.pdh}}" readonly="readonly" />
+											</td>
+											<td >
+											   <input type="text" class="form-control" value="{{item.qteProduite}}" readonly="readonly" />
+											</td>
+											<td > 
+												<span class="btn btn-warning" style="width: 45%" ng-controller="AvancementJourController" ng-click="open('sm',$index,finalOperationsList[$index].listJourProductionGammeOf,2)">Jour</span>
+												<span class="btn btn-sky" style="width: 45%" 
+												ng-controller="AvancementTailleCouleurController" ng-click="open('sm',$index,finalOperationsList[$index].listTailleCouleurGammeOf,2)">Detail</span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+
+				<!-- Popup Quantité Par Jour -->
+				<script type="text/ng-template" id="quantiteJourPopUp.html" >
+					<div class="modal-header">
+						<div class='title-ajout'>D&eacute;tails Quantit&eacute; Par Jour</div>
+					</div>
+					<div class="modal-body">
+						<table class="table table-bordered table-condensed table-head-color">
+							<thead>
+								<tr>
+									<th>Date</th>
+									<th>Quantit&eacute;</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="element in listJourProductionGammeOf">
+									<td> {{element.date  | date:"yyyy/MM/dd"}} </td>
+									<td> {{element.qtePrdteParJour}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<div class="modal-footer">
+						<button class="btn-action btn" ng-click="cancel()">Annuler</button>
+					</div>
+				</script>
+
+				<!-- Popup Quantite par Couleur Taille -->
+				<script type="text/ng-template" id="tailleCouleurPopUp.html" >
+					<div class="modal-header"  >
+						<div class='title-ajout'>D&eacute;tails Quantit&eacute; Taille / Couleur</div>
+					</div>
+					<div class="modal-body">
+						<table class="table table-bordered table-condensed table-head-color">
+							<thead>
+								<tr>
+									<th>Taille</th>
+									<th>Couleur</th>
+									<th>Quantit&eacute;</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="element in listTailleCouleurGammeOf">
+									<td> {{element.tailleDesignation}} </td>
+									<td> {{element.couleurDesignation}}</td>
+									<td> {{element.quantite}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<div class="modal-footer">
+						<button class="btn-action btn" ng-click="cancel()">Annuler</button>
+					</div>
+				</script>
+
+
+			</div>
+		</div>
+	</div>
+
+	
+	
+		</div>		
+		
+		
+		
+</div>
+</div>
+		
+		

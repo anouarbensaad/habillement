@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<!-- Import des config du gpro commun -->
+	<import resource="classpath*:spring/config-mt-gpro-commun-persistance.xml" />
+	<import resource="classpath*:spring/config-mt-gpro-commun-domaine.xml" />
+	<import resource="classpath*:spring/ehcache.xml" />
+	<import resource="classpath*:spring/config-mt-gpro-commun-service.xml" />
+	
+	<bean id="magasinServiceTest"
+		class="com.gpro.consulting.tiers.gs.service.test.impl.MagasinServiceTest">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="magasinDomaine" ref="magasinDomaine" />
+	</bean>
+	
+	<bean id="emplacementServiceTest"
+		class="com.gpro.consulting.tiers.gs.service.test.impl.EmplacementServiceTest">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="emplacementDomaine" ref="emplacementDomaine" />
+	</bean>
+	
+	<bean id="raisonServiceTest"
+		class="com.gpro.consulting.tiers.gs.service.test.impl.RaisonMouvementServiceTest">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="raisonMouvementDomaine" ref="raisonMouvementDomaine" />
+	</bean>
+	
+	
+	<bean id="bonMouvementServiceTest"
+		class="com.gpro.consulting.tiers.gs.service.test.impl.BonMouvementServiceTest">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="bonMouvementDomaine" ref="bonMouvementDomaine" />
+	</bean>
+	
+	
+	<bean id="mouvementServiceTest"
+		class="com.gpro.consulting.tiers.gs.service.test.impl.MouvementServiceTest">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="mouvementDomaine" ref="mouvementDomaine" />
+	</bean>
+	
+	<bean id="entiteStockServiceTest"
+		class="com.gpro.consulting.tiers.gs.service.test.impl.EntiteStockServiceTest">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="entiteStockDomaine" ref="entiteStockDomaine" />
+	</bean>
+</beans>

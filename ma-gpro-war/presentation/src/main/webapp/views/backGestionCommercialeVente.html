@@ -1,0 +1,196 @@
+<!-- Menu Partie Interesse -->
+		<ul class="nav back-nav-gpro">
+			<li class="active"><a>Gestion Commerciale de Vente</a></li>
+		</ul>
+<div class="container-fluid back-office-background"
+	ng-controller="BackGcVenteCtr">
+	<div ng-show="displayMenu == 'pi'">
+		<!-- Critere  -->
+		<div class="spacer3">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="form-group">
+						<div class="col-sm-3">
+							<div class="input-group">
+								<span class="input-group-addon label1" id="basic-addon1">Param&eacute;trage</span>
+								<select ng-change="selectAction()" name="selector1"
+									id="selector1" class="form-control" ng-model="parametre">
+									<option>Etat</option>
+									<option>Type</option>
+									<option>Agent</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- /*********TypeCommande **********/ -->
+		<div class="row" ng-show="parametre=='Type'" ng-controller="backTypeCommandeController">
+			<div class="panel panel-primary">
+				<table
+					class="table table-bordered table-condensed back-table-head-color">
+					<thead>
+						<tr>
+							<th class="hidden">Id</th>
+							<th style="width: 35%">TypeCommande</th>
+							<th style="width: 25%"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="typeCommande in listeTypeCommande">
+						<td class="hidden">
+								<!-- editable representat (text with validation) --> <span
+								editable-text="typeCommande.id" e-name="id" e-form="rowform"
+								e-required> {{ typeCommande.id || 'empty' }} </span>
+							</td>
+							<td>
+								<!-- editable representat (text with validation) --> <span
+								editable-text="typeCommande.designation" e-name="designation" e-form="rowform"
+								e-required> {{ typeCommande.designation || 'empty' }} </span>
+							</td>
+
+							<td style="white-space: nowrap">
+								<!-- form -->
+								<form editable-form name="rowform"
+									onbeforesave="saveTypeCommande($data,typeCommande.id)"
+									ng-show="rowform.$visible" class="form-buttons form-inline"
+									shown="TypeCommandeCourante == typeCommande">
+									<button type="submit" ng-disabled="rowform.$waiting"
+										class="btn btn-sm glyphicon glyphicon-save" aria-hidden="true"></button>
+									
+									<button type="button" ng-disabled="rowform.$waiting" 
+									    ng-click="cancelAdd(rowform, $index, typeCommande.id, typeCommande.designation, listeTypeCommande )" 
+									    class="btn btn-sm glyphicon glyphicon-remove"></button>
+								</form>
+								<div class="buttons" ng-show="!rowform.$visible">
+									<button data-nodrag
+										class="btn btn-sm glyphicon glyphicon-pencil"
+										ng-click="rowform.$show()"></button>
+									<button data-nodrag
+										class="btn btn-sm glyphicon glyphicon-trash"
+										ng-click="removeTypeCommande($index)"></button>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<button class="btn btn-action3 pull-right spacer2"
+					ng-click="ajouterTypeCommande()">Ajouter</button>
+			</div>
+		</div>
+
+		<!-- /***** EtatCommande *******/ -->
+		<div class="row" ng-show="parametre=='Etat'" ng-controller="backEtatCommandeController">
+			<div class="panel panel-primary" data-heading="Editable Rows">
+				<table
+					class="table table-bordered table-condensed back-table-head-color">
+					<thead>
+						<tr>
+							<th style="width: 35%">Etat</th>
+							</td>
+							<th style="width: 25%"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="etatCommande in listeEtatCommande">
+							<td class="hidden">
+								<span
+								editable-text="etatCommande.id" e-name="id" e-form="rowform"
+								e-required> {{ etatCommande.id || 'empty' }} </span>
+							</td>
+							<td>
+								<!-- editable representat (text with validation) --> <span
+								editable-text="etatCommande.designation" e-name="designation"
+								e-form="rowform" e-required> {{ etatCommande.designation ||
+									'empty' }} </span>
+							</td>
+							<td style="white-space: nowrap">
+								<!-- form -->
+								<form editable-form name="rowform"
+									onbeforesave="saveEtatCommande($data, etatCommande.id)"
+									ng-show="rowform.$visible" class="form-buttons form-inline"
+									shown="EtatCommandeCourante == etatCommande">
+									<button type="submit" ng-disabled="rowform.$waiting"
+										class="btn btn-sm glyphicon glyphicon-save" aria-hidden="true"></button>
+									
+									<button type="button" ng-disabled="rowform.$waiting" 
+									    ng-click="cancelAdd(rowform, $index, etatCommande.id, etatCommande.designation,listeEtatCommande )" 
+									    class="btn btn-sm glyphicon glyphicon-remove"></button>
+								</form>
+								<div class="buttons" ng-show="!rowform.$visible">
+									<button data-nodrag
+										class="btn btn-sm glyphicon glyphicon-pencil"
+										ng-click="rowform.$show()"></button>
+									<button data-nodrag
+										class="btn btn-sm glyphicon glyphicon-trash"
+										ng-click="removeEtatCommande($index)"></button>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<button class="btn btn-action3 pull-right spacer2"
+					ng-click="ajouterEtatCommande()">Ajouter</button>
+			</div>
+		</div>
+
+		<!-- /***** Agent *******/ -->
+		<div class="row" ng-show="parametre=='Agent'" ng-controller="backAgentController">
+			<div class="panel panel-primary" data-heading="Editable Rows">
+				<table
+					class="table table-bordered table-condensed back-table-head-color">
+					<thead>
+						<tr>
+							<th style="width: 35%">Nom</th>
+							</td>
+							<th style="width: 25%"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="agent in listeAgent">
+							<td class="hidden">
+								<span
+								editable-text="agent.id" e-name="id" e-form="rowform"
+								e-required> {{ agent.id || 'empty' }} </span>
+							</td>
+							<td>
+								<!-- editable representat (text with validation) --> <span
+								editable-text="agent.nom" e-name="nom"
+								e-form="rowform" e-required> {{ agent.nom ||
+									'empty' }} </span>
+							</td>
+							<td style="white-space: nowrap">
+								<!-- form -->
+								<form editable-form name="rowform"
+									onbeforesave="saveAgent($data, agent.id)"
+									ng-show="rowform.$visible" class="form-buttons form-inline"
+									shown="AgentCourant == agent">
+									<button type="submit" ng-disabled="rowform.$waiting"
+										class="btn btn-sm glyphicon glyphicon-save" aria-hidden="true"></button>
+									
+									<button type="button" ng-disabled="rowform.$waiting" 
+									    ng-click="cancelAdd(rowform, $index, agent.id, agent.nom,listeAgent )" 
+									    class="btn btn-sm glyphicon glyphicon-remove"></button>
+								</form>
+								<div class="buttons" ng-show="!rowform.$visible">
+									<button data-nodrag
+										class="btn btn-sm glyphicon glyphicon-pencil"
+										ng-click="rowform.$show()"></button>
+									<button data-nodrag
+										class="btn btn-sm glyphicon glyphicon-trash"
+										ng-click="removeAgent($index)"></button>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<button class="btn btn-action3 pull-right spacer2"
+					ng-click="ajouterAgent()">Ajouter</button>
+			</div>
+		</div>
+
+	</div>
+	
+</div>

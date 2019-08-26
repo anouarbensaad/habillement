@@ -1,0 +1,736 @@
+
+<div class="container-fluid">
+	<div class="row">
+		<!-- Menu De Gauche -->
+		<div class="col-sm-1">
+			<ul class="nav-gproS" >
+				<!-- <li><a class="btn btn-action pull-right menuH"
+					href="#/gc_vente">Facture</a></li>
+				<li><a class="btn btn-action pull-right menuH"
+					href="#/gc_vente">Devis</a></li>
+				<li><a class="btn btn-action pull-right menuH"
+					href="#/gc_vente">BL</a></li> -->
+				<li class="active"><a class="btn btn-action pull-right menuH"
+					href="#/gc_vente">BC</a></li>
+			</ul>
+		</div>
+
+		<!-- Front -->
+		<div class="col-sm-11 cadreERP" ng-controller="VenteCtrl">
+			<!-- Critere de recherche -->
+			<div class="panel-body" ng-show="displayMode != 'edit'">
+
+				<div class="col-sm-12">
+					<button class="btn btn-action2 pull-right"
+						ng-click="AffectationVenteBC(commandeVenteCourante)"
+						ng-disabled="">Ajouter</button>
+				</div>
+
+				<div class="title-ajout">Crit&eacute;res de recherche</div>
+				<div class="panel panel-primary">
+					<div class="panel-body">
+						<form class="form-horizontal" id="rechercheSSForm"
+							name="rechercheSSForm">
+							<div class="form-group">
+								<div class="row">
+									<div class="col-sm-3">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">R&eacute;f&eacute;rence
+											</span> <input type="text" class="form-control"
+												ng-init="commandeVenteCourante.vReference =''"
+												ng-model="commandeVenteCourante.vReference">
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Client
+											</span> 
+											<select ui-select2
+											ng-model="commandeVenteCourante.vTypePartieInteressee"
+											ng-init="commandeVenteCourante.vTypePartieInteressee =''"
+											data-placeholder="..." style="width: 100%">
+											<OPTION value="">Tous les Clients</OPTION>
+											<option ng-repeat="pi in ListClientCommandeVenteCache"
+												value="{{pi.id}}">{{pi.abreviation}}</option>
+											</select>
+
+											<!-- <select class="form-control"
+												ng-model="commandeVenteCourante.vTypePartieInteressee">
+												<option ng-repeat="client in ListClientCommandeVenteCache"
+													value="{{client.id}}">{{client.abreviation}}</option>
+											</select> -->
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">R&eacute;f.Produit
+											</span>
+											<select ui-select2
+											ng-model="commandeVenteCourante.vProduit"
+											ng-init="commandeVenteCourante.vProduit =''"
+											data-placeholder="..." style="width: 100%">
+											<OPTION value="">Tous les Produits</OPTION>
+											<option ng-repeat="pi in listProduitDrop"
+												value="{{pi.id}}">{{pi.reference}}</option>
+											</select>
+
+											<!-- <select class="form-control"
+												ng-model="commandeVenteCourante.vProduit">
+												<option ng-repeat="produit in listProduitDrop"
+													value="{{produit.id}}">{{produit.reference}}</option>
+											</select> -->
+
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">
+												Produit </span> 
+												<select ui-select2
+												ng-model="commandeVenteCourante.vProduit"
+												ng-init="commandeVenteCourante.vProduit =''"
+												data-placeholder="..." style="width: 100%">
+												<OPTION value="">Tous les Produits</OPTION>
+												<option ng-repeat="pi in listProduitDrop"
+													value="{{pi.id}}">{{pi.designation}}</option>
+												</select>
+
+												<!-- <select class="form-control"
+												ng-model="commandeVenteCourante.vProduit">
+												<option ng-repeat="produit in listProduitDrop"
+													value="{{produit.id}}">{{produit.designation}}</option>
+											</select> -->
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="row">
+									<div class="col-sm-3" ng-controller="DatepickerDemoController">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Date
+												Commande de</span> <input type="text"
+												class="form-control datepicker"
+												datepicker-popup="{{format}}"
+												ng-init="commandeVenteCourante.dateIntroductionDu =''"
+												ng-model="commandeVenteCourante.dateIntroductionDu"
+												is-open="opened" datepicker-options="dateOptions"
+												date-="enabled(date, mode)" ng-required="true"
+												close-text="Close" />
+											<div class="input-group-btn">
+												<button type="button" class="btn btn-default"
+													ng-click="open($event)">
+													<i class="glyphicon glyphicon-calendar"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3" ng-controller="DatepickerDemoController">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">A
+											</span> <input type="text" class="form-control datepicker"
+												datepicker-popup="{{format}}"
+												ng-init="commandeVenteCourante.dateIntroductionA =''"
+												ng-model="commandeVenteCourante.dateIntroductionA"
+												is-open="opened" datepicker-options="dateOptions"
+												date-="enabled(date, mode)" ng-required="true"
+												close-text="Close" />
+											<div class="input-group-btn">
+												<button type="button" class="btn btn-default"
+													ng-click="open($event)">
+													<i class="glyphicon glyphicon-calendar"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3" ng-controller="DatepickerDemoController">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Date
+												Livraison de</span> <input type="text"
+												class="form-control datepicker"
+												datepicker-popup="{{format}}"
+												ng-init="commandeVenteCourante.dateLivraisonDu =''"
+												ng-model="commandeVenteCourante.dateLivraisonDu"
+												is-open="opened" datepicker-options="dateOptions"
+												date-="enabled(date, mode)" ng-required="true"
+												close-text="Close" />
+											<div class="input-group-btn">
+												<button type="button" class="btn btn-default"
+													ng-click="open($event)">
+													<i class="glyphicon glyphicon-calendar"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3" ng-controller="DatepickerDemoController">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">A
+											</span> <input type="text" class="form-control datepicker"
+												datepicker-popup="{{format}}"
+												ng-init="commandeVenteCourante.dateLivraisonA =''"
+												ng-model="commandeVenteCourante.dateLivraisonA"
+												is-open="opened" datepicker-options="dateOptions"
+												date-="enabled(date, mode)" ng-required="true"
+												close-text="Close" />
+											<div class="input-group-btn">
+												<button type="button" class="btn btn-default"
+													ng-click="open($event)">
+													<i class="glyphicon glyphicon-calendar"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="row">
+									<div class="col-sm-3">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Quantit&eacute; Du
+											</span> <input type="text" class="form-control"
+												ng-init="commandeVenteCourante.quantiteDu =''"
+												ng-model="commandeVenteCourante.quantiteDu">
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Quantit&eacute; A
+											</span> 
+											<input type="text" class="form-control"
+												ng-init="commandeVenteCourante.quantiteA =''"
+												ng-model="commandeVenteCourante.quantiteA">
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">co&ucirc;t Du
+											</span>
+											<input type="text" class="form-control"
+												ng-init="commandeVenteCourante.coutDu =''"
+												ng-model="commandeVenteCourante.coutDu">
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">
+												co&ucirc;t A</span> 
+											<input type="text" class="form-control"
+												ng-init="commandeVenteCourante.coutA =''"
+												ng-model="commandeVenteCourante.coutA">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="row">
+									<div class="col-sm-3">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Type
+												BC </span> <select class="form-control"
+												ng-init="commandeVenteCourante.vTypeCommande =''"
+												ng-model="commandeVenteCourante.vTypeCommande">
+												<OPTION value="">Tous les Types</OPTION>
+												<option ng-repeat="type in ListTypeCommandeVenteCache"
+													value="{{type.id}}">{{type.designation}}</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Etat</span>
+											<select class="form-control"
+												ng-init="commandeVenteCourante.vEtatCommande =''"
+												ng-model="commandeVenteCourante.vEtatCommande">
+												<OPTION value="">Tous les Etats</OPTION>
+												<option ng-repeat="etat in ListEtatCommandeVenteCache"
+													value="{{etat.id}}">{{etat.designation}}</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+						<div class="pull-right">
+							<button class="btn-action btn" ng-click="downloadAllCommandeVente(commandeVenteCourante)">G&eacute;n&eacute;rer</button>
+							<button class="btn-action btn"
+								ng-click="rechercherCommandeVente(commandeVenteCourante)">Recherecher</button>
+							<button class="btn-action btn" ng-click="annulerAjout()">Annuler</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- container d'ajout,  modification et de consultation Gestion Commerciale BC Vente-->
+			<div class="panel-body" ng-show="displayMode == 'edit'">
+				<div class="col-sm-12">
+					<div class="pull-right">
+						<button class="btn btn-action"
+							ng-click="sauvegarderAjout(commandeVenteCourante)" ng-disabled="">Enregistrer</button>
+						<button ng-show="modePdf == 'actif'" class="btn-action btn" ng-click="download(commandeVenteCourante.id)">G&eacute;n&eacute;rer</button>
+						<button class="btn btn-action" ng-click="annulerAjout()">Retour</button>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="title-ajout" ng-show="modePdf != 'actif'" >Cr&eacute;ation Bon de Commande</div>
+					<div class="title-ajout" ng-show="modePdf == 'actif'" >Modification Bon de Commande</div>
+					<div class="panel panel-primary">
+						<div class="panel-body">
+							<form name="creationSSForm">
+								<div class="form-group">
+									<div class="row">
+										<div class="col-sm-3">
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon label1" id="basic-addon1">R&eacute;f&eacute;rence
+												</span> <input type="text" class="form-control"
+													ng-model="commandeVenteCourante.reference">
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon label1" id="basic-addon1">Client
+												</span>
+												<select ui-select2
+												ng-model="commandeVenteCourante.partieIntersseId"
+												ng-init="commandeVenteCourante.partieIntersseId =''"
+												data-placeholder="..." style="width: 100%">
+												<option ng-repeat="pi in ListClientCommandeVenteCache"
+													value="{{pi.id}}">{{pi.abreviation}}</option>
+												</select>
+												<!-- <select class="form-control"
+													ng-model="commandeVenteCourante.partieIntersseId">
+													<option ng-repeat="client in ListClientCommandeVenteCache"
+														value="{{client.id}}">{{client.abreviation}}</option>
+												</select> -->
+											</div>
+										</div>
+										<div class="col-sm-3" ng-controller="DatepickerDemoController">
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon label1" id="basic-addon1">Date
+													Commande</span> <input type="text" class="form-control datepicker"
+													datepicker-popup="{{format}}"
+													ng-model="commandeVenteCourante.dateIntroduction"
+													is-open="opened" datepicker-options="dateOptions"
+													date-="enabled(date, mode)" ng-required="true"
+													close-text="Close" />
+												<div class="input-group-btn">
+													<button type="button" class="btn btn-default"
+														ng-click="open($event)">
+														<i class="glyphicon glyphicon-calendar"></i>
+													</button>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-3" ng-controller="DatepickerDemoController">
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon label1" id="basic-addon1">Date
+													Livraison</span> <input type="text"
+													class="form-control datepicker"
+													datepicker-popup="{{format}}"
+													ng-model="commandeVenteCourante.dateLivraison"
+													is-open="opened" datepicker-options="dateOptions"
+													date-="enabled(date, mode)" ng-required="true"
+													close-text="Close" />
+												<div class="input-group-btn">
+													<button type="button" class="btn btn-default"
+														ng-click="open($event)">
+														<i class="glyphicon glyphicon-calendar"></i>
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="row">
+										<div class="col-sm-3">
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon label1" id="basic-addon1">Type
+													BC </span> <select class="form-control"
+													ng-model="commandeVenteCourante.typeCommande_id">
+													<option ng-repeat="type in ListTypeCommandeVenteCache"
+														value="{{type.id}}">{{type.designation}}</option>
+												</select>
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon label1" id="basic-addon1">Saison
+												</span> <input type="text" class="form-control"
+													ng-model="commandeVenteCourante.saison">
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon label1" id="basic-addon1">Site
+												</span> <select class="form-control"
+													ng-model="commandeVenteCourante.siteId">
+													<option ng-repeat="site in listeSitePartieInteresseeCache"
+														value="{{site.id}}">{{site.nom}}</option>
+												</select>
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon label1" id="basic-addon1">Co&ucirc;t
+													Total </span> <input class="form-control"
+											ng-model="commandeVenteCourante.prixTotal" readonly="readonly"
+											value="{{commandeVenteCourante.prixTotal}}" />
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="row">
+										<div class="col-sm-3">
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon label1" id="basic-addon1">Etat
+												</span> <select class="form-control"
+													ng-model="commandeVenteCourante.etatCommande_id">
+													<option ng-repeat="etat in ListEtatCommandeVenteCache"
+														value="{{etat.id}}">{{etat.designation}}</option>
+												</select>
+											</div>
+										</div>
+										<div class="col-sm-6">
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon label1" id="basic-addon1">Observations</span>
+												<textarea class="form-control"
+													ng-model="commandeVenteCourante.observations" rows="4"></textarea>
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon label1" id="basic-addon1">OF</span>
+												<input class="form-control"
+													ng-model="t" readonly="readonly"
+													value="{{t}}" />
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+								<div class="row">
+									<div class="col-sm-3">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Quantite
+											</span> <input class="form-control"
+											ng-model="commandeVenteCourante.quantite" readonly="readonly"
+											value="{{commandeVenteCourante.quantite}}" />
+										</div>
+									</div>
+								</div>
+							</div>
+							</form>
+						</div>
+					</div>
+					<!-- Produits Liste -->
+					<div class="title-ajout line">Produits</div>
+					<div class="panel-body">
+						<div class="form-group">
+							<div class="row">
+								<div class="panel panel-primary">
+									<!-- mode Creation -->
+									<div ng-show="modePdf != 'actif'">
+									<table 
+										class="table table-bordered table-condensed table-head-color">
+										<thead>
+											<tr>
+												<th style="width: 20%">R&eacute;f.Produit</th>
+												<th style="width: 25%">Produit</th>
+												<th style="width: 20%">Sous Famille</th>
+												<th style="width: 15%">Quantit&eacute;</th>
+												<th style="width: 15%">Prix Unitaire</th>
+												<th></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="produit in listProduitCommande">
+												<td><span e-form="rowform">{{showStatusReferenceProduit(produit.produitId)}}</span>
+												</td>
+												<td>
+													<select ui-select2
+													ng-model="produit.produitId"
+													ng-change="clickProduit(produit.produitId, $index)" 
+													data-placeholder="..." style="width: 100%">
+													<option ng-repeat="produitDrop in listProduitDrop"
+														value="{{produitDrop.id}}">{{produitDrop.designation}}</option>
+													</select> 
+												</td>
+												<td><span e-form="rowform">
+														{{showStatusSousFamilleProduit(produit.produitId) }} </span></td>
+												<td>
+													<input type="text" class="form-control" ng-model="listProduitCommande[$index].quantite"/>
+												<td>
+													<input type="text" class="form-control" ng-model="listProduitCommande[$index].prix" 
+													ng-keyup="changePrix($event,listProduitCommande[$index].prix, $index)">
+													</input>
+													
+												</td>
+												<td style="white-space: nowrap">
+													<!-- form -->
+													<form editable-form name="rowform"
+														onbeforesave="saveProduit($data, produit.id)"
+														ng-show="rowform.$visible"
+														class="form-buttons form-inline"
+														shown="produitInserree == produit">
+														<button type="submit" ng-disabled="rowform.$waiting"
+															class="btn btn-sm glyphicon glyphicon-save"
+															aria-hidden="true"></button>
+														<button type="button" ng-disabled="rowform.$waiting"
+															ng-click="cancelAddCommandeVente(rowform, $index,  produit.id, produit.produitId, listProduitCommande )"
+															class="btn btn-sm glyphicon glyphicon-remove"></button>
+													</form>
+													<div class="buttons" ng-show="!rowform.$visible">
+														<button class="rawform-icon" ng-controller="CouleurProduitVenteController" ng-click="open('lg',$index,listProduitCommande,1)">Detail</button>
+														<!-- <button data-nodrag
+															class="btn btn-sm glyphicon glyphicon-pencil"
+															ng-click="rowform.$show();showBC()"></button> -->
+														<button data-nodrag
+															class="btn btn-sm glyphicon glyphicon-trash"
+															ng-click="removeProduit($index)"></button>
+													</div>
+												</td>
+											</tr>
+									</table>
+									<button class="btn btn-action pull-right spacer2"
+										ng-click="ajoutProduit()">Ajouter</button>
+									</div>
+									<!-- mode Modification -->
+									<div ng-show="modePdf == 'actif'">
+									<table 
+										class="table table-bordered table-condensed table-head-color">
+										<thead>
+											<tr>
+												<th style="width: 20%">R&eacute;f.Produit</th>
+												<th style="width: 25%">Produit</th>
+												<th style="width: 20%">Sous Famille</th>
+												<th style="width: 15%">Quantit&eacute;</th>
+												<th style="width: 15%">Prix Unitaire</th>
+												<th></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="produit in listProduitCommande">
+												<td><span e-form="rowform">{{showProduitDetails(listProduitCommande[$index].produitId,"reference")}}</span></td>
+												<td>
+												<!-- ** {{produit.checked}} -->
+													<select ui-select2
+														ng-model="produit.produitId"
+														ng-change="clickProduit(produit.produitId, $index)" 
+														data-placeholder="..." style="width: 100%" ng-disabled="produit.checked">
+														<option ng-repeat="produitDrop in listProduitDrop"
+															value="{{produitDrop.id}}">{{produitDrop.designation}}</option>
+													</select>
+												</td>
+												<td><span e-form="rowform">{{showProduitDetails(listProduitCommande[$index].produitId,"type")}}</span>
+												</td>
+												<td>
+													<input type="text" class="form-control" ng-model="listProduitCommande[$index].quantite"/>
+												</td>
+												<td>
+													<input type="text" class="form-control" ng-model="listProduitCommande[$index].prix" 
+													ng-keyup="changePrix($event,listProduitCommande[$index].prix, $index)">
+													</input>
+												</td>
+												<td style="white-space: nowrap">
+													<!-- form -->
+													<form editable-form name="rowform"
+														onbeforesave="saveProduit($data, produit.id)"
+														ng-show="rowform.$visible"
+														class="form-buttons form-inline"
+														shown="produitInserree == produit">
+														<button type="submit" ng-disabled="rowform.$waiting"
+															class="btn btn-sm glyphicon glyphicon-save"
+															aria-hidden="true"></button>
+														<button type="button" ng-disabled="rowform.$waiting"
+															ng-click="cancelAddCommandeVente(rowform, $index,  produit.id, produit.produitId, listProduitCommande )"
+															class="btn btn-sm glyphicon glyphicon-remove"></button>
+													</form>
+													<div class="buttons" ng-show="!rowform.$visible">
+														<button class="rawform-icon" ng-controller="CouleurProduitVenteController" ng-click="open('lg',$index,listProduitCommande,2)">Detail</button>
+														<!-- <button data-nodrag
+															class="btn btn-sm glyphicon glyphicon-pencil"
+															ng-click="rowform.$show();showBC()"></button> -->
+														<button data-nodrag
+															class="btn btn-sm glyphicon glyphicon-trash"
+															ng-click="removeProduit($index)"></button>
+													</div>
+												</td>
+											</tr>
+									</table>
+									<button class="btn btn-action pull-right spacer2"
+										ng-click="ajoutProduit()">Ajouter</button>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+					<!-- Documents -->
+					<div class="title-ajout">Documents</div>
+					<div class="panel-body" ng-show="displayMode == 'edit'">
+						<div class="form-group">
+							<div class="row">
+								<div class="panel panel-primary">
+									<table
+										class="table table-bordered table-condensed table-head-color">
+										<thead>
+											<tr>
+												<th class="hidden" style="width: 10%">Id</th>
+												<th style="width: 30%">Type Document</th>
+												<th style="width: 40%">Document</th>
+												<th style="width: 20%"></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr
+												ng-repeat="documentCommandeVente in listeDocumentCommandeVente">
+												<td class="hidden">
+													<!-- editable documentCommandeVente (text with validation) -->
+													<span editable-text="documentCommandeVente.id" e-name="id"
+													e-form="rowform" e-required> {{
+														documentCommandeVente.id || 'empty' }} </span>
+												</td>
+												<td>
+													<!-- editable group (select-remote) --> <span
+													editable-select="documentCommandeVente.typeDocumentId"
+													e-ng-options="s.id as s.designation for s in ListTypeDocumentCache"
+													e-name="idTypeDocPI" e-form="rowform">
+														{{showStatus(documentCommandeVente.typeDocumentId) }} </span>
+												</td>
+												<td ng-controller="UploadCtrlCommandeVente">
+													<!-- Upload Document File -->
+													<div class="form-group">
+														<div class="col-sm-12">
+															<div class="fileinput fileinput-new"
+																data-provides="fileinput">
+																<input class="hidden" type="text" ng-model="name" /> <span
+																	class="btn btn-file btn-sm" style="background: #e6e9ee"
+																	ng-show="!isUploaded && rowform.$visible"> <span
+																	class="fileinput-new">Selectionner fichier</span> <input
+																	type="file" class="custom-file-input"
+																	file-model="myFile"> <span href="#"
+																	class="close fileinput-exists pull-right"
+																	style="float: none; padding: 0"
+																	data-dismiss="fileinput"
+																	ng-show="!isUploaded && rowform.$visible">x</span>
+																</span> <span class="fileinput-filename"
+																	ng-model="documentCommandeVente.path" e-name="path"
+																	e-form="rowform" e-required>{{documentCommandeVente.path}}</span>
+															</div>
+															<a class="btn btn-danger btn-sm pull-right"
+																ng-click="downloadFileCommandeVente(documentCommandeVente.uidDocument)"
+																ng-href="{{urlFile}}" ng-show="!rowform.$visible"> <span
+																class="glyphicon glyphicon-cloud-download"></span>
+															</a> <a ng-click="uploadFileCommandeVente()"
+																ng-show="!isUploaded && rowform.$visible"
+																class="btn btn-info btn-sm fileinput-upload glyphicon glyphicon-cloud-upload pull-right">
+															</a> <a class="btn btn-success btn-sm pull-right"
+																href="E:/archive/{{documentCommandeVente.uidDocument}}/{{documentCommandeVente.path}}"
+																ng-show="!rowform.$visible"> <span
+																class="glyphicon glyphicon-cloud-download"></span>
+															</a>
+														</div>
+													</div> <input class="hidden"
+													ng-model="documentCommandeVente.uidDocument"
+													e-name="uidDocument" e-form="rowform" e-required
+													value="{{ documentCommandeVente.uidDocument ||
+															'empty' }} " />
+												</td>
+												<td style="white-space: nowrap">
+													<!-- form -->
+													<form editable-form name="rowform"
+														onbeforesave="saveDocumentCommandeVente($data, documentCommandeVente.id)"
+														ng-show="rowform.$visible"
+														class="form-buttons form-inline"
+														shown="documentCommandeVenteInserree == documentCommandeVente">
+														<button type="submit" ng-disabled="rowform.$waiting"
+															class="btn btn-sm glyphicon glyphicon-save"
+															aria-hidden="true"></button>
+														<button type="button" ng-disabled="rowform.$waiting"
+															ng-click="cancelAddCommandeVente(rowform, $index, documentCommandeVente.id, documentCommandeVente.typeDocumentId, listeDocumentCommandeVente )"
+															class="btn btn-sm glyphicon glyphicon-remove"></button>
+													</form>
+													<div class="buttons" ng-show="!rowform.$visible">
+														<button data-nodrag
+															class="btn btn-sm glyphicon glyphicon-pencil"
+															ng-click="rowform.$show()"></button>
+														<button data-nodrag
+															class="btn btn-sm glyphicon glyphicon-trash"
+															ng-click="removeDocumentCommandeVente($index)"></button>
+													</div>
+												</td>
+											</tr>
+
+										</tbody>
+									</table>
+									<button class="btn btn-action pull-right spacer2"
+										ng-click="ajoutDocumentCommandeVente()">Ajouter</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- Popup Couleur Taille-->
+			<script type="text/ng-template" id="couleurPopUp.html" >
+				<div class="modal-header"  >
+					<div class='title-ajout'>D&eacute;tails Produit Taille / Couleur</div>
+				</div>
+				<div class="modal-body">
+				<!-- * maGprogetMatrixEdit: {{maGprogetMatrixEdit}} </br>
+				   	 * maGproDetailPrCmd : {{maGproDetailPrCmd}}  -->
+				   
+					<table class="table table-bordered table-condensed table-head-color">
+						<thead>
+							<tr>
+								<th>COULEUR \ TAILLE</th>
+								<th ng-repeat="taille in listeTaille">{{taille.designation}}</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="couleur in listeColor" class="taille">
+								<td> {{couleur.designation}} </td>
+								<td ng-repeat="taille in listeTaille track by $index">
+									<input
+									class="form-control"
+									ng-model="maGprotapedValue[$index][$parent.$index]"
+									ng-keyup="addNewElement($event,maGprotapedValue[$index][$parent.$index],[$index],[$parent.$index],taille,couleur)"
+									ng-init="maGprotapedValue[$index][$parent.$index] = demoQuantite(couleur.id,taille.id)">
+									
+									<!-- ng-init="maGprotapedValue[$index][$parent.$index] = demoQuantite(couleur.id,taille.id)">
+									  {{demoQuantite(couleur.id,taille.id)}} -->
+									  	
+									</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<div class="modal-footer">
+					<button class="btn-action btn" ng-click="ok()">Valider</button>
+					<button class="btn-action btn" ng-click="cancel()">Annuler</button>
+				</div>
+			</script>	 
+
+				<div id="fade" class="black_overlay"></div>
+			<!-- Fin Popup TailleCouleur ProduitCommande -->
+
+			<!-- ng-grid -->
+			<div class="panel-body" ng-show="displayMode != 'edit'">
+				<div class="col-md-12">
+					<div class="title-ajout line">Liste des Bons de Commande</div>
+					<div style="height: 500px;" ng-grid="gridOptions"></div>
+				</div>
+			</div>
+
+			<!-- popup Delete -->
+			<div id="light" class="white_content">
+				<pop-up type="delete-commandeVente"></pop-up>
+			</div>
+			<div id="fade" class="black_overlay"></div>
+		</div>
+	</div>
+</div>

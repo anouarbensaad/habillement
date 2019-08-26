@@ -1,0 +1,212 @@
+<div class="container-fluid" ng-controller="capaciteClientController">
+		<div class="row" ng-show="displayMode != 'edit'">
+			<div class="col-sm-12">
+				<button class="btn btn-action2 pull-right"
+					ng-click="Affectation(objectCourant)" ng-disabled="">Ajouter</button>
+			</div>
+			<!-- Critere de recherche -->
+			<div class="col-sm-12">
+				<div class="title-ajout">Crit&eacute;res de recherche</div>
+				<div class="panel panel-primary">
+				<div class="panel-body">
+					<form class="form-horizontal" id="rechercheOFForm"
+						name="rechercheOFForm">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Annee
+										</span>
+										<select ui-select2
+											ng-model="objectCourant.annee"
+											ng-init="objectCourant.annee =''"
+											data-placeholder="..." style="width: 100%">
+											<option value="">Tous</option>
+											<option ng-repeat="anneeElem in listeAnneess"
+												value="{{anneeElem}}">{{anneeElem}}</option>
+											</select>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">Client</span> 
+											<select ui-select2
+											ng-model="objectCourant.idClient"
+											ng-init="objectCourant.idClient =''"
+											data-placeholder="..." style="width: 100%">
+														<option value="">Tous</option>
+											<option ng-repeat="pi in listePartieInteresseeCache"
+												value="{{pi.id}}">{{pi.raisonSociale}}</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+						</form>
+					<div class="pull-right">
+						<button class="btn-action btn"
+							ng-click="rechercher(objectCourant)">Recherecher</button>
+						<button class="btn-action btn" ng-click="annulerAjout()">Annuler</button>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		<div class="row" ng-show="displayMode != 'edit'">
+		<div class="col-md-12">
+			<div class="title-ajout line">Liste Capacites</div>
+			<div class="row">
+				<div class="input-icon right mb10 col-md-3 pull-right">
+				<input placeholder="Taper un terme de recherche" type="text" ng-model="filterOptions.filterText"
+					class="form-control">
+				</div>
+			</div>
+			<div style="height: 500px;" ng-grid="gridOptions"></div>
+		</div>
+	</div>
+
+	<!-- Popup de la suppression -->
+	<div id="light" class="white_content">
+		<pop-up type="delete-article"></pop-up>
+	</div>
+	<div id="fade" class="black_overlay"></div>
+<!-- 	<!-- Fin Popup de la suppression --> 
+		
+		<!-- container d'ajout,  modification et de consultation GPAO-->
+		<div class="row" ng-show="displayMode == 'edit'">
+			<div class="col-sm-12">
+				<div class="pull-right">
+					<button class="btn btn-action"
+						ng-click="sauvegarderAjout(objectCourant)"
+						ng-disabled="!creationOFForm.$valid ">Enregistrer</button>
+					<button class="btn btn-action" ng-click="annulerAjout()">Retour</button>
+					
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="title-ajout">Capacite Globale</div>
+				<div class="panel panel-primary">
+					<div class="panel-body">
+						<form name="creationOFForm" id="creationOFForm">
+							<div class="form-group">
+								<div class="row">
+									<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Annee
+										</span>
+										<select ui-select2 
+											ng-model="objectCourant.annee"
+											ng-init="objectCourant.annee =''"
+											data-placeholder="..." style="width: 100%" required>
+											<option value="">Tous</option>
+											<option ng-repeat="anneeElem in listeAnneess"
+												value="{{anneeElem}}">{{anneeElem}}</option>
+											</select>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">Client</span> 
+											<select ui-select2
+											ng-model="objectCourant.idClient"
+											ng-init="objectCourant.idClient =''"
+											data-placeholder="..." style="width: 100%" required>
+											<option value="">Tous</option>
+											<option ng-repeat="pi in listePartieInteresseeCache"
+												value="{{pi.id}}">{{pi.raisonSociale}}</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				<div class="title-ajout">Liste de capacite</div>
+				<div class="panel-body">
+					<div class="form-group">
+						<div class="row">
+							<div class="panel panel-primary">
+								<table
+									class="table table-bordered table-condensed table-head-color">
+									<thead>
+										<tr>
+											<th class="hidden" style="width: 10%">Id</th>
+											<th >Semaine</th>
+											<th >Capacite totale</th>
+											<th style="width: 20%"></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr
+											ng-repeat="element in listCapaciteSemaine">
+											<td class="hidden">
+												<!-- editable representat (text with validation) --> <span
+												editable-text="element.id" e-name="id"
+												e-form="rowform" e-required> {{
+													element.id || 'empty' }} </span>
+											</td>
+											<td>
+												<!-- editable group (select-remote) --> <span
+												editable-select="element.semaine"
+												e-ng-options="s as s for s in listeSemaines"
+												e-name="semaine" e-form="rowform">
+													{{element.semaine}} </span>
+											</td>
+											<td>
+												<!-- editable documentArticle (text with validation) --> <span
+												editable-text="element.capaciteTotale" e-name="capaciteTotale"
+												e-form="rowform" e-required> {{ element.capaciteTotale ||
+													'empty' }} </span>
+											</td>
+											<td style="white-space: nowrap">
+												<!-- form -->
+												<form editable-form name="rowform"
+													onbeforesave="save($data, element.id,$index)"
+													ng-show="rowform.$visible" class="form-buttons form-inline"
+													shown="objetInsere == element">
+													<button type="submit" ng-disabled="rowform.$waiting"
+														class="btn btn-sm glyphicon glyphicon-save"
+														aria-hidden="true"></button>
+													<button type="button" ng-disabled="rowform.$waiting"
+														ng-click="cancelAddArticle(rowform, $index, element.id, seuilApprovisionnement.minSeuil, listeSeuilApprovisionnement )"
+														class="btn btn-sm glyphicon glyphicon-remove"></button>
+												</form>
+												<div class="buttons" ng-show="!rowform.$visible">
+													<button data-nodrag
+														class="btn btn-sm glyphicon glyphicon-pencil"
+														ng-click="rowform.$show();showBC()"></button>
+													<button data-nodrag
+														class="btn btn-sm glyphicon glyphicon-trash"
+														ng-click="remove($index)">
+													</button>
+												</div>
+											</td>
+										</tr>
+								</table>
+								<button class="btn btn-action pull-right spacer2"
+									ng-click="ajoutCapaciteSemaine()">Ajouter</button>
+
+							</div>
+							<div class="col-sm-6" ng-show="exist">
+								<div class="alert alert-warning">
+								  <strong>{{msg}}</strong> 
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+				
+			</div>
+			</div>
+		</div>
+		
+		
+
+		<!-- container Grid-->
+	
+	
+
+</div>

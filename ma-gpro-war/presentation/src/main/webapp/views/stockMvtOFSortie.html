@@ -1,0 +1,763 @@
+<div ng-controller="StockMvtOFSortieController">
+	<ul class="nav nav-gpro spacer">
+		<li><a href="#/stock">Mvt. Stock</a></li>
+		<li class="active"><a href="#/stockMvtOF">Mvt. OF</a></li>
+		<li><a href="#/historiqueS">Historique</a></li>
+		<li><a href="#/etat">Etat</a></li>
+		<!-- <li><a href="#/historiqueS">Inventaire Magasin</a></li> -->
+		<li><a href="#/ChartGraphique">Tableau de Bord</a></li>
+	</ul>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-1">
+				<ul class="nav-gproS">
+					<li><a style="margin-top: 10px"
+						class="btn btn-action pull-right" href="#/stockMvtOF">Réservation</a></li>
+					<li class="active"><a style="margin-top: 10px"
+						class="btn btn-action pull-right" href="#/stockMvtOFSortie">Sortie
+					</a></li>
+				</ul>
+			</div>
+			<div class="col-sm-11 cadreERP">
+				<!-- Critere de recherche -->
+				<div class="panel-body" ng-show="displayMode != 'edit'">
+					<div class="col-sm-12">
+						<button class="btn btn-action2 pull-right"
+							ng-click="AffectationMouvement()" ng-disabled="">Ajouter</button>
+					</div>
+					<div class="title-ajout">Critères de recherche</div>
+					<div class="panel panel-primary">
+						<div class="panel-body">
+							<form class="form-horizontal" id="rechercheMvtOFReservationForm"
+								name="rechercheMvtOFReservationForm">
+								<div class="form-group">
+									<div class="row">
+										<div class="col-sm-3">
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon label1" id="basic-addon1">N°
+													BR </span> <input type="text" class="form-control"
+													ng-init="mouvementStockCourante.nBE =''"
+													ng-model="mouvementStockCourante.nBE">
+											</div>
+										</div>
+										<div class="col-sm-3" ng-controller="DatepickerDemoController">
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon label1" id="basic-addon1">Date
+													Reservation Entre</span> <input type="text"
+													class="form-control datepicker"
+													datepicker-popup="{{format}}"
+													ng-int="mouvementStockCourante.dateDu = ''"
+													ng-model="mouvementStockCourante.dateDu" is-open="opened"
+													datepicker-options="dateOptions"
+													date-="enabled(date, mode)" ng-required="true"
+													close-text="Close" />
+												<div class="input-group-btn">
+													<button type="button" class="btn btn-default"
+														ng-click="open($event)">
+														<i class="glyphicon glyphicon-calendar"></i>
+													</button>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-3" ng-controller="DatepickerDemoController">
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon label1" id="basic-addon1">ET
+												</span> <input type="text" class="form-control datepicker"
+													datepicker-popup="{{format}}"
+													ng-int="mouvementStockCourante.dateA = ''"
+													ng-model="mouvementStockCourante.dateA" is-open="opened"
+													datepicker-options="dateOptions"
+													date-="enabled(date, mode)" ng-required="true"
+													close-text="Close" />
+												<div class="input-group-btn">
+													<button type="button" class="btn btn-default"
+														ng-click="open($event)">
+														<i class="glyphicon glyphicon-calendar"></i>
+													</button>
+												</div>
+											</div>
+										</div>
+
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="row">
+										<div class="col-sm-3">
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon label1" id="basic-addon1">Valeur
+													BR Entre</span> <input type="text" class="form-control"
+													ng-init="mouvementStockCourante.valeurInf = ''"
+													ng-model="mouvementStockCourante.valeurInf">
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon label1" id="basic-addon1">ET</span>
+												<input type="text" class="form-control"
+													ng-init="mouvementStockCourante.valeurSupp = ''"
+													ng-model="mouvementStockCourante.valeurSupp">
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon label1" id="basic-addon1">OF
+												</span> <select ui-select2
+													ng-model="mouvementStockCourante.ofId"
+													ng-init="mouvementStockCourante.ofId =''"
+													data-placeholder="..." style="width: 100%">
+													<OPTION value="">Tous les Ordres</OPTION>
+													<option ng-repeat="of in listeOF"
+															value="{{of.id}}">{{of.numero}}</option>
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="row">
+										<div class="col-sm-3">
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon label1" id="basic-addon1">Magasin
+												</span> <select ui-select2
+													ng-model="stockMvtOFRvtCourant.ofId"
+													ng-init="stockMvtOFRvtCourant.ofId =''"
+													data-placeholder="..." style="width: 100%"
+													ng-init="mouvementStockCourante.magasin = ''"
+													ng-model="mouvementStockCourante.magasin">
+													<OPTION value="">Tous</OPTION>
+													<option ng-repeat="magasin in listeMagasinCache"
+														value="{{magasin.id}}">{{magasin.designation}}</option>
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+							</form>
+							<div class="pull-right">
+								<button class="btn-action btn">Générer</button>
+								<button class="btn-action btn"
+									ng-click="rechercherStockSortie(mouvementStockCourante)">Recherecher</button>
+								<button class="btn-action btn" ng-click="annulerAjoutS()">Annuler</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- container d'ajout,  modification et de consultation Gestion Stock Sortie-->
+				<div class="panel-body" ng-show="displayMode == 'edit'">
+					<div class="col-sm-12">
+						<div class="pull-right">
+							<button class="btn btn-action"
+								ng-click="sauvegarderAjout(stockMvtOFRvtCourant)" ng-disabled="">Enregistrer</button>
+							<button class="btn-action btn"
+								ng-click="downloadMvtSortie(stockMvtOFRvtCourant.id)">Générer</button>
+							<button class="btn btn-action" ng-click="annulerAjoutS()">Retour</button>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="title-ajout">Sortie Stock</div>
+						<div class="panel panel-primary">
+							<div class="panel-body">
+								<form name="creationMvtOFForm" id="creationMvtOFForm" novalidate>
+									<div class="form-group">
+										<div class="row">
+											<div class="col-sm-3">
+												<div class="input-group">
+													<span class="input-group-addon label1" id="basic-addon1">N°
+														BS </span> <input type="text" class="form-control"
+														ng-model="stockMvtOFRvtCourant.numero" readonly="readonly">
+												</div>
+											</div>
+											<div class="col-sm-4"
+												ng-controller="DatepickerDemoController">
+												<div class="input-group">
+													<span class="input-group-addon label1" id="basic-addon1">Date
+														Rsrv. <i style="color: red">*</i>
+													</span> <input type="text" class="form-control datepicker"
+														datepicker-popup="{{format}}"
+														ng-model=stockMvtOFRvtCourant.date is-open="opened"
+														datepicker-options="dateOptions"
+														date-="enabled(date, mode)" ng-required="true"
+														close-text="Close" />
+													<div class="input-group-btn">
+														<button type="button" class="btn btn-default"
+															ng-click="open($event)">
+															<i class="glyphicon glyphicon-calendar"></i>
+														</button>
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-4">
+												<div class="input-group">
+													<span class="input-group-addon label1" id="basic-addon1">Responsable</span>
+													<input type="text" class="form-control"
+														ng-model="stockMvtOFRvtCourant.responsable">
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="row">
+											<div class="col-sm-3">
+												<div class="input-group">
+													<span class="input-group-addon label1" id="basic-addon1">Valeur
+													</span> <input type="text" class="form-control"
+														ng-model="stockMvtOFRvtCourant.valeur">
+												</div>
+											</div>
+											<div class="col-sm-8">
+												<div class="input-group">
+													<span class="input-group-addon label1" id="basic-addon1">Description</span>
+													<input type="text" class="form-control"
+														ng-model="stockMvtOFRvtCourant.description" />
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<!-- modeCreation -->
+										<div class="row" ng-show="modePdf != 'actif'">
+											<div class="col-sm-3">
+												<div class="input-group">
+													<span class="input-group-addon label1" id="basic-addon1">R&eacute;f.
+														BR<i style="color: red">*</i>
+													</span> <select ui-select2 ng-model="stockMvtOFRvtCourant.BR"
+														ng-change="remplirDetails(stockMvtOFRvtCourant.BR)"
+														ng-required="true" data-placeholder="..."
+														style="width: 100%">
+														<option ng-repeat="BR in listeBR" value="{{BR.id}}">{{BR.numero}}</option>
+													</select>
+												</div>
+											</div>
+											<div class="col-sm-1">
+												<div class="input-group">
+													<button class="btn btn-action2 pull-right"
+														ng-click="remplirListMouvementSortie(stockMvtOFRvtCourant.BR)">Valider</button>
+												</div>
+											</div>
+										</div>
+										<!-- modeModification -->
+										<div class="row" ng-show="modePdf == 'actif'">
+											<div class="col-sm-3">
+												<div class="input-group">
+													<span class="input-group-addon label1" id="basic-addon1">R&eacute;f.
+														BR<i style="color: red">*</i>
+													</span> <select ui-select2 ng-model="stockMvtOFRvtCourant.BR"
+														ng-change="remplirDetails(stockMvtOFRvtCourant.BR)"
+														ng-required="true" data-placeholder="..."
+														style="width: 100%" disabled>
+														<option ng-repeat="BR in listeBR" value="{{BR.id}}">{{BR.numero}}</option>
+													</select>
+												</div>
+											</div>
+											<div class="col-sm-1">
+												<div class="input-group">
+													<button class=" hidden btn btn-action2 pull-right"
+														ng-click="remplirListMouvementSortie(stockMvtOFRvtCourant.BR)">Valider</button>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="row">
+											<div class="col-sm-3">
+												<div class="input-group">
+													<span class="input-group-addon label1" id="basic-addon1">référence</span>
+													<input class="form-control" readonly="readonly"
+														value="{{resultatRechercheDetail.produitReference}}" />
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="input-group">
+													<span class="input-group-addon label1" id="basic-addon1">Designation</span>
+													<input class="form-control" readonly="readonly"
+														value="{{resultatRechercheDetail.produitDesignation}}" />
+												</div>
+											</div>
+											<div class="col-sm-3">
+												<div class="input-group">
+													<span class="input-group-addon label1" id="basic-addon1">Client</span>
+													<input class="form-control" readonly="readonly"
+														value="{{resultatRechercheDetail.partieInterresAbreviation}}" />
+												</div>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+
+						<!-- tableaux Article -->
+						<div class="title-ajout">
+							Articles<span class="fadeIn hidePlus" id="articlesS">+</span>
+						</div>
+						<div class="panel panel-primary">
+							<div class="panel-body">
+								<!-- Fourniture -->
+								<div style="display: none" id="panel-articlesS">
+									<div class="row">
+										<div class="col-sm-2">
+											<div class="title-ajout2">
+												Fournitures<span id="fournituresBtnS"
+													class="fadeOut pull-right hidePlusFourniture">-</span>
+											</div>
+										</div>
+									</div>
+									<div class="line4"></div>
+									<div id="fournituresS" style="display: none">
+										<table
+											class="table table-bordered table-condensed table-head-color">
+											<thead>
+												<tr>
+													<th style="width: 10%">Réf.</th>
+													<th style="width: 25%">Désignation</th>
+													<th style="width: 10%">Famille</th>
+													<th style="width: 5%">B.U.</th>
+													<th style="width: 5%">Q.Act.</th>
+													<th style="width: 5%">Q.Lbr</th>
+													<th style="width: 5%">Q.OF</th>
+													<th style="width: 5%">Bs.OF</th>
+
+													<!-- modeCreation -->
+													<th style="width: 5%" ng-show="modePdf != 'actif'">Rsr.OF</th>
+													<!-- modeModification -->
+													<th style="width: 5%" ng-show="modePdf == 'actif'">Rsr.Tot</th>
+
+													<th style="width: 7%">Sort. OF</th>
+
+													<!-- aReserver : modeCreation -->
+													<th style="width: 10%" ng-show="modePdf != 'actif'">A
+														sort.</th>
+													<!-- aReserver : modeModification = qtéRelle -->
+													<th style="width: 10%" ng-show="modePdf == 'actif'">Sort.Act</th>
+
+<!-- 													<th style="width: 5%">Rlx. Sort</th> -->
+
+													<th style="width: 15%">Empl.</th>
+													<!-- btn suppression : modeCreation -->
+													<th></th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr
+													ng-repeat="articleF in listArticlesFournituresE track by $index">
+													<td><span ng-model="articleF.referenceArticle">{{articleF.referenceArticle
+															}}</span></td>
+													<td><span ng-model="articleF.designationArticle">{{articleF.designationArticle
+															|| 'empty' }}</span></td>
+													<td><span ng-model="articleF.familleArticle">{{articleF.familleArticle
+															|| 'empty' }}</span></td>
+
+													<td><span ng-model="articleF.bu">{{articleF.bu}}</span></td>
+
+													<td><span ng-model="articleF.quantiteAct">{{articleF.quantiteAct}}</span></td>
+
+													<td><span ng-model="articleF.quantiteLibre">{{articleF.quantiteLibre
+															}}</span></td>
+													<td><span ng-model="articleF.quantiteOF">{{articleF.qteOF
+															}}</span></td>
+
+													<td><span ng-model="articleF.besoinOF">{{articleF.besoinOF
+															}}</span></td>
+
+													<!-- modeCreation -->
+													<td ng-show="modePdf != 'actif'"><span
+														ng-model="articleF.reservationOF">{{articleF.reservationOF
+															}}</span></td>
+													<!-- modeModification -->
+													<td ng-show="modePdf == 'actif'"><span
+														ng-model="articleF.reservationOF">{{articleF.reservationOF
+															}}</span></td>
+
+													<td><span ng-model="articleF.sortieOF">{{articleF.sortieOF}}</span></td>
+
+													<!-- modeCreation -->
+													<td ng-show="modePdf != 'actif'"><input type="text"
+														ng-model="listArticlesFournituresE[$index].aReserver"
+														class="form-control" /></td>
+
+													<!-- modeModification -->
+													<td ng-show="modePdf == 'actif'"><span
+														ng-model="articleF.quantiteReelle">{{articleF.quantiteReelle
+															}}</span></td>
+
+<!-- 													<td><input type="text" -->
+<!-- 														ng-model="articleF.nbRouleauxReel" class="form-control" /> -->
+<!-- 													</td> -->
+
+													<td><span ng-model="articleF.emplacement">{{articleF.emplacement
+															|| 'empty' }}</span></td>
+
+													<!-- modeCreation -->
+													<td style="white-space: nowrap" class="pull-right"
+														ng-show="modePdf != 'actif'">
+														<!-- form -->
+														<form editable-form name="rowform"
+															ng-show="rowform.$visible"
+															class="form-buttons form-inline"></form>
+														<div class="buttons" ng-show="!rowform.$visible">
+															<button data-nodrag
+																class="btn btn-sm glyphicon glyphicon-trash"
+																ng-click="removeMvtFourniture($index)"></button>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+
+								<!-- Tissu -->
+								<div style="display: none" id="panel-articlesS">
+									<div class="row">
+										<div class="col-sm-2">
+											<div class="title-ajout2">
+												Tissu<span id="tissuBtnS"
+													class="fadeOut pull-right hidePlusTissu">+</span>
+											</div>
+										</div>
+									</div>
+									<div class="line4"></div>
+									<div id="tissuS" style="display: none">
+										<table
+											class="table table-bordered table-condensed table-head-color">
+											<thead>
+												<tr>
+													<th style="width: 15%">Réf.</th>
+													<th style="width: 10%">Désignation</th>
+													<th style="width: 5%">Lot</th>
+													<th style="width: 8%">Date Entrée</th>
+													<th style="width: 10%">Famille</th>
+													<th style="width: 5%">B.U.</th>
+													<th style="width: 5%">Q.Act.</th>
+													<th style="width: 5%">Nbr.Roul</th>
+													<th style="width: 5%">Q.Lbr</th>
+													<th style="width: 5%">Q.OF</th>
+													<th style="width: 5%">Bs.OF</th>
+
+													<!-- modeCreation -->
+													<th style="width: 5%" ng-show="modePdf != 'actif'">Rsr.OF</th>
+													<!-- modeModification -->
+													<th style="width: 5%" ng-show="modePdf == 'actif'">Rsr.Tot</th>
+
+													<th style="width: 7%">Sort. OF</th>
+
+													<!-- aReserver : modeCreation -->
+													<th style="width: 5%" ng-show="modePdf != 'actif'">A
+														sort.</th>
+													<!-- aReserver : modeModification = qtéRelle -->
+													<th style="width: 5%" ng-show="modePdf == 'actif'">Sort.Act</th>
+
+													<th style="width: 5%">Rlx. Sort</th>
+													<th style="width: 5%">Empl.</th>
+
+													<th></th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr
+													ng-repeat="articleT in listArticlesTissusE track by $index">
+													<td><span ng-model="articleT.referenceArticle">{{articleT.referenceArticle
+															|| 'empty' }}</span></td>
+
+													<td><span ng-model="articleT.designationArticle">{{articleT.designationArticle
+															|| 'empty' }}</span></td>
+
+													<td><span ng-model="articleT.lot">{{articleT.lot
+															|| 'empty' }}</span></td>
+
+													<td><span ng-model="articleT.dateEntree">{{
+															(articleT.dateEntree | date:"dd-MM-yyyy") || 'empty' }}</span></td>
+
+													<td><span ng-model="articleT.familleArticle">{{articleT.familleArticle
+															|| 'empty' }}</span></td>
+
+													<td><span ng-model="articleT.bu">{{articleT.bu
+															}}</span></td>
+
+													<td><span ng-model="articleT.quantiteAct">{{articleT.quantiteAct
+															}}</span></td>
+
+													<td><span ng-model="articleT.nbrRouleau">{{articleT.nbrRouleau
+															}}</span></td>
+
+													<td><span ng-model="articleT.quantiteLibre">{{articleT.quantiteLibre
+															}}</span></td>
+
+													<td><span ng-model="articleT.quantiteOF">{{articleT.qteOF
+															}}</span></td>
+
+													<td><span ng-model="articleT.besoinOF">{{articleT.besoinOF}}</span>
+													</td>
+
+													<!-- modeCreation -->
+													<td ng-show="modePdf != 'actif'"><span
+														ng-model="articleT.reservationOF">{{articleT.reservationOF
+															}}</span></td>
+
+													<!-- modeModification -->
+													<td ng-show="modePdf == 'actif'"><span
+														ng-model="articleT.reservationOF">{{articleT.reservationOF
+															}}</span></td>
+													<td><span ng-model="articleT.sortieOF">{{articleT.sortieOF}}</span></td>
+
+													<!-- modeCreation -->
+													<td ng-show="modePdf != 'actif'"><input type="text"
+														ng-model="listArticlesTissusE[$index].aReserver"
+														class="form-control" /></td>
+													<!-- modeModification -->
+													<td ng-show="modePdf == 'actif'"><span
+														ng-model="articleT.besoinOF">{{articleT.quantiteReelle
+															}}</span></td>
+
+													<td><input type="text"
+														ng-model="articleT.nbRouleauxReel" class="form-control" />
+													</td>
+
+													<td><span ng-model="articleT.emplacement">{{articleT.emplacement
+															|| 'empty' }}</span></td>
+
+													<td style="white-space: nowrap" class="pull-right"
+														ng-show="modePdf != 'actif'">
+														<!-- form -->
+														<form editable-form name="rowform"
+															ng-show="rowform.$visible"
+															class="form-buttons form-inline"></form>
+														<div class="buttons" ng-show="!rowform.$visible">
+															<button data-nodrag
+																class="btn btn-sm glyphicon glyphicon-trash"
+																ng-click="removeMvtTissu($index)"></button>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+
+								<!-- Fil à Coudre -->
+								<div style="display: none" id="panel-articlesS">
+									<div class="row">
+										<div class="col-sm-2">
+											<div class="title-ajout2">
+												Fil à coudre<span id="filBtnS"
+													class="fadeOut pull-right hidePlusFil">+</span>
+											</div>
+										</div>
+									</div>
+									<div class="line4"></div>
+									<div id="filS" style="display: none">
+
+										<table
+											class="table table-bordered table-condensed table-head-color">
+											<thead>
+												<tr>
+													<th style="width: 15%">Réf.</th>
+													<th style="width: 35%">Désignation</th>
+													<th style="width: 13%">Famille</th>
+													<th style="width: 5%">B.U.</th>
+													<th style="width: 5%">Q.Act.</th>
+													<th style="width: 5%">Nbr.Roul</th>
+													<th style="width: 5%">Q.Lbr</th>
+													<th style="width: 5%">Q.OF</th>
+													<th style="width: 5%">Bs.OF</th>
+
+													<!-- modeCreation -->
+													<th style="width: 5%" ng-show="modePdf != 'actif'">Rsr.OF</th>
+													<!-- modeModification -->
+													<th style="width: 5%" ng-show="modePdf == 'actif'">Rsr.Tot</th>
+
+													<!-- aReserver : modeCreation -->
+													<th style="width: 5%" ng-show="modePdf != 'actif'">A
+														sort.</th>
+													<!-- aReserver : modeModification = qtéRelle -->
+													<th style="width: 5%" ng-show="modePdf == 'actif'">Sort.Act</th>
+													<th style="width: 5%">Rlx. Sort</th>
+													<th style="width: 15%">Empl.</th>
+													<th></th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr ng-repeat="articleFil in listArticlesFACE">
+													<td><span ng-model="articleFil.referenceArticle">{{articleFil.referenceArticle
+															|| 'empty' }}</span></td>
+													<td><span ng-model="articleFil.designationArticle">{{articleFil.designationArticle
+															|| 'empty' }}</span></td>
+													<td><span ng-model="articleFil.familleArticle">{{articleFil.familleArticle
+															|| 'empty' }}</span></td>
+
+													<td><span ng-model="articleFil.bu">{{articleFil.bu
+															}}</span></td>
+
+													<td><span ng-model="articleFil.quantiteAct">{{articleFil.quantiteAct
+															}}</span></td>
+
+													<td><span ng-model="articleFil.nbrRouleau">{{articleFil.nbrRouleau
+															}}</span></td>
+
+													<td><span ng-model="articleFil.quantiteLibre">{{articleFil.quantiteLibre
+															|| 'empty' }}</span></td>
+
+													<td><span ng-model="articleFil.quantiteOF">{{articleFil.qteOF
+															}}</span></td>
+
+													<td><span ng-model="articleFil.besoin">{{articleFil.besoinOF}}</span></td>
+
+													<!-- modeCreation -->
+													<td ng-show="modePdf != 'actif'"><span
+														ng-model="articleFil.reservationOF">{{articleFil.reservationOF}}</span></td>
+													<!-- modeModification -->
+													<td ng-show="modePdf == 'actif'"><span
+														ng-model="articleFil.reservationOF">{{articleFil.reservationOF}}</span></td>
+
+													<!-- modeCreation -->
+													<td ng-show="modePdf != 'actif'"><input type="text"
+														ng-model="listArticlesFACE[$index].aReserver"
+														class="form-control" /></td>
+													<!-- modeModification -->
+													<td ng-show="modePdf == 'actif'"><span
+														ng-model="articleFil.quantiteReelle">{{articleFil.quantiteReelle}}</span></td>
+
+													<td><input type="text"
+														ng-model="articleFil.nbRouleauxReel" class="form-control" />
+													</td>
+
+													<td><span ng-model="articleFil.emplacement">{{articleFil.emplacement
+															|| 'empty' }}</span></td>
+													</td>
+													<td style="white-space: nowrap" class="pull-right"
+														ng-show="modePdf != 'actif'">
+														<!-- form -->
+														<form editable-form name="rowform"
+															ng-show="rowform.$visible"
+															class="form-buttons form-inline"></form>
+														<div class="buttons" ng-show="!rowform.$visible">
+															<button data-nodrag
+																class="btn btn-sm glyphicon glyphicon-trash"
+																ng-click="removeMvtFAC($index)"></button>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Document Type and upload -->
+						<div class="title-ajout line">Documents</div>
+						<div class="panel-body" ng-show="displayMode == 'edit'">
+							<div class="form-group">
+								<div class="row">
+									<div class="panel panel-primary">
+										<table
+											class="table table-bordered table-condensed table-head-color">
+											<thead>
+												<tr>
+													<th style="width: 40%">Type Document</th>
+													<th style="width: 40%">Document</th>
+													<th style="width: 20%"></th>
+												</tr>
+											</thead>
+											<tr>
+												<td class="hidden"><span editable-text="t" e-name="id"
+													e-form="rowform" e-required> {{ documentPi.id ||
+														'empty' }} </span></td>
+												<td>
+													<!-- editable group (select-remote) --> <span
+													editable-select="t" e-name="t" e-form="rowform">
+														{{showStatus(documentPi.typeDocument) }} </span>
+												</td>
+												<td ng-controller="UploadCtrl">
+													<!-- Upload Document File -->
+													<div class="form-group">
+														<div class="col-sm-12">
+															<div class="fileinput fileinput-new"
+																data-provides="fileinput">
+																<input class="hidden" type="text" ng-model="name" /> <span
+																	class="btn btn-file btn-sm" style="background: #e6e9ee"
+																	ng-show="!isUploaded && rowform.$visible"> <span
+																	class="fileinput-new">S&eacute;lectionner
+																		document</span> <input type="file" class="custom-file-input"
+																	file-model="myFile"> <span href="#"
+																	class="close fileinput-exists pull-right"
+																	style="float: none; padding: 0"
+																	data-dismiss="fileinput"
+																	ng-show="!isUploaded && rowform.$visible">x</span>
+																</span> <span class="fileinput-filename"
+																	ng-model="documentPi.path" e-name="path"
+																	e-form="rowform" e-required>{{t}}</span>
+															</div>
+															<!-- 															<a class="btn btn-danger btn-sm pull-right" -->
+															<!-- 																ng-click="downloadFile(documentPi.vUUIDDocument)" -->
+															<!-- 																ng-href="{{urlFile}}" ng-show="!rowform.$visible"> <span -->
+															<!-- 																class="glyphicon glyphicon-cloud-download"></span> -->
+															<!-- 															</a> -->
+															<a ng-click="uploadFile()"
+																ng-show="!isUploaded && rowform.$visible"
+																class="btn btn-info btn-sm fileinput-upload glyphicon glyphicon-cloud-upload pull-right">
+															</a> <a class="btn btn-success btn-sm pull-right"
+																href="D:/archive/{{t}}/{{t}}"
+																ng-show="!rowform.$visible"> <span
+																class="glyphicon glyphicon-cloud-download"></span>
+															</a>
+														</div>
+													</div> <input class="hidden" ng-model="t" e-name="t"
+													e-form="rowform" e-required
+													value="{{ t ||
+															'empty' }} " />
+												</td>
+												<td style="white-space: nowrap">
+													<!-- form -->
+													<form editable-form name="rowform"
+														ng-show="rowform.$visible"
+														onbeforesave="saveDocPI($data, documentPi.id)"
+														shown="DocPartieInteresseInserree == documentPi"
+														class="form-buttons form-inline">
+														<div class="pull-right">
+															<button type="submit" ng-disabled="!rowform.$valid"
+																class="btn btn-sm glyphicon glyphicon-save"
+																aria-hidden="true"></button>
+															<button type="button" ng-disabled="rowform.$waiting"
+																ng-click="rowform.$cancel()"
+																class="btn btn-sm glyphicon glyphicon-remove"></button>
+														</div>
+													</form>
+													<div class="buttons pull-right" ng-show="!rowform.$visible">
+														<button data-nodrag
+															class="btn btn-sm glyphicon glyphicon-pencil"
+															ng-click="rowform.$show()"></button>
+														<button data-nodrag
+															class="btn btn-sm glyphicon glyphicon-trash"
+															ng-click="removeDocument($index)"></button>
+													</div>
+												</td>
+											</tr>
+										</table>
+										<button class="btn btn-action pull-right spacer2" ng-click="">Ajouter</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- grid -->
+				<div class="row" ng-show="displayMode != 'edit'">
+					<div class="col-md-12">
+						<div class="title-ajout line">Liste des bons de Sortie</div>
+						<div style="height: 500px;" ng-grid="gridOptionsS"></div>
+					</div>
+				</div>
+				<!-- Popup Recherche Stock -->
+				<div id="lightS" class="white_content2 ui-widget-content">
+					<pop-up></pop-up>
+				</div>
+				<!-- Fin Popup Recherche Stock -->
+			</div>
+		</div>
+	</div>
+	<!--PopUP Background -->
+	<div id="fade" class="black_overlay"></div>
+</div>

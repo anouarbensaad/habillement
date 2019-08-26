@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+<!-- 
+	<bean id="ordreFabricationRest"
+		class=" com.gpro.consulting.tiers.gpao.rest.impl.OrdreFabricationRestImpl">
+		<property name="ordreFabricationService" ref="ordreFabricationService" />
+	</bean>
+
+	<bean id="statutRest"
+		class=" com.gpro.consulting.tiers.gpao.rest.impl.StatutRestImpl">
+		<property name="statutService" ref="statutService" />
+	</bean>
+
+	<bean id="chaineRest"
+		class=" com.gpro.consulting.tiers.gpao.rest.impl.ChaineRestImpl">
+		<property name="chaineService" ref="chaineService" />
+	</bean>
+
+	<bean id="gestionnaireCacheRestGpao"
+		class="com.gpro.consulting.tiers.gpao.rest.impl.GestionnaireCacheRestImpl">
+		<property name="gestionnaireCacheServiceGpao" ref="gestionnaireCacheServiceGpao"></property>
+	</bean>
+	
+	<bean id="PhaseOfRest"
+		class=" com.gpro.consulting.tiers.gpao.rest.impl.PhaseOfRestImpl">
+		<property name="PhaseOfService" ref="PhaseOfService" />
+	</bean>
+	
+	<bean id="CauseVariationRest"
+		class=" com.gpro.consulting.tiers.gpao.rest.impl.CauseVariationRestImpl">
+		<property name="CauseVariationService" ref="CauseVariationService" />
+	</bean>
+	 -->
+</beans>

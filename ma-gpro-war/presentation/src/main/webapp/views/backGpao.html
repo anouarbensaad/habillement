@@ -1,0 +1,240 @@
+<!-- Menu Partie Interesse -->
+		<ul class="nav back-nav-gpro">
+			<li class="active"><a>GPAO</a></li>
+		</ul>
+<div class="container-fluid back-office-background"
+	ng-controller="BackGpaoCtr">
+	<div ng-show="displayMenu == 'gpao'">
+		<!-- Critere  -->
+		<div class="spacer3">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="form-group">
+						<div class="col-sm-3">
+							<div class="input-group">
+								<span class="input-group-addon label1" id="basic-addon1">Param&eacute;trage</span>
+								<select ng-change="selectAction()" name="selector1"
+									id="selector1" class="form-control" ng-model="parametre">
+									<option>Statut</option>
+									<option>Chaine</option>
+									<option>Machine</option>
+									<option>Section</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- /*********Chaine **********/ -->
+		<div class="row" ng-show="parametre=='Chaine'" ng-controller="backChaineController">
+			<div class="panel panel-primary">
+				<table
+					class="table table-bordered table-condensed back-table-head-color">
+					<thead>
+						<tr>
+							<th class="hidden">Id</th>
+							<th style="width: 35%">Chaine</th>
+							<th style="width: 25%"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="chaine in listeChaine">
+						<td class="hidden">
+								<!-- editable representat (text with validation) --> <span
+								editable-text="chaine.id" e-name="id" e-form="rowform"
+								e-required> {{ chaine.id || 'empty' }} </span>
+							</td>
+							<td>
+								<!-- editable representat (text with validation) --> <span
+								editable-text="chaine.designation" e-name="designation" e-form="rowform"
+								e-required> {{ chaine.designation || 'empty' }} </span>
+							</td>
+
+							<td style="white-space: nowrap">
+								<!-- form -->
+								<form editable-form name="rowform"
+									onbeforesave="saveChaine(chaine,chaine.id)"
+									ng-show="rowform.$visible" class="form-buttons form-inline"
+									shown="ChaineCourante == chaine">
+									<button type="submit" ng-disabled="rowform.$waiting"
+										class="btn btn-sm glyphicon glyphicon-save" aria-hidden="true"></button>
+									
+									<button type="button" ng-disabled="rowform.$waiting" 
+									    ng-click="cancelAdd(rowform, $index, chaine.id, chaine.designation, listeChaine )" 
+									    class="btn btn-sm glyphicon glyphicon-remove"></button>
+								</form>
+								<div class="buttons" ng-show="!rowform.$visible">
+									<button data-nodrag
+										class="btn btn-sm glyphicon glyphicon-pencil"
+										ng-click="rowform.$show()"></button>
+									<button data-nodrag
+										class="btn btn-sm glyphicon glyphicon-trash"
+										ng-click="removeChaine($index)"></button>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<button class="btn btn-action3 pull-right spacer2"
+					ng-click="ajouterChaine()">Ajouter</button>
+			</div>
+		</div>
+
+		<!-- /***** statut *******/ -->
+		<div class="row" ng-show="parametre=='Statut'"
+			ng-controller="backStatutPIController">
+			<div class="panel panel-primary" data-heading="Editable Rows">
+				<table
+					class="table table-bordered table-condensed back-table-head-color">
+					<thead>
+						<tr>
+							<th style="width: 35%">Statut</th>
+							</td>
+							<th style="width: 25%"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="statut in listeStatut">
+							<td>
+								<!-- editable representat (text with validation) --> <span
+								editable-text="statut.designation" e-name="designation"
+								e-form="rowform" e-required> {{ statut.designation ||
+									'empty' }} </span>
+							</td>
+							<td style="white-space: nowrap">
+								<!-- form -->
+								<form editable-form name="rowform"
+									onbeforesave="saveStatut(statut, statut.id)"
+									ng-show="rowform.$visible" class="form-buttons form-inline"
+									shown="StatutCourante == statut">
+									<button type="submit" ng-disabled="rowform.$waiting"
+										class="btn btn-sm glyphicon glyphicon-save" aria-hidden="true"></button>
+									
+									<button type="button" ng-disabled="rowform.$waiting" 
+									    ng-click="cancelAdd(rowform, $index, statut.id, statut.designation,listeStatut )" 
+									    class="btn btn-sm glyphicon glyphicon-remove"></button>
+								</form>
+								<div class="buttons" ng-show="!rowform.$visible">
+									<button data-nodrag
+										class="btn btn-sm glyphicon glyphicon-pencil"
+										ng-click="rowform.$show()"></button>
+									<button data-nodrag
+										class="btn btn-sm glyphicon glyphicon-trash"
+										ng-click="removeStatut($index)"></button>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<button class="btn btn-action3 pull-right spacer2"
+					ng-click="ajouterStatut()">Ajouter</button>
+			</div>
+		</div>
+
+		<!-- /***** machine *******/ -->
+		<div class="row" ng-show="parametre=='Machine'"
+			ng-controller="backMachineController">
+			<div class="panel panel-primary" data-heading="Editable Rows">
+				<table
+					class="table table-bordered table-condensed back-table-head-color">
+					<thead>
+						<tr>
+							<th style="width: 35%">Statut</th>
+							</td>
+							<th style="width: 25%"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="machine in listeMachine">
+							<td>
+								<!-- editable representat (text with validation) --> <span
+								editable-text="machine.designation" e-name="designation"
+								e-form="rowform" e-required> {{ machine.designation ||
+									'empty' }} </span>
+							</td>
+							<td style="white-space: nowrap">
+								<!-- form -->
+								<form editable-form name="rowform"
+									onbeforesave="saveMachine($data, machine.id)"
+									ng-show="rowform.$visible" class="form-buttons form-inline"
+									shown="MachineCourante == machine">
+									<button type="submit" ng-disabled="rowform.$waiting"
+										class="btn btn-sm glyphicon glyphicon-save" aria-hidden="true"></button>
+									
+									<button type="button" ng-disabled="rowform.$waiting" 
+									    ng-click="cancelAdd(rowform, $index, statut.id, machine.designation,listeMachine )" 
+									    class="btn btn-sm glyphicon glyphicon-remove"></button>
+								</form>
+								<div class="buttons" ng-show="!rowform.$visible">
+									<button data-nodrag
+										class="btn btn-sm glyphicon glyphicon-pencil"
+										ng-click="rowform.$show()"></button>
+									<button data-nodrag
+										class="btn btn-sm glyphicon glyphicon-trash"
+										ng-click="removeMachine($index)"></button>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<button class="btn btn-action3 pull-right spacer2"
+					ng-click="ajouterMachine()">Ajouter</button>
+			</div>
+		</div>
+
+		<!-- /***** section *******/ -->
+		<div class="row" ng-show="parametre=='Section'"
+			ng-controller="backSectionController">
+			<div class="panel panel-primary" data-heading="Editable Rows">
+				<table
+					class="table table-bordered table-condensed back-table-head-color">
+					<thead>
+						<tr>
+							<th style="width: 35%">Statut</th>
+							</td>
+							<th style="width: 25%"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="section in listeSection">
+							<td>
+								<!-- editable representat (text with validation) --> <span
+								editable-text="section.designation" e-name="designation"
+								e-form="rowform" e-required> {{ section.designation ||
+									'empty' }} </span>
+							</td>
+							<td style="white-space: nowrap">
+								<!-- form -->
+								<form editable-form name="rowform"
+									onbeforesave="saveSection($data, section.id)"
+									ng-show="rowform.$visible" class="form-buttons form-inline"
+									shown="SectionCourante == section">
+									<button type="submit" ng-disabled="rowform.$waiting"
+										class="btn btn-sm glyphicon glyphicon-save" aria-hidden="true"></button>
+									
+									<button type="button" ng-disabled="rowform.$waiting" 
+									    ng-click="cancelAdd(rowform, $index, statut.id, section.designation,listeSection )" 
+									    class="btn btn-sm glyphicon glyphicon-remove"></button>
+								</form>
+								<div class="buttons" ng-show="!rowform.$visible">
+									<button data-nodrag
+										class="btn btn-sm glyphicon glyphicon-pencil"
+										ng-click="rowform.$show()"></button>
+									<button data-nodrag
+										class="btn btn-sm glyphicon glyphicon-trash"
+										ng-click="removeSection($index)"></button>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<button class="btn btn-action3 pull-right spacer2"
+					ng-click="ajouterSection()">Ajouter</button>
+			</div>
+		</div>
+
+	</div>
+	
+</div>

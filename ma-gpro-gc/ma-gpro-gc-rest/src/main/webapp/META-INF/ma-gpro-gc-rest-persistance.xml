@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+    http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+	version="2.0">
+	<persistence-unit name="persistance" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		
+		<!-- Entite du GPRO Commun -->
+		<class>com.gpro.consulting.tiers.commun.persistance.entity.CategorieEntite</class>
+		<class>com.gpro.consulting.tiers.commun.persistance.entity.DocumentEntite</class>
+		<class>com.gpro.consulting.tiers.commun.persistance.entity.FamilleEntite</class>
+		<class>com.gpro.consulting.tiers.commun.persistance.entity.PartieInteresseEntite</class>
+		<class>com.gpro.consulting.tiers.commun.persistance.entity.RepresentantEntite</class>
+		<class>com.gpro.consulting.tiers.commun.persistance.entity.SiteEntite</class>
+		<class>com.gpro.consulting.tiers.commun.persistance.entity.TypeDocumentEntite</class>
+		<class>com.gpro.consulting.tiers.commun.persistance.entity.TypeEntite</class>
+		<class>com.gpro.consulting.tiers.commun.persistance.entity.DeviseEntite</class>
+		<!-- entity produit -->
+		<class>com.gpro.consulting.tiers.commun.persistance.entity.ProduitEntity</class>
+		<class>com.gpro.consulting.tiers.commun.persistance.entity.SousFamilleProduitEntity</class>
+		<class>com.gpro.consulting.tiers.commun.persistance.entity.FamilleProduitEntity</class>
+		<class>com.gpro.consulting.tiers.commun.persistance.entity.DocumentProduitEntity</class>
+		<class>com.gpro.consulting.tiers.commun.persistance.entity.DetailsPrixProduitEntite</class>
+		<!--manque entity produit details -->
+		<class>com.gpro.consulting.tiers.commun.persistance.entity.CouleurEntite</class>
+		<class>com.gpro.consulting.tiers.commun.persistance.entity.ProduitCouleurEntite</class>
+		<class>com.gpro.consulting.tiers.commun.persistance.entity.PhaseEntite</class>
+		<class>com.gpro.consulting.tiers.commun.persistance.entity.TailleEntite</class>
+		<class>com.gpro.consulting.tiers.commun.persistance.entity.ProduitTailleEntite</class>
+		<class>com.gpro.consulting.tiers.commun.persistance.entity.StandardTailleEntite</class>
+		<class>com.gpro.consulting.tiers.commun.persistance.entity.DetProdArticleEntite</class>
+		<class>com.gpro.consulting.tiers.commun.persistance.entity.PhaseProduitEntite</class>
+		
+			<!-- Gestion Commandes Entites -->
+		<class>com.gpro.consulting.tiers.gc.persitance.entite.CommandeVenteEntite</class>
+		<class>com.gpro.consulting.tiers.gc.persitance.entite.DocumentCommandeVenteEntite</class>
+		<class>com.gpro.consulting.tiers.gc.persitance.entite.EtatCommandeEntite</class>
+		<class>com.gpro.consulting.tiers.gc.persitance.entite.ProduitCommandeEntite</class>
+		<class>com.gpro.consulting.tiers.gc.persitance.entite.TypeCommandeEntite</class>
+		
+		<class>com.gpro.consulting.tiers.commun.persistance.entity.FicheBesoinEntite</class>
+        <class>com.gpro.consulting.tiers.commun.persistance.entity.ElementFicheBesoinEntite</class>
+		
+		<!-- LivraisonVente -->
+		<class>com.gpro.consulting.tiers.gc.persitance.livraisonVente.entite.LivraisonVenteEntite</class>
+		<class>com.gpro.consulting.tiers.gc.persitance.livraisonVente.entite.ProduitLivraisonEntite</class>
+		<class>com.gpro.consulting.tiers.gc.persitance.livraisonVente.entite.DetailProduitLivraisonEntite</class>
+		
+		<!-- facturevente -->
+		<class>com.gpro.consulting.tiers.gc.persitance.factureVente.entite.FactureVenteEntite</class>
+		<class>com.gpro.consulting.tiers.gc.persitance.factureVente.entite.ProduitFactureVenteEntite</class>
+		<class>com.gpro.consulting.tiers.gc.persitance.factureVente.entite.DiversFactureEntite</class>
+		
+		
+		<!-- Agent -->
+		<class>com.gpro.consulting.tiers.gc.persitance.agent.entite.AgentEntity</class>
+		
+		<properties>
+			<!-- <property name="hibernate.hbm2ddl.auto" value="none" /> -->
+			<property name="hibernate.max_fetch_depth" value="0" />
+			<property name="hibernate.hbm2ddl.auto" value="none" />
+			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.format_sql" value="false" />
+			<property name="use_sql_comments" value="false" />
+			<property name="hibernate.archive.autodetection" value="class" />
+			<property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+			<property name="hibernate.cache.use_second_level_cache"
+				value="false" />
+			<property name="hibernate.cache.use_query_cache" value="false" />
+		</properties>
+	</persistence-unit>
+
+</persistence>

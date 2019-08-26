@@ -1,0 +1,414 @@
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-1">
+			<ul class="nav-gproS">
+				<li>
+					<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" 
+					href="#/GpaoMenu" ng-click="goOperation()">Catalogue 
+					</a>
+				</li>
+				<li>
+					<a style="margin-top: 10px" class="btn-block btn btn-action pull-right"
+					href="#/GpaoMenu" ng-click="goGammeMontage()">G.Montage</a>
+				</li>
+				<li class="active">
+					<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" 
+					href="#/GpaoMenu" ng-click="goGammeMontageOF()">G.Mont.OF</a>
+				</li>
+			</ul>
+		</div>
+		<div class="col-sm-11 cadreERP" ng-controller="gammeOFController">
+			<!-- Critere de recherche -->
+	<div class="row" ng-show="displayMode != 'edit'">
+		<div class="col-sm-12">
+			<button class="btn btn-action2 pull-right"
+				ng-click="AffectationGamme(gammeOFCourante)">Ajouter</button>
+		</div>
+		<div class="col-sm-12 ">
+			<div class="title-ajout">Crit&eacute;re de recherche</div>
+			<div class="panel panel-primary">
+				<div class="panel-body collapse in" >
+					<form class="form-horizontal" name="rechercheGammeOFForm"
+						id="rechercheGammeOFForm">
+
+						<div class="form-group">
+							<div class="row">
+
+
+							<!-- 	<div class="col-sm-4">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">R&eacute;f.OF
+										</span> <select ui-select2 ng-model="gammeOFCourante.ordreFabricationId"
+											ng-init="gammeOFCourante.ordreFabricationId =''" ng-focus="updateListOF()"
+											data-placeholder="..." style="width: 100%">
+											<OPTION value="">Tous les OF</OPTION>
+											<option ng-repeat="pi in listGammeOF" value="{{pi.id}}">{{pi.numero}}</option>
+										</select>
+									</div>
+								</div> -->
+
+
+								   <div class="col-sm-3">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">OF
+											</span> <input type="text" class="form-control" ng-model="gammeOFCourante.ofNum"
+												ng-init="gammeOFCourante.ofNum =''" ng-change="ofChanged()">
+										</div>
+									</div>
+
+
+									<div class="col-sm-1">
+											<div class="input-group input-group-sm">
+												<button type="button" class="btn btn-action" ng-style="numOfVerifier == 'true' && myStyleBtnOF"
+													ng-click="validerOF(gammeOFCourante.ofNum,'SEARCH')">Vérifier</button>
+											</div>
+										</div>
+
+
+
+
+								<div class="col-sm-4">
+
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">R&eacute;f.Produit
+										</span> <select ui-select2 ng-model="gammeOFCourante.produitId"
+											ng-init="gammeOFCourante.produitId =''"
+											data-placeholder="..." style="width: 100%">
+											<OPTION value="">Tous les Produits</OPTION>
+											<option ng-repeat="pi in listProduitDrop" value="{{pi.id}}">{{pi.reference}}</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">
+											Produit </span> <select ui-select2
+											ng-model="gammeOFCourante.produitId"
+											ng-init="gammeOFCourante.produitId =''"
+											data-placeholder="..." style="width: 100%">
+											<OPTION value="">Tous les Produits</OPTION>
+											<option ng-repeat="pi in listProduitDrop" value="{{pi.id}}">{{pi.designation}}</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">
+											Machine</span> <select ui-select2 ng-model="gammeOFCourante.machineId"
+											ng-init="gammeOFCourante.machineId =''" data-placeholder="..."
+											style="width: 100%">
+											<option value="">Tous les Machines</option>
+											<option ng-repeat="pi in listeMachines" value="{{pi.id}}">{{pi.designation}}</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">Temps
+											Total Entre </span> <input type="number" step="any"
+											class="form-control" ng-model="gammeOFCourante.tempsTotalMin"
+											ng-init="gammeOFCourante.tempsTotalMin =''" />
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">ET</span>
+										<input class="form-control" type="number" step="any"
+											ng-model="gammeOFCourante.tempsTotalMax"
+											ng-init="gammeOFCourante.tempsTotalMax = ''"/>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">
+											Section</span> <select ui-select2 ng-model="gammeOFCourante.sectionId"
+											ng-init="gammeOFCourante.sectionId =''" data-placeholder="..."
+											style="width: 100%">
+											<option value="">Tous les Sections</option>
+											<option ng-repeat="pi in listSections" value="{{pi.id}}">{{pi.designation}}</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+
+					<div class="pull-right">
+						<button class="btn-action btn" ng-click="downloadAllGammeOF(gammeOFCourante)">Générer</button>
+						<button class="btn-action btn"
+							ng-click="rechercheGammeOF(gammeOFCourante)">Rechercher</button>
+						<button class="btn-action btn" ng-click="annulerAjout()">Annuler</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- container d'ajout,  modification et de consultation d'une gamme -->
+	<div class="row" ng-show="displayMode == 'edit'">
+		<div class="col-sm-12">
+			<div class="pull-right">
+				<button class="btn btn-action generate" ng-click="Generate(gammeOFCourante.id)">Generer</button> 
+				<button class="btn btn-action"
+					ng-click="sauvegarderAjout(gammeOFCourante)"
+					ng-disabled="!creationGammeOFForm.$valid;">Enregistrer</button>
+				<button class="btn btn-action" ng-click="annulerAjout()">Retour</button>
+			</div>
+		</div>
+		<div class="col-md-12">
+			<div class="panel panel-primary">
+				<div class="title-ajout">Ajout de Gamme de Montage OF</div>
+				<div class="panel-body" ng-show="displayMode == 'edit'">
+					<form id="creationGammeOFForm" name="creationGammeOFForm">
+
+						<div class="form-group">
+							<div class="row ">
+								
+								<!-- <div class="col-sm-3 add">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">R&eacute;f.OF
+										</span> <select ui-select2 ng-model="gammeOFCourante.ordreFabricationId" 
+											data-placeholder="..." style="width: 100%" ng-change="duplicategammeof(gammeOFCourante.ordreFabricationId)" aria-required="true" required>
+											<option ng-repeat="pi in listProduitAvailable" value="{{pi.id}}">{{pi.numero}}</option>
+										</select>
+									</div>
+								</div>
+
+
+
+								<div class="col-sm-3 update" >
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">R&eacute;f.OF
+										</span> <select ui-select2 ng-model="gammeOFCourante.ordreFabricationId"
+											data-placeholder="..." style="width: 100%" ng-change="duplicategammeof(gammeOFCourante.ordreFabricationId)" ng-disabled="ordreFab">
+											<option ng-selected="gammeOFCourante.ordreFabricationNumero" value="{{gammeOFCourante.ordreFabricationId}}">
+											{{gammeOFCourante.ordreFabricationNumero}}</option>
+<!-- 											<option ng-repeat="pi in listProduitAvailable" value="{{pi.id}}">{{pi.id}}--{{pi.numero}}</option> -->
+								<!-- 			</select>
+									</div>
+								</div> -->
+
+								    <div class="col-sm-3">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">OF
+											</span> <input type="text" class="form-control" ng-model="gammeOFCourante.ordreFabricationNumero"
+												ng-init="gammeOFCourante.ordreFabricationNumero =''" ng-change="ofChanged()">
+										</div>
+									</div>
+
+
+									<div class="col-sm-1">
+											<div class="input-group input-group-sm">
+												<button type="button" class="btn btn-action" ng-style="numOfVerifier == 'true' && myStyleBtnOF"
+													ng-click="validerAvailableOF(gammeOFCourante.ordreFabricationNumero,'EDIT')">Vérifier</button>
+											</div>
+										</div>
+								
+								<div class="col-sm-3" >
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">
+											Client</span> <input class="form-control" ng-model="gammeOFCourante.clientAbreviation" ng-disabled="clientAbr"/>
+									</div>
+								</div>
+                                  
+                                  <div class="col-sm-3">
+
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">R&eacute;f.Produit
+										</span> <select ui-select2 ng-model="gammeOFCourante.produitId"
+											ng-init="gammeOFCourante.produitId =''"
+											data-placeholder="..." style="width: 100%" ng-disabled="RefProd">
+											<option ng-repeat="pi in listProduitDrop" value="{{pi.id}}">{{pi.reference}}</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Produit 
+										</span> <select ui-select2
+											ng-model="gammeOFCourante.produitId"
+											ng-init="gammeOFCourante.produitId =''"
+											data-placeholder="..." style="width: 100%" ng-disabled="DesigProd">
+											<option ng-repeat="pi in listProduitDrop" value="{{pi.id}}">{{pi.designation}}</option>
+										</select>
+									</div>
+								</div>
+                                  
+                                  
+                                  
+							</div>
+
+						
+						
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-3">
+									
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">Temps
+											Total OF</span> <input type="number" step="any" class="form-control"
+											ng-model="gammeOFCourante.tempsTotal" ng-disabled="tempsTotalOF"/>
+									</div>
+								</div>
+								<div class="col-sm-3">
+
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">Nombre
+											des Op&eacute;rations OF</span> <input type="number" step="any"
+											class="form-control" ng-model="gammeOFCourante.nbOperation" ng-disabled="nbOPOF"/>
+									</div>
+
+								</div>
+									<div class="col-sm-3">
+									
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">Temps
+											Total Produit</span> <input type="number" step="any" class="form-control"
+											 ng-disabled="tempsTotalP" ng-model="gammeOFCourante.tempsTotalProduit"/>
+									</div>
+								</div>
+								<div class="col-sm-3">
+
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">Nombre
+											des Op&eacute;rations Produit</span> <input type="number" step="any"
+											class="form-control" ng-disabled="nbOPP" ng-model="gammeOFCourante.nbOperationProduit" />
+									</div>
+
+								</div>
+
+							</div>
+						</div>
+
+
+
+					</form>
+				</div>
+
+
+				<!-- end Div Ajout Gamme -->
+
+
+				<div class="title-ajout">Gamme</div>
+				<div class="panel-body">
+					<div class="form-group">
+						<div class="row">
+							<div class="panel panel-primary">
+							
+								<table
+									class="table table-bordered table-condensed table-head-color">
+									<thead>
+										<tr>
+											<th class="TableHeaderalignment" style="width: 5%">Ordre</th>
+											<!-- <th class="TableHeaderalignment" style="width: 15%">Code Op&eacute;ration</th> -->
+											<th class="TableHeaderalignment" style="width: 25%">Op&eacute;ration</th>
+											<th class="TableHeaderalignment" style="width: 6%">Temps</th>
+											<th class="TableHeaderalignment" style="width: 5%">PDH</th>
+											<th class="TableHeaderalignment" style="width: 15%">Section</th>
+											<th class="TableHeaderalignment" style="width: 15%">Machine</th>
+											<th class="TableHeaderalignment" style="width: 25%">Observations</th>
+											<th class="TableHeaderalignment" style="width: 5%">CTG</th>
+											<th class="TableHeaderalignment" style="width: 5%"></th>
+											
+										</tr>
+									</thead>
+									<tbody ui-sortable ng-model="finalOperationsList">
+										<tr ng-repeat="item in finalOperationsList track by $index "
+											style="cursor: move;">
+											<td class="TableHeaderalignment">{{item.ordre}}</td>
+											<!-- <td class="TableHeaderalignment"> -->
+												<!-- <input id='itemInput' type="text" ng-model="item.operationCode" -->
+												<!-- placeholder="Code Op&eacute;ration..." -->
+												<!-- typeahead="item.code for item in copyofOpList | filter:$viewValue" -->
+												<!-- class="form-control"  -->
+												<!-- typeahead-on-select="onOperationSelected($item,$index)" required -->
+												<!-- > -->
+											<!-- </td> -->
+											<td class="TableHeaderalignment"><input type="text" class="form-control"
+												ng-model="item.operationDesignation" placeholder="Op&eacute;ration..."
+												typeahead="item.designation  for item in copyofOpList | filter:$viewValue"
+												class="form-control" required
+												typeahead-on-select="onOperationSelected($item,$index)"/></td>
+											<td class="TableHeaderalignment"><input type="number" class="form-control"
+												ng-model="item.temps" required /></td>
+											<td class="TableHeaderalignment"><input type="text" class="form-control"
+												ng-model="item.pdh" ng-disabled="inactive"/></td>
+											<td class="TableHeaderalignment">
+												<select ui-select2 ng-model="item.sectionId" required aria-required="true"
+													data-placeholder="..." style="width: 100%">
+													<option ng-repeat="pi in listSections" value="{{pi.id}}">{{pi.designation}}</option>
+												</select>
+											</td>
+											<td class="TableHeaderalignment">
+												<select ui-select2 ng-model="item.machineId" required aria-required="true"
+													data-placeholder="..." style="width: 100%">
+													<option ng-repeat="pi in listeMachines" value="{{pi.id}}">{{pi.designation}}</option>
+												</select>
+											</td>
+											<td class="TableHeaderalignment"><input type="text" class="form-control"
+												ng-model="item.observations" /></td>
+											<td class="TableHeaderalignment"><input type="checkbox" 
+												ng-model="item.comptage" /></td>
+											<td class="buttons TableHeaderalignment">
+												<button id="todoSubmit" class="btn btn-default btn-xs" data-nodrag 
+													ng-click="deleteElement(item,$index)"
+													ng-show="finalOperationsList.length>1">
+													<i class="fa fa-fw fa-trash-o"/>
+												</button>
+											</td>
+											
+										</tr>
+									</tbody>
+<!--  									test : {{finalOperationsList}}<hr> -->
+<!--                                     Total: {{getTotal()}} -->
+								</table>
+								<button id="todoSubmit"
+									class="btn btn-action pull-right spacer2"
+									ng-click="addElement()">Ajouter</button>
+							</div>
+
+						</div>
+<!-- 						<div class="row"> -->
+<!-- 						   <h3>Final Form</h3> -->
+<!--                                 {{formToSave}} -->
+<!-- 						</div> -->
+					</div>
+
+				</div>
+
+
+
+			</div>
+		</div>
+	</div>
+
+	<!-- container Grid-->
+	<div class="row" ng-show="displayMode != 'edit'">
+		<div class="col-md-12">
+			<div class="title-ajout line">Gamme</div>
+			<div class="row">
+				<div class="input-icon right mb10 col-md-3 pull-right">
+				<input placeholder="Taper un terme de recherche" type="text" ng-model="filterOptions.filterText"
+					class="form-control">
+				</div>
+			</div>
+			<div style="height: 500px;" ng-grid="gridOptions"></div>
+		</div>
+	</div>
+
+	<!-- Popup de la suppression -->
+	<div id="light" class="white_content">
+		<pop-up type="delete-article"></pop-up>
+	</div>
+	<div id="fade" class="black_overlay"></div>
+	<!-- Fin Popup de la suppression -->
+	
+		</div>
+	</div>
+</div>

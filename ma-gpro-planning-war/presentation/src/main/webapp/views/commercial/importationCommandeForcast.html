@@ -1,0 +1,150 @@
+<div class="container-fluid">
+	<div class="row">
+
+
+		<div class="container-fluid"
+			ng-controller="importationCmdForcastController"
+			style="background-color: #fff;">
+
+
+			<!-- Critere de recherche -->
+			<div class="row" ng-show="displayMode != 'edit'">
+				<div class="col-sm-12 ">
+					<div class="title-ajout">Importation des commande</div>
+					<div class="panel panel-primary">
+						<div class="panel-body collapse in">
+							<form class="form-horizontal" name="detailsSaisieTRForm"
+								id="detailsSaisieTRForm">
+								
+								
+								<div ng-show="alertCreat">
+									<div class="alert alert-warning">
+										<strong>{{msg}}</strong>
+									</div>
+								</div>
+								
+								<div ng-show="alertCreatSuc">
+									<div class="alert alert-info">
+										<strong>{{msg}}</strong>
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<div class="row">
+										<div class="col-sm-6">
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon label1" id="basic-addon1">Atelier</span>
+												<select class="form-control"
+													ng-model="listeChaineAtelier.atelier">
+													<option value="">Tous les Ateliers</option>
+													<option ng-repeat="atelier in listeChaineAtelier"
+														value="{{atelier.id}}">{{atelier.nom}}</option>
+												</select>
+											</div>
+										</div>
+										<div class="col-sm-2">
+											<div class="input-group input-group-sm">
+												<ng-csv-import class="btn btn-primary" content="csv.content"
+													header="csv.header" header-visible="csv.headerVisible"
+													separator="csv.separator"
+													separator-visible="csv.separatorVisible"
+													result="csv.result" encoding="csv.encoding"
+													encoding-visible="csv.encodingVisible"></ng-csv-import>
+											</div>
+										</div>
+
+										<div class="col-sm-4">
+
+
+											<div class="col-sm-6">
+												<div class="input-group input-group-sm">
+
+													<button class="btn btn-primary" ng-click="importCommande()">Valider</button>
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="input-group input-group-sm">
+
+													<button class="btn btn-primary" ng-click="reset()">Annuler</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<div class="row">
+										<div class="col-sm-12">
+											<div class="form-group">
+
+												<div class="col-sm-6">
+													<div class="input-group input-group-sm">
+														<span class="input-group-addon label1" id="basic-addon1">Nombre
+															de ligne</span> <input class="form-control" type='text'
+															ng-model="nbreCodesABarres" disabled />
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+
+												<div class="col-sm-6">
+													<div class="input-group input-group-sm">
+														<span class="input-group-addon label1" id="basic-addon1">Nombre
+															des OF</span> <input class="form-control" type='text'
+															ng-model="nbreMatricules" disabled />
+													</div>
+												</div>
+											</div>
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon label1" id="basic-addon1">
+													D&eacute;tails de sortie</span>
+											</div>
+											<!-- 											<table -->
+											<!-- 												class="table table-bordered table-condensed table-head-color"> -->
+											<!-- 												<thead> -->
+											<!-- 													<tr> -->
+											<!-- 													<th style="width: 5%"></th> -->
+											<!-- 														<th style="width: 15%">Date de cr&eacute;ation</th> -->
+											<!-- 														<th style="width: 15%">Reference</th> -->
+											<!-- 														<th style="width: 25%">Description</th> -->
+											<!-- 														<th style="width: 5%">Taille</th> -->
+											<!-- 														<th style="width: 15%">IMAN Code</th> -->
+											<!-- 														<th style="width: 5%">Qt&eacute; de commande</th> -->
+											<!-- 														<th style="width: 20%">Type</th> -->
+											<!-- 													</tr> -->
+											<!-- 												</thead> -->
+											<!-- 												<tbody ng-repeat="element in listeDetailsCSV "> -->
+											<!-- 													<tr> -->
+											<!-- 													    <td>{{element.pos}}</td> -->
+											<!-- 														<td>{{element.dateSaisie}}</td> -->
+											<!-- 														<td>{{element.code}}</td> -->
+											<!-- 														<td>{{element.description}}</td> -->
+											<!-- 														<td>{{element.taille}}</td> -->
+											<!--                                                         <td>{{element.iman}}</td> -->
+											<!--                                                         <td>{{element.quantite}}</td> -->
+											<!--                                                          <td>{{element.type}}</td> -->
+											<!-- 													</tr> -->
+											<!-- 												</tbody> -->
+											<!-- 											</table> -->
+
+
+											<div style="height: 500px;" ng-grid="gridOptions"></div>
+
+										</div>
+
+
+
+
+									</div>
+								</div>
+
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+</div>

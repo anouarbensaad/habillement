@@ -1,0 +1,298 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-1">
+			<ul class="nav-gproS">
+					<li>
+							<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+								ng-click="goPersonnel()">Personnel</a>
+						</li>
+		
+		
+						<li class="active">
+							<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+								ng-click="goFicheSuiveuse()">F.Suiveuse
+							</a>
+						</li>
+		
+		
+						<li >
+							<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+								ng-click="goFeuilleSaisie()">Suivi/Poste</a>
+						</li>
+		
+						<li >
+							<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+								ng-click="goDetailsSuiviTR()">Suivi/PDA</a>
+						</li>
+		
+						<li >
+							<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+								ng-click="goDetailsSaisie()">Detail Saisie</a>
+						</li>
+		
+						<li>
+							<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+								ng-click="goAvancementOF()">Avct OF</a>
+						</li>
+		
+						<li >
+							<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+								ng-click="goDetailsSuivi()">D&eacute;tails Suivi</a>
+						</li>
+		
+						<li>
+							<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+								ng-click="goFeuilleSaisieJournalier()">SuiviGlobal</a>
+						</li>
+			</ul>
+		</div>
+		<!-- Front -->
+		<div class="col-sm-11 cadreERP" ng-controller="suiveuseController"
+				style="background-color: #fff;">
+
+			
+
+
+	<!-- formulaire -->
+	<div class="row" ng-show="displayMode != 'edit'">
+		<div class="col-sm-12"> 
+ 			<div class="pull-right"> 
+			<button class="btn btn-action generate" ng-click="Generate(eclatementCourante.ordreFabricationId, false)">G&eacute;n&eacute;rer</button> 
+			<button class="btn btn-action generate" ng-click="Generate(eclatementCourante.ordreFabricationId, true)">G&eacute;n&eacute;rer Inverse</button> 
+			<button class="btn btn-action" ng-click="annulerAjout()">Annuler</button> 
+ 			</div> 
+		</div>
+		<div class="col-sm-12 ">
+			<div class="title-ajout">Fiche Suiveuse</div>
+			<div class="panel panel-primary">
+				<div class="panel-body collapse in" >
+					<form class="form-horizontal" name="rechercheGammeOFForm"
+						id="rechercheGammeOFForm">
+
+						<div class="form-group">
+							<div class="row ">
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">R&eacute;f.OF
+										</span> <input class="form-control" ng-model="eclatementCourante.ordreFabricationNumero" />
+
+									</div>
+								</div>
+
+								
+								<div class="col-sm-1">
+									<div class="input-group input-group-sm">
+										<button type="button" class="btn btn-action" ng-style="numOfVerifier == 'true' && myStyleBtnOF"
+											ng-click="validerOF(eclatementCourante.ordreFabricationNumero,'SEARCH')">Vérifier</button>
+									</div>
+								</div>
+
+                                 
+								<div class="col-sm-3" >
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">
+											Client</span> <input class="form-control" ng-model="eclatementCourante.clientAbreviation" ng-disabled="true"/>
+									</div>
+								</div>  
+
+								   <div class="col-sm-3" >
+										<div class="input-group">
+											<span class="input-group-addon label1" id="basic-addon1">
+													R&eacute;f.Produit</span> <input class="form-control" ng-model="eclatementCourante.produitReference" ng-disabled="true"/>
+										</div>
+									</div> 
+
+									<div class="col-sm-3" >
+											<div class="input-group">
+												<span class="input-group-addon label1" id="basic-addon1">
+													D&eacute;s.Produit</span> <input class="form-control" ng-model="eclatementCourante.produitDesignation" ng-disabled="true"/>
+											</div>
+										</div> 
+
+                              <!--   <div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">R&eacute;f.Produit
+										</span> <select ui-select2 ng-model="eclatementCourante.produitId"
+											ng-init="eclatementCourante.produitId =''"
+											data-placeholder="..." style="width: 100%" ng-disabled="true">
+											<option ng-repeat="pi in listProduitDrop" value="{{pi.id}}">{{pi.reference}}</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Produit 
+										</span> <select ui-select2
+											ng-model="eclatementCourante.produitId"
+											ng-init="eclatementCourante.produitId =''"
+											data-placeholder="..." style="width: 100%" ng-disabled="true">
+											<option ng-repeat="pi in listProduitDrop" value="{{pi.id}}">{{pi.designation}}</option>
+										</select>
+									</div>
+								</div> -->
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">Nombre des operations OF</span>
+										<input class="form-control" type="number" step="any"
+											ng-model="gammeOFCourante.tempsTotalMax"
+											ng-init="gammeOFCourante.tempsTotalMax = ''" ng-disabled="true"/>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">Nombre de paquet</span>
+										<input class="form-control" type="number" step="any"
+											ng-model="gammeOFCourante.tempsTotalMax"
+											ng-init="gammeOFCourante.tempsTotalMax = ''" ng-disabled="true"/>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="pull-right">
+										<button class="btn btn-action" ng-click="duplicateFichePaquets(eclatementCourante.ordreFabricationId)">Valider</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+
+					
+				</div>
+			</div>
+		</div>
+	</div>
+
+   
+         <div class="row">
+			<div class="panel panel-primary">
+								<table
+									class="table table-bordered table-condensed table-head-color">
+									<thead>
+										<tr>
+                                            <th class="TableHeaderalignment" style="width: 2%">
+                                            	<input type="checkbox" ng-model="allOperationChecked" ng-change = "allOperation()"/>
+                                            </th>
+<!-- 											<th class="TableHeaderalignment" style="width: 5%">Ordre</th> -->
+											<th class="TableHeaderalignment" style="width: 15%">Code Op&eacute;ration</th>
+											<th class="TableHeaderalignment" style="width: 25%">Op&eacute;ration</th>
+											<th class="TableHeaderalignment" style="width: 5%">Temps</th>
+											<th class="TableHeaderalignment" style="width: 5%">PDH</th>
+											<th class="TableHeaderalignment" style="width: 15%">Section</th>
+											<th class="TableHeaderalignment" style="width: 15%">Machine</th>
+											<th class="TableHeaderalignment" style="width: 25%">Observations</th>
+											
+											
+										</tr>
+									</thead>
+									<tbody ui-sortable ng-model="finalOperationsList">
+										<tr ng-repeat="item in finalOperationsList track by $index "
+											style="cursor: move;">
+											
+											<td class="TableHeaderalignment"><input type="checkbox" class="chkbox" ng-model="finalOperationsList[$index].checked"
+											ng-change="sendOperationId($index, finalOperationsList[$index].id,
+											finalOperationsList[$index].checked)" /></td>
+<!-- 											<td class="TableHeaderalignment">{{item.ordre}}</td> -->
+											<td class="TableHeaderalignment">
+												<input id='itemInput' type="text" ng-model="item.code"
+												placeholder="Code Op&eacute;ration..."
+												typeahead="item.code for item in copyofOpList | filter:$viewValue"
+												class="form-control"  disabled
+												typeahead-on-select="onOperationSelected($item,$index)"
+												>
+											</td>
+											<td class="TableHeaderalignment" ><input type="text" class="form-control"
+												ng-model="item.designation" placeholder="Op&eacute;ration..."
+												typeahead="item.designation  for item in copyofOpList | filter:$viewValue"
+												class="form-control"
+												typeahead-on-select="onOperationSelected($item,$index)" disabled/></td>
+											<td class="TableHeaderalignment" ><input type="text" class="form-control" 
+												ng-model="item.temps" disabled /></td>
+											<td class="TableHeaderalignment"><input type="text" class="form-control" 
+												ng-model="item.pdh" disabled/></td>
+											<td class="TableHeaderalignment" >
+												<select class="form-control" ng-model="item.sectionId"
+													data-placeholder="..." disabled>
+													<option ng-repeat="pi in listSections" value="{{pi.id}}">{{pi.designation}}</option>
+												</select>
+											</td>
+											<td class="TableHeaderalignment" disabled>
+												<select class="form-control" ng-model="item.machineId"
+													data-placeholder="..." disabled>
+													<option ng-repeat="pi in listeMachines" value="{{pi.id}}">{{pi.designation}}</option>
+												</select>
+											</td>
+											<td class="TableHeaderalignment"><input type="text" class="form-control"
+												ng-model="item.observations" disabled /></td>
+											
+											
+											
+										</tr>
+									</tbody>
+								</table>
+							</div>
+		  </div>
+		 <div class="row">
+							<div class="panel panel-primary">
+								<table
+									class="table table-bordered table-condensed table-head-color">
+									<thead>
+										<tr>
+										    <th class="TableHeaderalignment" style="width: 2%">
+                                            	<input type="checkbox" ng-model="allPaquetChecked" ng-change = "allPaquet()"/>
+                                            </th>
+											<th class="TableHeaderalignment" style="width: 5%">Ordre</th>
+											<th class="TableHeaderalignment" style="width: 15%">Numero Paquet</th>
+											<th class="TableHeaderalignment" style="width: 25%">TAILLE</th>
+											<th class="TableHeaderalignment" style="width: 25%">COULEUR</th>
+											<th class="TableHeaderalignment" style="width: 5%">QUANTITE</th>
+											<th class="TableHeaderalignment" style="width: 15%">NUM MATELAS</th>
+										</tr>
+									</thead>
+									<tbody ui-sortable ng-model="finalPaquetsList">
+										<tr ng-repeat="item in finalPaquetsList track by $index "
+											style="cursor: move;">
+											<td class="TableHeaderalignment"><input type="checkbox" class="chkbox" ng-model="finalPaquetsList[$index].checked" ng-change="sendPaquetId($index, finalPaquetsList[$index].id,
+											finalPaquetsList[$index].checked)"/> </td>
+										<td class="TableHeaderalignment" >{{item.ordre}}</td>
+										<td class="TableHeaderalignment"><input type="text" class="form-control"
+												ng-model="item.num" disabled/></td>
+										<td class="TableHeaderalignment">
+												<select class="form-control" ng-model="item.tailleId" disabled>
+													<option ng-repeat="pi in listTailles" value="{{pi.id}}">{{pi.designation}}</option>
+												</select>
+										 </td>
+										<td class="TableHeaderalignment">
+												<select  class="form-control" disabled ng-model="item.couleurId" >
+													<option ng-repeat="pi in listCouleurs" value="{{pi.id}}">{{pi.designation}}</option>
+												</select>
+										 </td>					
+										<td class="TableHeaderalignment" ><input type="text" class="form-control" 
+												ng-model="item.quantite" disabled/></td>
+											<td class="TableHeaderalignment" ><input type="text" class="form-control" 
+												ng-model="item.numMatelas" disabled/></td>
+											
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+						</div>
+
+	<!-- Popup de la suppression -->
+	<div id="light" class="white_content">
+		<pop-up type="delete-article"></pop-up>
+	</div>
+	<div id="fade" class="black_overlay"></div>
+	<!-- Fin Popup de la suppression -->
+	
+
+
+				
+				
+		</div>
+	</div>
+</div>
+

@@ -1,0 +1,195 @@
+<div class="container-fluid">
+	<div class="row">
+
+		<div class="col-sm-1">
+			<ul class="nav-gproS">
+
+				<li>
+					<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+						ng-click="goPersonnel()">Personnel</a>
+				</li>
+
+
+				<li>
+					<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+						ng-click="goFicheSuiveuse()">F.Suiveuse
+					</a>
+				</li>
+
+
+				<li>
+					<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+						ng-click="goFeuilleSaisie()">Suivi/Poste</a>
+				</li>
+
+				<li>
+					<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+						ng-click="goDetailsSuiviTR()">Suivi/PDA</a>
+				</li>
+
+				<li class="active">
+					<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+						ng-click="goDetailsSaisie()">Detail Saisie</a>
+				</li>
+
+				<li>
+					<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+						ng-click="goAvancementOF()">Avct OF</a>
+				</li>
+
+				<li>
+					<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+						ng-click="goDetailsSuivi()">D&eacute;tails Suivi</a>
+				</li>
+
+				<li>
+					<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" href="#/GpaoMenu"
+						ng-click="goFeuilleSaisieJournalier()">SuiviGlobal</a>
+				</li>
+
+
+
+
+
+			</ul>
+		</div>
+
+		<div class="col-sm-11 cadreERP" ng-controller="DetailsSaisieController" style="background-color: #fff;">
+
+
+			<!-- Critere de recherche -->
+			<div class="row" ng-show="displayMode != 'edit'">
+				<div class="col-sm-12 ">
+					<div class="title-ajout">Crit&eacute;re de recherche</div>
+					<div class="panel panel-primary">
+						<div class="panel-body collapse in">
+							<form class="form-horizontal" name="rechercheDetailsSaisieForm" id="rechercheDetailsSaisieForm">
+
+								<div class="form-group">
+									<div class="row">
+										<div class="col-sm-4">
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon label1" id="basic-addon1">Matricule
+												</span> <select ui-select2 ng-model="detailsSaisieCourante.matricule"
+													ng-init="detailsSaisieCourante.matricule=''" data-placeholder="..." style="width: 100%">
+													<option value="">Tout les Matricules</option>
+													<option ng-repeat="pi in listMatricule" value="{{pi.matricule}}">{{pi.matricule}}</option>
+												</select>
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<div class="input-group">
+												<span class="input-group-addon label1" id="basic-addon1">Paquet
+												</span> <input type="number" class="form-control" ng-model="detailsSaisieCourante.paquetId" />
+											</div>
+										</div>
+
+
+										<!-- 		<div class="col-sm-4">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">R&eacute;f.OF
+										</span> <select ui-select2 ng-model="detailsSaisieCourante.ofId"
+											ng-init="detailsSaisieCourante.ofId =''"
+											data-placeholder="..." style="width: 100%">
+											<OPTION value="">Tous les R&eacute;f.OF</OPTION>
+											<option ng-repeat="of in listeOFDrop" value="{{of.id}}">{{of.numero}}</option>
+										</select>
+									</div>
+								</div> -->
+
+										<div class="col-sm-3">
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon label1" id="basic-addon1">OF
+												</span> <input type="text" class="form-control"
+													ng-model="detailsSaisieCourante.ordreFabricationNumero"
+													ng-init="detailsSaisieCourante.ordreFabricationNumero =''" ng-change="ofChanged()">
+											</div>
+										</div>
+
+
+										<div class="col-sm-1">
+											<div class="input-group input-group-sm">
+												<button type="button" class="btn btn-action" ng-style="numOfVerifier == 'true' && myStyleBtnOF"
+													ng-click="validerOF(detailsSaisieCourante.ordreFabricationNumero,'SEARCH')">Vérifier</button>
+											</div>
+										</div>
+
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="row">
+										<div class="col-sm-4" ng-controller="DatepickerDemoController">
+											<div class="input-group">
+												<span class="input-group-addon label1" id="basic-addon1">Date
+													Saisie DE:</span> <input type="text" class="form-control datepicker"
+													datepicker-popup="{{format}}" ng-init="detailsSaisieCourante.dateSaisieMin =''"
+													ng-model="detailsSaisieCourante.dateSaisieMin" is-open="opened"
+													datepicker-options="dateOptions" date-="enabled(date, mode)" close-text="Close" />
+												<div class="input-group-btn">
+													<button type="button" class="btn1 btn-default" ng-click="open($event)">
+														<i class="glyphicon glyphicon-calendar"></i>
+													</button>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-4" ng-controller="DatepickerDemoController">
+											<div class="input-group">
+												<span class="input-group-addon label1" id="basic-addon1">A
+												</span> <input type="text" class="form-control datepicker" datepicker-popup="{{format}}"
+													ng-init="detailsSaisieCourante.dateSaisieMax =''"
+													ng-model="detailsSaisieCourante.dateSaisieMax" is-open="opened"
+													datepicker-options="dateOptions" date-="enabled(date, mode)" close-text="Close" />
+												<div class="input-group-btn">
+													<button type="button" class="btn1 btn-default" ng-click="open($event)">
+														<i class="glyphicon glyphicon-calendar"></i>
+													</button>
+												</div>
+											</div>
+										</div>
+
+
+										<!-- 						        <div class="col-sm-4"> -->
+
+										<div class="col-sm-4">
+											<div class="input-group">
+												<span class="input-group-addon label1" id="basic-addon1">
+													Operation</span> <select ui-select2 ng-model="detailsSaisieCourante.operation"
+													ng-init="detailsSaisieCourante.operation =''" data-placeholder="..." style="width: 100%">
+													<option value="">Toutes les Operations</option>
+													<option ng-repeat="pi in listCodes" value="{{pi.id}}">{{pi.designation}}</option>
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+							</form>
+
+							<div class="pull-right">
+								<button class="btn-action btn"
+									ng-click="rechercheDetailsSaisie(detailsSaisieCourante)">Rechercher</button>
+								<button class="btn-action btn" ng-click="annulerAjout()">Annuler</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- container Grid-->
+			<div class="row" ng-show="displayMode != 'edit'">
+				<div class="col-md-12">
+					<div class="title-ajout line">Resultats de Recherche</div>
+					<div style="height: 500px;" ng-grid="gridOptions"></div>
+				</div>
+			</div>
+
+			<!-- Popup de la suppression -->
+			<div id="light" class="white_content">
+				<pop-up type="delete-article"></pop-up>
+			</div>
+			<div id="fade" class="black_overlay"></div>
+			<!-- Fin Popup de la suppression -->
+		</div>
+
+	</div>
+</div>

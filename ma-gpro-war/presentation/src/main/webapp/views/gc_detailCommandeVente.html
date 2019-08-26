@@ -1,0 +1,173 @@
+
+<div class="container-fluid">
+	<div class="row">
+		<!-- Menu De Gauche -->
+		<div class="col-sm-1">
+			<ul class="nav-gproS" >
+				<!-- <li><a class="btn btn-action pull-right menuH"
+					href="#/gc_vente">Facture</a></li>
+				<li><a class="btn btn-action pull-right menuH"
+					href="#/gc_vente">Devis</a></li>
+				<li><a class="btn btn-action pull-right menuH"
+					href="#/gc_vente">BL</a></li> -->
+				<li class="active"><a class="btn btn-action pull-right menuH"
+					href="#/gc_vente">BC</a></li>
+			</ul>
+		</div>
+
+		<!-- Front -->
+		<div class="col-sm-11 cadreERP" ng-controller="ProduitCommandeVenteCtrl">
+			<!-- Critère de recherche -->
+			<div class="panel-body" ng-show="displayMode != 'edit'">
+
+				<div class="title-ajout">Critères de recherche</div>
+				<div class="panel panel-primary">
+					<div class="panel-body">
+						<form class="form-horizontal" id="rechercheSSForm"
+							name="rechercheSSForm">
+							<div class="form-group">
+								<div class="row">
+									<div class="col-sm-3">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Réf. Commande
+											</span> <input type="text" class="form-control"
+												ng-init="produitCommandeVenteCourant.refCommande =''"
+												ng-model="produitCommandeVenteCourant.refCommande">
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Client
+											</span> 
+											<select ui-select2
+											ng-model="produitCommandeVenteCourant.clientId"
+											ng-init="produitCommandeVenteCourant.clientId =''"
+											data-placeholder="..." style="width: 100%">
+											<OPTION value="">Tous les Clients</OPTION>
+											<option ng-repeat="pi in ListClientCommandeVenteCache"
+												value="{{pi.id}}">{{pi.abreviation}}</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">
+												Produit </span> 
+												<select ui-select2
+												ng-model="produitCommandeVenteCourant.produitId"
+												ng-init="produitCommandeVenteCourant.produitId =''"
+												data-placeholder="..." style="width: 100%">
+												<OPTION value="">Tous les Produits</OPTION>
+												<option ng-repeat="pi in listProduitDrop"
+													value="{{pi.id}}">{{pi.designation}}</option>
+												</select>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="row">
+									<div class="col-sm-3" ng-controller="DatepickerDemoController">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Date
+												Commande de</span> <input type="text"
+												class="form-control datepicker"
+												datepicker-popup="{{format}}"
+												ng-init="commandeVenteCourante.dateCommandeMin =''"
+												ng-model="commandeVenteCourante.dateCommandeMin"
+												is-open="opened" datepicker-options="dateOptions"
+												date-="enabled(date, mode)" ng-required="true"
+												close-text="Close" />
+											<div class="input-group-btn">
+												<button type="button" class="btn btn-default"
+													ng-click="open($event)">
+													<i class="glyphicon glyphicon-calendar"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3" ng-controller="DatepickerDemoController">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">A
+											</span> <input type="text" class="form-control datepicker"
+												datepicker-popup="{{format}}"
+												ng-init="commandeVenteCourante.dateCommandeMax =''"
+												ng-model="commandeVenteCourante.dateCommandeMax"
+												is-open="opened" datepicker-options="dateOptions"
+												date-="enabled(date, mode)" ng-required="true"
+												close-text="Close" />
+											<div class="input-group-btn">
+												<button type="button" class="btn btn-default"
+													ng-click="open($event)">
+													<i class="glyphicon glyphicon-calendar"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3" ng-controller="DatepickerDemoController">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Date
+												Livraison de</span> <input type="text"
+												class="form-control datepicker"
+												datepicker-popup="{{format}}"
+												ng-init="produitCommandeVenteCourant.dateLivraisonMin =''"
+												ng-model="produitCommandeVenteCourant.dateLivraisonMin"
+												is-open="opened" datepicker-options="dateOptions"
+												date-="enabled(date, mode)" ng-required="true"
+												close-text="Close" />
+											<div class="input-group-btn">
+												<button type="button" class="btn btn-default"
+													ng-click="open($event)">
+													<i class="glyphicon glyphicon-calendar"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3" ng-controller="DatepickerDemoController">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">A
+											</span> <input type="text" class="form-control datepicker"
+												datepicker-popup="{{format}}"
+												ng-init="produitCommandeVenteCourant.dateLivraisonMax =''"
+												ng-model="produitCommandeVenteCourant.dateLivraisonMax"
+												is-open="opened" datepicker-options="dateOptions"
+												date-="enabled(date, mode)" ng-required="true"
+												close-text="Close" />
+											<div class="input-group-btn">
+												<button type="button" class="btn btn-default"
+													ng-click="open($event)">
+													<i class="glyphicon glyphicon-calendar"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+						<div class="pull-right">
+							<button class="btn-action btn" ng-click="downloadAllBesoinArticle(produitCommandeVenteCourant)">Besoin Article</button>
+							<button class="btn-action btn" ng-click="downloadAllProduitCommandeVente(produitCommandeVenteCourant)">Générer</button>
+							<button class="btn-action btn"
+								ng-click="rechercherProduitCommandeVente(produitCommandeVenteCourant)">Recherecher</button>
+							<button class="btn-action btn" ng-click="annulerAjout()">Annuler</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- ng-grid -->
+			<div class="panel-body" ng-show="displayMode != 'edit'">
+				<div class="col-md-12">
+					<div class="title-ajout line">Liste des Produits commandés</div>
+					<div style="height: 500px;" ng-grid="gridOptions"></div>
+				</div>
+			</div>
+
+			<!-- popup Delete -->
+			<div id="light" class="white_content">
+				<pop-up type="delete-produitCommande"></pop-up>
+			</div>
+			<div id="fade" class="black_overlay"></div>
+		</div>
+	</div>
+</div>

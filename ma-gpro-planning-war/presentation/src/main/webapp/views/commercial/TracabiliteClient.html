@@ -1,0 +1,118 @@
+<div class="container-fluid" ng-controller="amChartsController">
+	<div class="row" ng-show="displayMode != 'edit'">
+		<!-- Critere de recherche -->
+		<div class="col-sm-12">
+			<div class="title-ajout">Crit&eacute;res de recherche</div>
+			<div class="panel panel-primary">
+				<div class="panel-body">
+					<form class="form-horizontal" id="rechercheOFForm" novalidate name="rechercheOFForm">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Annee
+										</span>
+										<select ui-select2
+											ng-model="objectCourant.annee"
+											ng-init="objectCourant.annee =''"
+											data-placeholder="..." style="width: 100%">
+											<option value="">Tous</option>
+											<option ng-repeat="anneeElem in listeAnneess"
+												value="{{anneeElem}}">{{anneeElem}}</option>
+											</select>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">Client</span> 
+											<select ui-select2
+											ng-model="objectCourant.idClient"
+											ng-init="objectCourant.idClient =''"
+											data-placeholder="..." style="width: 100%">
+														<option value="">Tous</option>
+											<option ng-repeat="pi in listePartieInteresseeCache"
+												value="{{pi.id}}">{{pi.raisonSociale}}</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3">
+										<div class="input-group">
+											<span class="input-group-addon label1" id="basic-addon1">Debut</span>
+											<select ui-select2
+											ng-model="objectCourant.semainesDeb"
+											ng-init="objectCourant.semainesDeb =''"
+											data-placeholder="..." style="width: 100%">
+											<option value="">Tous</option>
+											<option ng-repeat="debut in listSemainesDeb"
+											value="{{debut}}">{{debut}}</option>
+											</select>
+											
+										</div>
+								</div>
+								<div class="col-sm-3">
+										<div class="input-group">
+											<span class="input-group-addon label1" id="basic-addon1">Fin</span>
+											<select ui-select2
+											ng-model="objectCourant.semainesFin"
+											ng-init="objectCourant.semainesFin =''"
+											data-placeholder="..." style="width: 100%">
+											<option value="">Tous</option>
+											<option ng-repeat="fin in listSemainesFin"
+											value="{{fin}}">{{fin}}</option>
+											</select>
+											
+										</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-4">	
+									<div class="pull-right">
+											<button class="btn-primary btn "
+															ng-click="rechercheCapaciteClient(objectCourant)">Recherecher</button>
+											<button class="btn-primary btn "
+															ng-click="rechercherOrdreFabrication(ordreFabricationCourant)">Annuler</button>
+									</div>		
+								</div>
+							</div>
+						</div>
+					
+					</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>				
+<!-- Grid OF -->
+<div class="col-sm-12">
+	<div class="title-ajout"></div>
+			<div class="panel panel-primary">
+				<div class="panel-body">			
+	<div class="row" ng-show="displayMode != 'edit'">
+		<div class="col-md-12">
+			<div class="title-ajout line">Reponse Clients</div>
+			<div class="row" style="overflow-y: scroll;">
+				<div style="height: 500px; width: 1400px;">
+				<div id="chartdiv11" style="width: 100%; height: 310px;"></div>	
+				<div class="amcharts-export-menu amcharts-export-menu-top-right amExportButton active"><ul><li class="export-main"><a href="#"><span>menu.label.undefined</span></a><ul><li><a href="#"><span>Download as ...</span></a><ul><li><a href="#"><span>PNG</span></a></li><li><a href="#"><span>JPG</span></a></li><li><a href="#"><span>SVG</span></a></li><li><a href="#"><span>PDF</span></a></li></ul></li><li><a href="#"><span>Save as ...</span></a><ul><li><a href="#"><span>CSV</span></a></li><li><a href="#"><span>XLSX</span></a></li><li><a href="#"><span>JSON</span></a></li></ul></li><li><a href="#"><span>Annotate ...</span></a></li><li><a href="#"><span>Print</span></a></li></ul></li></ul></div>
+				<div id="legenddiv" style="border: 2px dotted #3f3; margin: 5px 0 20px 0;position: relative;"></div>
+			</div>
+			
+		</div>
+	</div>
+	<!-- Popup de la suppression -->
+	<!-- 		<div id="light" class="white_content"> -->
+	<!-- 			<pop-up type="delete-Of"></pop-up> -->
+	<!-- 		</div> -->
+	<!-- 		<div id="fade" class="black_overlay"></div> -->
+	<!-- Fin Popup de la suppression -->
+
+</div>
+
+</div>
+
+				</div>
+			</div>
+		

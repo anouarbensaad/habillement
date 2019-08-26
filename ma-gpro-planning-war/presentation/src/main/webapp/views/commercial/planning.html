@@ -1,0 +1,327 @@
+
+<style media="screen">
+.panel-body{padding: 5px!important}
+</style>
+<div class="container-fluid planning" ng-controller="planningController"
+style="background-color: #fff;">
+<div class="row">
+	<div class="col-sm-12">
+
+		<form name="rechercheSEForm" id="rechercheSEForm" novalidat>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-sm-3">
+						<div class="input-group input-group-sm">
+							<span class="input-group-addon label1" id="basic-addon1">Atelier</span>
+							<select class="form-control"
+							ng-model="listeChaineAtelier.atelier" >
+							<option value="">Tous les Ateliers</option>
+							<option ng-repeat="atelier in listeChaineAtelier" value="{{atelier.id}}">{{atelier.nom}}</option>
+						</select>
+					</div>
+				</div>
+				<div class="pull-right">
+					<button class="btn-action btn" ng-click="rechercherOrdreFabrication()" >Rechercher</button>
+				</div>
+			</div>
+		</form>
+		<uib-accordion close-others="oneAtATime" >
+			<div uib-accordion-group class="panel-default">
+				<div class="row">
+					<div class="input-icon right mb10 col-md-3 pull-right">
+						<input placeholder="Taper un terme de recherche" type="text"
+						ng-model="filterOptions.filterText" class="form-control" style="height:25px;margin">
+					</div>
+				</div>
+				<uib-accordion-heading > Liste des OF <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+				</uib-accordion-heading>
+				<div class="row">
+					<div class="col-md-12">
+						<div style="height: 35vh;" ng-grid="gridOptions"></div>
+					</div>
+				</div>
+			</div>
+		</uib-accordion>
+		<uib-accordion close-others="oneAtATime">
+			<div uib-accordion-group class="panel-default">
+				<uib-accordion-heading> Affectation OF <i
+					class="pull-right glyphicon"
+					ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+				</uib-accordion-heading>
+				<div class="form-group">
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="input-group input-group-sm"  >
+								<span class="input-group-addon label1" id="basic-addon1" >OF
+								</span> <input type="text" class="form-control" disabled
+								ng-model="ofCourant.referenceOf" value="ofCourant.idOF">
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="input-group input-group-sm"  >
+								<span class="input-group-addon label1" id="basic-addon1">Client
+								</span> <input type="text" class="form-control" ng-model="ofCourant.partieInterresAbreviation" >
+							</div>
+						</div>
+
+						<div class="col-sm-3">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">R&eacute;ference
+								</span> <input type="text" class="form-control" ng-model="ofCourant.produitReference" disabled>
+							</div>
+						</div>
+
+						<div class="col-sm-3">
+							<div class="input-group input-group-sm" >
+								<span class="input-group-addon label1" id="basic-addon1">d&eacute;s.Produit</span>
+								<input type="text" class="form-control" ng-model="ofCourant.produitDesignation" ng-disabled="ofCourant.mode == 'edit'" >
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Qte.Total</span>
+								<input type="text" class="form-control" ng-model="ofCourant.quantite">
+							</div>
+						</div>
+
+						<div class="col-sm-3">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Qte
+									affectee</span> <input type="text" class="form-control" disabled
+									ng-model="ofCourant.quantitePlanifie">
+								</div>
+							</div>
+						
+						<div class="col-sm-3" ng-hide="ofCourant.mode == 'edit'" ng-show="ofCourant.mode == 'add'">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Chaine
+								</span> 
+								<select ui-select2
+								ng-model="ofCourant.idChaine"
+								ng-init="ofCourant.idChaine=''"
+								data-placeholder="..." style="width: 100%"  ng-change="change()" >
+								<option  ng-repeat=" chaine in chainesList " value="{{chaine.id}}">{{chaine.designation}}</option>
+								</select>
+							</div>
+						</div>
+					
+						<div class="col-sm-3" ng-hide="ofCourant.mode == 'add'" ng-show="ofCourant.mode == 'edit'">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Chaine
+								</span> <input type="text" class="form-control" ng-model="ofCourant.designation" value="ofCourant.idChaine" disabled>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Cadence
+								</span> <input type="text" class="form-control"
+								ng-model="ofCourant.cadence">
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
+<div class="form-group">
+	<div class="row">
+
+		<div class="col-sm-3" ng-controller="DatepickerDemoController" ng-disabled="ofCourant.mode == 'edit'">
+			<div class="input-group input-group-sm"  id='datetimepickerDeb'>
+				<span class="input-group-addon label1" id="basic-addon1">Date
+					Debut<i style="color: red">*</i></span> <input type="text" class="form-control"
+					uib-datepicker-popup="{{format}}" timepicker
+
+					ng-model="ofCourant.dateDebut" is-open="opened"
+					uib-datepicker-options="dateOptions" date-="enabled(date, mode , timepicker)"
+					close-text="Close" />
+					<div class="input-group-btn">
+						<button type="button" class="btn btn-default"
+						ng-click="open($event)">
+						<i class="glyphicon glyphicon-calendar"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-3" ng-controller="DatepickerDemoController" ng-disabled="ofCourant.mode == 'edit'" >
+			<div class="input-group date input-group-sm">
+				<span class="input-group-addon label1" id="basic-addon1">Date
+					Livraison<i style="color: red">*</i></span>
+					<input type="text" class="form-control"
+					uib-datepicker-popup="{{format}}" timepicker
+					ng-model="ofCourant.dateLivraison" is-open="true" uib-datepicker-options="dateOptions"
+					close-text="Close"  />
+					<span
+					class="input-group-btn">
+					<button type="button" class="btn btn-default" ng-click="open2()">
+						<i class="glyphicon glyphicon-calendar"></i>
+					</button>
+				</span>
+			</div>
+		</div>
+		<div class="col-sm-3"   ng-hide="ofCourant.mode == 'add'">
+			<div class="input-group date input-group-sm" >
+				<span class="input-group-addon label1" id="basic-addon1">Date fin 
+					<i style="color: red">*</i>
+				</span>
+				<input  type="text" class="form-control" ng-model="ofCourant.dateFinReel" disabled />
+				<!--<quick-datepicker date-format='dd-mm-yyyy' time-format="HH:mm"
+						ng-model='ofCourant.dateFinReel' >
+							
+			    </quick-datepicker> 	-->	
+			</div>
+		</div>
+		<div class="col-sm-3"  ng-hide="ofCourant.mode != 'edit'" ng-show="ofCourant.mode == 'edit'">
+			<div class="input-group">
+
+				<span class="input-group-addon label1" id="basic-addon1">Decalage
+				</span> <select class="form-control"
+					ng-model="ofCourant.decaler"
+					ng-disabled="selectChoice">
+					<OPTION value="true" selected>oui</OPTION>
+					<OPTION value="false">non</OPTION>
+				</select>
+			</div>
+		</div>
+		<div class="col-sm-3"  ng-hide="ofCourant.mode != 'add'" ng-show="ofCourant.mode == 'add'">
+			<div class="input-group">
+
+				<span class="input-group-addon label1" id="basic-addon1">Insertion
+				</span> <select class="form-control"
+					ng-model="ofCourant.decaler"
+					ng-disabled="selectChoice">
+					<OPTION value="true" >oui</OPTION>
+					<OPTION value="false" selected>non</OPTION>
+				</select>
+			</div>
+		</div>
+
+
+
+</div>
+<div class="row">
+
+		<div class="col-sm-4"   ng-hide="ofCourant.mode != 'edit'">
+			<div class="input-group date input-group-sm" >
+				<span class="input-group-addon label1" id="basic-addon1">D&eacute;but Actuel  
+				</span>
+				<input  type="text" class="form-control" ng-model="ofCourant.datedeb" disabled />
+					
+			</div>
+		</div>
+</div>
+
+<div class="pull-right" style="margin-top:10px">
+	<button ng-if="ofCourant.mode == 'add'" class="btn btn-primary"
+	ng-click="enregistrerOFChaine()" >Enregistrer</button>
+	<button ng-if="ofCourant.mode == 'edit'" class="btn btn-action"
+	ng-click="enregistrerOFChaine()"  >Enregistrer</button>
+
+	<button ng-if="ofCourant.mode == 'edit'" class="btn btn-action"
+	ng-click="deleteEvent()">Supprimer</button>
+	<button ng-if="ofCourant.mode == 'edit' &&  ofCourant.dateDebut <= ofCourant.dateFinReel && ofCourant.dateDebut >= ofCourant.datedeb" class="btn btn-action"
+		ng-click="arreterEvent()">Arreter  </button>
+		<button class="btn-primary btn" ng-click="annulerAjout()">Annuler</button>
+	</div>
+</div>
+
+
+
+</div>
+</uib-accordion>
+
+
+<uib-accordion close-others="oneAtATime">
+
+	<div uib-accordion-group class="panel-default"
+	ng-repeat="chaine in chainesList" value="{{chaine.id}}" name="{{chaine.designation}}">
+	<uib-accordion-heading> {{chaine.designation}}
+		<i class="pull-right glyphicon"
+		ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+	</uib-accordion-heading>
+	<div class="row">
+
+		<div class="col-sm-12">
+
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<form class="form-horizontal" name="form" id="form">
+						<div class="form-group">
+							<div class="row">
+								<div class="panel-body">
+									<div class="calendar-container col-md-12">
+										<div class="panel-body">
+											<div class="panel-body">
+												<div class="form-group">
+													<div class="row">
+														<div class="col-sm-3">
+															<h1 class="btn-group">{{ calendarTitle }}</h1>
+														</div>
+														<div class="col-md-4">
+															<div class="btn-group">
+																<button class="btn btn-success" mwl-date-modifier
+																date="viewDate" decrement="calendarView"
+																ng-click="setView()">Pr&eacute;c&eacute;dent</button>
+																<button class="btn btn-default" mwl-date-modifier date="viewDate" set-to-today
+																ng-click="cellIsOpen = false"> Aujourd'hui
+															</button>
+															<button class="btn btn-success" mwl-date-modifier
+															date="viewDate" increment="calendarView"
+															ng-click="setView()">Suivant</button>
+														</div>
+													</div>
+													<div class="col-md-4">
+														<div class="btn-group">
+															<label class="btn btn-primary" ng-model="calendarView" uib-btn-radio="'year'" ng-click="setView('year')">Ann&eacute;e</label>
+
+															<label class="btn btn-primary" ng-model="calendarView"
+															uib-btn-radio="'month'" ng-click="setView('month')">Mois</label>
+
+															<label class="btn btn-primary" ng-model="calendarView" uib-btn-radio="'week'" ng-click="setView('week')">Semaine</label>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!--<br class="visible-xs visible-sm">-->
+
+											<div class="col-md-12 text-center">
+												<div>
+													<div class="panel-default" >
+														<mwl-calendar events="events[$index]" view="calendarView"
+														view-date="viewDate"
+														view-title="calendarTitle"
+														cell-is-open="cellIsOpen"
+														ng-model="eventSources"
+														cell-auto-open-disabled="true"
+														on-event-click="affecterOFCalendar(calendarEvent)"
+														on-event-times-changed="calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
+														cell-modifier="modifyCell(calendarCell)"
+														cell-auto-open-disabled="true"
+														on-timespan-click="timespanClicked(calendarDate, calendarCell)"
+														cell-is-open="true"
+														>
+													</mwl-calendar>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				</form>
+			</div>
+		</uib-accordion>
+	</div>
+</div>
+</div>
+<!-- container : controller -->
+<!--<div ng-controller="amChartsController" style="height: 400px; width: 600px;">
+<am-chart id="myFirstChart" options="amChartOptions"></am-chart>
+</div>-->

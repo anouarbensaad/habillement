@@ -1,0 +1,781 @@
+<div class="container-fluid" ng-controller="GpaoCtrl">
+		<div class="row" ng-show="displayMode != 'edit'">
+			<div class="col-sm-12">
+				<button class="btn btn-action2 pull-right"
+					ng-click="AffectationOF(ordreFabricationCourant)" ng-disabled="">Ajouter</button>
+			</div>
+			<!-- Critere de recherche -->
+			<div class="col-sm-12">
+				<div class="title-ajout">Crit&eacute;res de recherche</div>
+				<div class="panel panel-primary">
+				<div class="panel-body">
+					<form class="form-horizontal" id="rechercheOFForm"
+						name="rechercheOFForm">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">N°
+											OF </span> <input class="form-control"
+											ng-init="ordreFabricationCourant.vNumero =''"
+											ng-model="ordreFabricationCourant.vNumero" />
+									</div>
+								</div>
+<!-- 								<div class="col-sm-3"> -->
+<!-- 									<div class="input-group input-group-sm"> -->
+<!-- 										<span class="input-group-addon label1" id="basic-addon1">N°BC -->
+<!-- 										</span> <select ui-select2 -->
+<!-- 											ng-model="ordreFabricationCourant.vCompositionBC" -->
+<!-- 											ng-init="ordreFabricationCourant.vCompositionBC =''" -->
+<!-- 											data-placeholder="..." style="width: 100%"> -->
+<!-- 											<OPTION value="">Tous les B.C</OPTION> -->
+<!-- 											<option ng-repeat="commande in listCommandeVenteDrop" -->
+<!-- 												value="{{commande.id}}">{{commande.reference}}</option> -->
+<!-- 											</select> -->
+<!-- 									</div> -->
+<!-- 								</div> -->
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Client
+										</span>
+										<select ui-select2
+											ng-model="ordreFabricationCourant.clientId"
+											ng-init="ordreFabricationCourant.clientId =''"
+											data-placeholder="..." style="width: 100%">
+											<OPTION value="">Tous les Clients</OPTION>
+											<option ng-repeat="client in ListClientOFCache"
+												value="{{client.id}}">{{client.abreviation}}</option>
+											</select>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Produit
+										</span><select ui-select2
+											ng-model="ordreFabricationCourant.produitId"
+											ng-init="ordreFabricationCourant.produitId =''"
+											data-placeholder="..." style="width: 100%">
+											<OPTION value="">Tous les Produits</OPTION>
+											<option ng-repeat="produit in listProduitDrop"
+												value="{{produit.id}}">{{produit.reference}}</option>
+											</select>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-3" ng-controller="DatepickerDemoController">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Date
+											Introduction </span> <input type="text"
+											class="form-control datepicker" datepicker-popup="{{format}}"
+											ng-init="ordreFabricationCourant.vDateIntroductionDu =''"
+											ng-model="ordreFabricationCourant.vDateIntroductionDu"
+											is-open="opened" datepicker-options="dateOptions"
+											date-="enabled(date, mode)" ng-required="true"
+											close-text="Close" />
+										<div class="input-group-btn">
+											<button type="button" class="btn btn-default"
+												ng-click="open($event)">
+												<i class="glyphicon glyphicon-calendar"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-3" ng-controller="DatepickerDemoController">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">A
+										</span> <input type="text" class="form-control datepicker"
+											datepicker-popup="{{format}}"
+											ng-init="ordreFabricationCourant.vDateIntroductionAu =''"
+											ng-model="ordreFabricationCourant.vDateIntroductionAu"
+											is-open="opened" datepicker-options="dateOptions"
+											date-="enabled(date, mode)" ng-required="true"
+											close-text="Close" />
+										<div class="input-group-btn">
+											<button type="button" class="btn btn-default"
+												ng-click="open($event)">
+												<i class="glyphicon glyphicon-calendar"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-3" ng-controller="DatepickerDemoController">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Date
+											Livraison </span> <input type="text" class="form-control datepicker"
+											datepicker-popup="{{format}}" 
+											ng-init="ordreFabricationCourant.dateLivraisonDu =''"
+											ng-model="ordreFabricationCourant.dateLivraisonDu" 
+											is-open="opened"
+											datepicker-options="dateOptions" date-="enabled(date, mode)"
+											ng-required="true" close-text="Close" />
+										<div class="input-group-btn">
+											<button type="button" class="btn btn-default"
+												ng-click="open($event)">
+												<i class="glyphicon glyphicon-calendar"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-3" ng-controller="DatepickerDemoController">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">A
+										</span> <input type="text" class="form-control datepicker"
+											datepicker-popup="{{format}}"
+											ng-init="ordreFabricationCourant.vDateIntroductionTo =''"
+											ng-model="ordreFabricationCourant.vDateIntroductionTo" is-open="opened"
+											datepicker-options="dateOptions" date-="enabled(date, mode)"
+											ng-required="true" close-text="Close" />
+										<div class="input-group-btn">
+											<button type="button" class="btn btn-default"
+												ng-click="open($event)">
+												<i class="glyphicon glyphicon-calendar"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">Etat</span>
+										<select class="form-control"
+											ng-init="ordreFabricationCourant.vEtat =''"
+											ng-model="ordreFabricationCourant.vEtat">
+											<option ng-repeat="etat in listeEtatOrdreFabrication"
+												value="{{etat.id}}">{{etat.designation}}</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+					<div class="pull-right">
+						<button class="btn-action btn" ng-click="downloadAllOrdreFabrication(ordreFabricationCourant)">Générer</button>
+						<button class="btn-action btn"
+							ng-click="rechercherOrdreFabrication(ordreFabricationCourant)">Recherecher</button>
+						<button class="btn-action btn" ng-click="annulerAjout()">Annuler</button>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+		<!-- container d'ajout,  modification et de consultation GPAO-->
+		<div class="row" ng-show="displayMode == 'edit'">
+			<div class="col-sm-12">
+				<div class="pull-right">
+					<button class="btn btn-action"
+						ng-click="sauvegarderAjout(ordreFabricationCourant)"
+						ng-disabled="!creationOFForm.$valid || numeroExistError">Enregistrer</button>
+					<button class="btn-action btn" >Générer</button>
+					<button class="btn btn-action" ng-click="annulerAjout()">Retour</button>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="title-ajout">Ordre de Fabrication</div>
+				<div class="panel panel-primary">
+					<div class="panel-body">
+						<form name="creationOFForm" id="creationOFForm">
+							 <div class="row" ng-hide="hiddenNotif">
+								<div class="col-sm-3">
+									<span> 
+									<alert type="danger"
+											class="alert-danger"> <span
+											ng-bind-html=" alertMsg | safe_html"></span>
+										<a> <i class="fa fa-times close-notif" ng-click="closeNotif()"></i>
+										</a> </alert>
+									</span>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="row">
+									<div class="col-sm-3">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">N° OF<i
+											style="color: red">*</i>
+											 </span> <input type="text" class="form-control"
+												ng-model="ordreFabricationCourant.numero" required
+												ng-change="initNumeroErrorValue()">
+										</div>
+									</div>
+									<div class="col-sm-3" ng-show="creation">
+										<div class="input-group input-group-sm" >
+											<span class="input-group-addon label1" id="basic-addon1">Quantité
+											</span>
+											 <input type="text" class="form-control" ng-model="ordreFabricationCourant.quantite"
+												placeholder=""
+												disabled>
+										</div>
+									</div>
+									<div class="col-sm-3" ng-hide="creation">
+										<div class="input-group input-group-sm" >
+											<span class="input-group-addon label1" id="basic-addon1">Quantité
+											</span>
+											 <input type="text" class="form-control" ng-model="ordreFabricationCourant.quantite"
+												placeholder="{{ordreFabricationCourant.quantite}}"
+												disabled>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Etat
+											</span> <select class="form-control"
+												ng-model="ordreFabricationCourant.etat">
+												<option ng-repeat="etat in listeEtatOrdreFabrication"
+													value="{{etat.id}}">{{etat.designation}}</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Type
+											</span> <select class="form-control"
+												ng-model="ordreFabricationCourant.compositionOF[0].typeBC">
+												<option ng-repeat="typeBC in listTypeBCCache"
+													value="{{typeBC.id}}">{{typeBC.designation}}</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="row">
+									<div class="col-sm-3">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Client
+											</span> 
+											<!-- <select ui-select2
+												data-placeholder="---" style="width: 100%" ng-model="ordreFabricationCourant.partieInterresId">
+												<option ng-repeat="client in ListClientOFCache"
+													value="{{client.id}}">{{client.abreviation}}</option>
+											</select> -->
+											<input class="form-control"
+												readonly="readonly"
+												value="{{resultatRechercheProduit.clientAbreviation}}" />
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Réf.Produit
+											</span> 
+											<!-- modeCreation -->
+											<select ng-show="creation" ui-select2
+												data-placeholder="---" style="width: 100%" ng-model="id"
+												ng-change="remplirOrdreFabrication(id)">
+												<option ng-repeat="produit in listProduitDrop"
+													value="{{produit.id}}">{{produit.reference}}</option>
+											</select>
+											<!-- modeModification -->
+											<input ng-hide="creation" class="form-control"
+												readonly="readonly"
+												value="{{resultatRechercheProduit.reference}}" />
+										</div>
+									</div>
+									
+									<div class="col-sm-6">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Produit
+											</span>
+												<!-- modeCreation -->
+											<select ng-show="creation" ui-select2
+												data-placeholder="---" style="width: 100%" ng-model="id"
+												ng-change="remplirOrdreFabrication(id)">
+												<option ng-repeat="produit in listProduitDrop"
+													value="{{produit.id}}">{{produit.designation}}</option>
+											</select>
+											<!-- modeModification -->
+											<input ng-hide="creation" class="form-control"
+												readonly="readonly"
+												value="{{resultatRechercheProduit.designation}}" />
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="row">
+									<div class="col-sm-3">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Sous
+												Famille </span>
+											<input class="form-control"
+												readonly="readonly"
+												value="{{resultatRechercheProduit.sousFamilleDesignation}}" />
+										</div>
+									</div>
+									<div class="col-sm-3" ng-controller="DatepickerDemoController">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Date
+												Création</span> <input type="text"
+												class="form-control datepicker"
+												datepicker-popup="{{format}}" ng-model="ordreFabricationCourant.dateIntroduction" is-open="opened"
+												datepicker-options="dateOptions" date-="enabled(date, mode)"
+												 close-text="Close" />
+											<div class="input-group-btn">
+												<button type="button" class="btn btn-default"
+													ng-click="open($event)">
+													<i class="glyphicon glyphicon-calendar"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3" ng-controller="DatepickerDemoController">
+										<div class="input-group input-group-sm">
+											<span class="input-group-addon label1" id="basic-addon1">Date
+												Livraison</span> <input type="text"
+												class="form-control datepicker"
+												datepicker-popup="{{format}}" ng-model="ordreFabricationCourant.dateLivraison" is-open="opened"
+												datepicker-options="dateOptions" date-="enabled(date, mode)"
+												close-text="Close" />
+											<div class="input-group-btn">
+												<button type="button" class="btn btn-default"
+													ng-click="open($event)">
+													<i class="glyphicon glyphicon-calendar"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<!-- Quantit� Liste Creation-->
+					<div class=" hidden title-ajout" ng-show="creation">Quantité</div>
+					<div class="hidden panel-body" ng-show="creation">
+						<div class="form-group">
+							<div class="row">
+								<div class="panel panel-primary">
+									<table
+										class="table table-bordered table-condensed table-head-color">
+										<thead>
+											<tr>
+												<th style="width: 25%">numeroBC</th>
+												<th style="width: 25%">quantiteBC</th>
+												<th style="width: 25%">quantiteOF</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="quantite in listQuantiteProduitCommande">
+
+												<td><span editable-text="quantite.numeroBC"
+													e-name="numeroBC" e-form="rowform" e-required> {{
+														quantite.numeroBC || 'empty' }} </span></td>
+												<td><span editable-text="quantite.quantiteBC"
+													e-name="quantiteBC" e-form="rowform" e-required> {{
+														quantite.quantiteBC || 'empty' }} </span></td>
+												<td><input ng-model="qtOF[$index].quantiteOF" value="" class="form-control"
+													ng-change="changeQuantiteOF($index,qtOF[$index].quantiteOF, 'quantiteOF', ordreFabricationCourant)" />
+												</td>
+											</tr>
+									</table>
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Quantit� Liste Consultation / Modification -->
+					<div class="hidden title-ajout" ng-hide="creation">Quantit&eacute;</div>
+					<div class="hidden panel-body" ng-hide="creation">
+						<div class="form-group">
+							<div class="row">
+								<div class="panel panel-primary">
+									<table
+										class="table table-bordered table-condensed table-head-color">
+										<thead>
+											<tr>
+												<th style="width: 30%">numeroBC</th>
+												<th style="width: 30%">quantiteBC</th>
+												<th style="width: 30%">quantiteOF</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="composition in listCompositionOF">
+
+												<td>{{composition.numeroBC}}</td>
+												<td>{{composition.quantiteBC }}</td>
+												<td><a href="#"
+													editable-text="listCompositionOF[$index].quantite">{{
+														listCompositionOF[$index].quantite || 'empty' }}</a></td>
+											</tr>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Phases Liste Mode Creation-->
+					<div class="title-ajout" ng-show="creation">Phases</div>
+					<div class="panel-body" ng-show="creation">
+						<div class="form-group">
+							<div class="row">
+								<div class="panel panel-primary">
+									<table
+										class="table table-bordered table-condensed table-head-color">
+										<thead>
+											<tr>
+<!-- 												<th style="width: 3%">N&#176;</th> -->
+<!-- 												<th style="width: 10%">Phases</th> -->
+<!-- 												<th style="width: 3%">Externe</th> -->
+<!-- 												<th style="width: 5%">Chaine/Faconnier</th> -->
+<!-- 												<th style="width: 15%">Entr&eacute;e Pr&eacute;vue</th> -->
+<!-- 												<th style="width: 15%">Sortie Pr&eacute;vue</th> -->
+<!-- 												<th style="width: 10%">Prix</th> -->
+<!-- 												<th style="width: 10%">Devise</th> -->
+<!-- 												<th style="width: 4%">Factur&eacute;e</th> -->
+<!-- 												<th style="width: 15%">M&eacute;thode</th> -->
+<!-- 												<th></th> -->
+											<th style="width: 3%">N&#176;</th>
+												<th style="width: 5%">Phases</th>
+												<th style="width: 8%">Externe</th>
+												<th style="width: 10%">Chaine/Faconnier</th>
+												<th style="width: 15%">Entr&eacute;e Pr&eacute;vue</th>
+												<th style="width: 15%">Sortie Pr&eacute;vue</th>
+												<th style="width: 5%">Prix</th>
+												<th style="width: 5%">Devise</th>
+												<th style="width: 8s%">Factur&eacute;e</th>
+												<th style="width: 15%">M&eacute;thode</th>
+												<th></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr
+												ng-repeat="phaseProduit in listPhaseProduit track by $index">
+												<td>{{$index+1}}</td>
+												<td>
+													<span
+													editable-select="listPhaseProduit[$index].idPhase"
+													e-ng-options="s.id  as s.designation  for s in listPhaseCache| filter:filterPhase()"
+													e-ng-change="changePhaseProduit(listPhaseProduit[$index].idPhase, $index)">
+														{{refreshPhase(listPhaseProduit[$index].idPhase)}}
+														{{showPhaseDesigation(listPhaseProduit[$index].idPhase)}}
+													</span>
+												</td>
+												<td>
+													<!-- editable Produit (text with validation) --> <input
+													type="checkbox" id="externe" name="externe"
+													ng-model="externe" />
+												</td>
+												<td>
+													<!-- Chaine -->
+													<div class="form-group" ng-hide="externe">
+														<select class="form-control"
+															ng-model="listPhaseProduit[$index].chaineId">
+															<option ng-repeat="chaine in listeChaineOrdreFabrication"
+																value="{{chaine.id}}">{{chaine.designation}}</option>
+														</select>
+													</div> <!-- Client -->
+													<div class="form-group" ng-show="externe">
+														<select class="form-control"
+															ng-model="listPhaseProduit[$index].clientId">
+															<option ng-repeat="partieInteressee in ListClientOFCache"
+																value="{{partieInteressee.id}}">{{partieInteressee.abreviation}}</option>
+														</select>
+													</div>
+												</td>
+												<td ng-controller="DatepickerDemoController">
+													<div class="col-sm-12">
+														<div class="input-group input-group-sm">
+															<input ng-model="listPhaseProduit[$index].dateDebut"
+																class="form-control datepicker"
+																datepicker-popup="{{format}}" is-open="opened"
+																datepicker-options="dateOptions"
+																date-="enabled(date, mode)" ng-required="true"
+																close-text="Close" />
+															<div class="input-group-btn">
+																<button type="button" class="btn btn-default"
+																	ng-show="showBtnCalender" ng-click="open($event)">
+																	<i class="glyphicon glyphicon-calendar"></i>
+																</button>
+															</div>
+														</div>
+													</div>
+												</td>
+												<td ng-controller="DatepickerDemoController">
+													<div class="col-sm-12">
+														<div class="input-group input-group-sm">
+															<input ng-model="listPhaseProduit[$index].dateFin"
+																class="form-control datepicker"
+																datepicker-popup="{{format}}" is-open="opened"
+																datepicker-options="dateOptions"
+																date-="enabled(date, mode)" ng-required="true"
+																close-text="Close" />
+															<div class="input-group-btn">
+																<button type="button" class="btn btn-default"
+																	ng-show="showBtnCalender" ng-click="open($event)">
+																	<i class="glyphicon glyphicon-calendar"></i>
+																</button>
+															</div>
+														</div>
+													</div>
+												</td>
+												<td><a href="#"
+													editable-text="listPhaseProduit[$index].prix">{{
+														listPhaseProduit[$index].prix || 'empty' }}</a></td>
+												<td><span
+													editable-select="listPhaseProduit[$index].devise"
+													e-ng-options="s.id  as s.designation  for s in ListDeviseCache">
+														{{showDeviseDesigation(listPhaseProduit[$index].devise)}}
+												</span></td>
+												<td>
+													<!-- editable Produit (text with validation) --> <input
+													type="checkbox" id="facturee" name="facturee"
+													ng-model="listPhaseProduit[$index].facturee" />
+												</td>
+												<td>
+												<select class="form-control"
+													ng-model="listPhaseProduit[$index].methode">
+														<option ng-repeat="methode in listMethode"
+															value="{{methode.id}}">
+															{{methode.designation}}
+														</option>
+												</select></td>
+												<td style="white-space: nowrap">
+													<!-- form -->
+													<form editable-form name="rowform"
+														onbeforesave="savePhaseOF(listPhaseProduit[$index].idPhase, listPhaseProduit[$index].id)"
+														ng-show="rowform.$visible"
+														class="form-buttons form-inline"
+														shown="phaseProduitInserreeCreation == listPhaseProduit">
+
+														<button type="button" ng-disabled="rowform.$waiting"
+															ng-click="cancelAddOrdreFabrication(rowform, $index, phaseProduit.id, phaseProduit.designation, listPhaseProduit )"
+															class="btn btn-sm glyphicon glyphicon-remove"></button>
+													</form>
+													<div class="buttons" ng-show="!rowform.$visible">
+
+														<button data-nodrag
+															class="btn btn-sm glyphicon glyphicon-trash"
+															ng-click="removePhaseProduit($index)"></button>
+													</div>
+												</td>
+											</tr>
+									</table>
+
+									<button class="btn btn-action pull-right spacer2"
+										ng-click="ajoutPhaseOF(1)">Ajouter</button>
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Phases Liste Mode Modification / Consultation-->
+					<div class="title-ajout" ng-hide="creation">Phases </div>
+					<div class="panel-body" ng-hide="creation">
+						<div class="form-group">
+							<div class="row">
+								<div class="panel panel-primary">
+									<table
+										class="table table-bordered table-condensed table-head-color">
+										<thead>
+											<tr>
+<!-- 												<th style="width: 3%">N&#176;</th> -->
+<!-- 												<th style="width: 10%">Phases</th> -->
+<!-- 												<th style="width: 3%">Externe</th> -->
+<!-- 												<th style="width: 5%">Chaine/Faconnier</th> -->
+<!-- 												<th style="width: 15%">Entr&eacute;e Pr&eacute;vue</th> -->
+<!-- 												<th style="width: 15%">Sortie Pr&eacute;vue</th> -->
+<!-- 												<th style="width: 10%">Prix</th> -->
+<!-- 												<th style="width: 10%">Devise</th> -->
+<!-- 												<th style="width: 4%">Factur&eacute;e</th> -->
+<!-- 												<th style="width: 15%">M&eacute;thode</th> -->
+<!-- 												<th></th> -->
+												<th style="width: 3%">N&#176;</th>
+												<th style="width: 5%">Phases</th>
+												<th style="width: 8%">Externe</th>
+												<th style="width: 10%">Chaine/Faconnier</th>
+												<th style="width: 15%">Entr&eacute;e Pr&eacute;vue</th>
+												<th style="width: 15%">Sortie Pr&eacute;vue</th>
+												<th style="width: 5%">Prix</th>
+												<th style="width: 5%">Devise</th>
+												<th style="width: 8%">Factur&eacute;e</th>
+												<th style="width: 15%">M&eacute;thode</th>
+												<th></th>
+											</tr>
+										</thead>
+										<tbody>
+
+											<tr ng-repeat="phaseOF in listPhaseOF">
+												<td>{{$index+1}}</td>
+												<td>
+												 <span
+													editable-select="listPhaseOF[$index].phaseId"
+													e-ng-options="s.id  as s.designation  for s in listPhaseCache| filter:filterPhase()"
+													e-ng-change="changePhaseProduit(listPhaseOF[$index].phaseId,$index)"
+													e-form="rowform"> {{showPhaseDesigation(listPhaseOF[$index].phaseId)}}</span>
+													{{refreshPhase(listPhaseOF[$index].phaseId)}}
+												</td>
+												<td>
+													<!-- editable Produit (text with validation) --> <input
+													type="checkbox" id="externe" name="externe"
+													ng-model="externe" />
+												</td>
+												<td>
+													<!-- Chaine -->
+													<div class="form-group" ng-hide="externe">
+														<span editable-select="listPhaseOF[$index].chaineId"
+															e-ng-options="s.id as s.designation for s in listeChaineOrdreFabrication"
+															e-form="rowform"> {{
+															showChaineStatus(listPhaseOF[$index].chaineId) }} </span>
+													</div> 
+													<!-- Client -->
+													<div class="form-group" ng-show="externe">
+														<span editable-select="listPhaseOF[$index].clientId"
+															e-ng-options="s.id as s.abreviation for s in ListClientOFCache"
+															e-form="rowform"> {{
+															showPIStatus(listPhaseOF[$index].clientId) }} </span>
+													</div>
+												</td>
+												<td ng-controller="DatepickerDemoController">
+													<div class="col-sm-12">
+														<div class="input-group input-group-sm">
+															<input ng-model="listPhaseOF[$index].dateDebut"
+																class="form-control datepicker"
+																datepicker-popup="{{format}}" is-open="opened"
+																datepicker-options="dateOptions"
+																date-="enabled(date, mode)" ng-required="true"
+																close-text="Close" />
+															<div class="input-group-btn">
+																<button type="button" class="btn btn-default"
+																	ng-show="showBtnCalender" ng-click="open($event)">
+																	<i class="glyphicon glyphicon-calendar"></i>
+																</button>
+															</div>
+														</div>
+													</div>
+												</td>
+												<td ng-controller="DatepickerDemoController">
+													<div class="col-sm-12">
+														<div class="input-group input-group-sm">
+															<input ng-model="listPhaseOF[$index].dateFin"
+																class="form-control datepicker"
+																datepicker-popup="{{format}}" is-open="opened"
+																datepicker-options="dateOptions"
+																date-="enabled(date, mode)" ng-required="true"
+																close-text="Close" />
+															<div class="input-group-btn">
+																<button type="button" class="btn btn-default"
+																	ng-show="showBtnCalender" ng-click="open($event)">
+																	<i class="glyphicon glyphicon-calendar"></i>
+																</button>
+															</div>
+														</div>
+													</div>
+												</td>
+												<td><span editable-text="listPhaseOF[$index].prix"
+													e-name="prix" e-form="rowform" e-required> {{
+														listPhaseOF[$index].prix || 'empty' }} </span></td>
+												<td><span editable-select="listPhaseOF[$index].devise"
+													e-ng-options="s.id as s.designation for s in ListDeviseCache"
+													e-form="rowform"> {{
+														showDeviseDesigation(listPhaseOF[$index].devise) }} </span></td>
+												<td><input type="checkbox" id="facturee"
+													name="facturee" ng-model="listPhaseOF[$index].facturee" />
+												</td>
+												<td><span editable-select="listPhaseOF[$index].methode"
+													e-ng-options="s.id as s.designation for s in listMethode"
+													e-form="rowform"> 
+														{{showMethodeDesigation(listPhaseOF[$index].methode)}} </span></td>
+												<td style="white-space: nowrap">
+													<!-- form -->
+													<form editable-form name="rowform"
+														onbeforesave="savePhaseOF(listPhaseOF[$index], listPhaseOF[$index].id)"
+														ng-show="rowform.$visible"
+														class="form-buttons form-inline"
+														shown="phaseProduitInserreeModification == listPhaseOF">
+														<button type="submit" ng-disabled="rowform.$waiting"
+															class="btn btn-sm glyphicon glyphicon-save"
+															aria-hidden="true"></button>
+														<button type="button" ng-disabled="rowform.$waiting"
+															ng-click="cancelAddOrdreFabrication(rowform, $index, phaseOF.id, phaseOF.phaseId, listPhaseOF )"
+															class="btn btn-sm glyphicon glyphicon-remove"></button>
+													</form>
+													<div class="buttons" ng-show="!rowform.$visible">
+														<button data-nodrag
+															class="btn btn-sm glyphicon glyphicon-pencil"
+															ng-click="rowform.$show();showBC()"></button>
+														<button data-nodrag
+															class="btn btn-sm glyphicon glyphicon-trash"
+															ng-click="removePhaseOF($index)"></button>
+													</div>
+												</td>
+											</tr>
+									</table>
+									<button class="btn btn-action pull-right spacer2"
+										ng-click="ajoutPhaseOF(2)">Ajouter</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Répartition Taille Coleur -->
+					<div class="title-ajout">R&eacute;partition Taille/Couleur </div>
+					<div class="panel-body">
+						<div class="form-group">
+							<div class="row">
+								<div class="panel panel-primary">
+						<!--{{listQuantiteProduitCommande}}</br>
+						{{maGprotapedValueGpao}}</br>
+							 maGprogetMatrixEdit: {{maGprogetMatrixEditGpao}} </br>
+				   	 		maGproDetailPrCmd : {{maGproDetailPrCmdGpao}} 
+				   	 		 <button class="btn btn-action pull-right spacer2"
+										ng-click="okGpao()">Valider</button> -->  
+				   					<table class="table table-bordered table-condensed table-head-color">
+										<thead>
+											<tr style="width: 5%">
+												<th style="width: 5%">COULEUR \ TAILLE</th>
+												<th style="width: 5%" ng-repeat="taille in listeTaille">{{taille.designation}}</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr style="width: 5%" ng-repeat="couleur in listeColor" class="taille">
+												<td style="width: 5%"> {{couleur.designation}} </td>
+												<td style="width: 5%" ng-repeat="taille in listeTaille track by $index">
+													<input
+													class="form-control"
+													ng-model="maGprotapedValueGpao[$index][$parent.$index]"
+													ng-keyup="addNewElementGpao($event,maGprotapedValueGpao[$index][$parent.$index],[$index],[$parent.$index],taille,couleur)"
+													ng-init="maGprotapedValueGpao[$index][$parent.$index] = demoQuantiteGpao(couleur.id,taille.id)">
+													
+													<!-- ng-init="maGprotapedValue[$index][$parent.$index] = demoQuantite(couleur.id,taille.id)">-->
+													 <!--  {{demoQuantiteGpao(couleur.id,taille.id)}}  -->
+													  	
+												</td>
+											</tr>
+										</tbody>
+									</table>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Grid OF -->
+		<div class="row" ng-show="displayMode != 'edit'">
+			<div class="col-md-12">
+				<div class="title-ajout line">Liste des OF</div>
+				<div class="row">
+				<div class="input-icon right mb10 col-md-3 pull-right">
+				<input placeholder="Taper un terme de recherche" type="text" ng-model="filterOptions.filterText"
+					class="form-control">
+				</div>
+			</div>
+				<div style="height: 500px;" ng-grid="gridOptions"></div>
+			</div>
+		</div>
+		<!-- Popup de la suppression -->
+		<div id="light" class="white_content">
+			<pop-up type="delete-Of"></pop-up>
+		</div>
+		<div id="fade" class="black_overlay"></div>
+		<!-- Fin Popup de la suppression -->
+
+</div>

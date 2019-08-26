@@ -1,0 +1,768 @@
+<div class="container-fluid" ng-controller="ControllerGPAO">
+	<div class="row">
+		<div class="col-sm-1">
+			<ul class="nav-gproS">
+				<li ng-class="{active: chartType == 'gpao1' }" ><a style="margin-top: 10px; width: 90px;"
+					class="btn btn-action pull-right menuH"  ng-click="switchToChartgpao1()">Production</a></li>
+				<li ng-class="{active: chartType == 'gpao2' }"><a style="margin-top: 10px;width: 90px;"
+				class="btn btn-action pull-right menuH" ng-click="switchToChartgpao2()">     Lieu </a></li>
+				<li ng-class="{active: chartType == 'gpao3' }"><a style="margin-top: 10px;width: 90px;"
+				class="btn btn-action pull-right menuH"  ng-click="switchToChartgpao3()"> Produit </a></li>
+				<li ng-class="{active: chartType == 'gpao4' }"><a style="margin-top: 10px;width: 90px;"
+				class="btn btn-action pull-right menuH" ng-click="switchToChartgpao4()"> Client </a></li>
+				<li ng-class="{active: chartType == 'gpao5' }"><a style="margin-top: 10px;width: 90px;"
+				class="btn btn-action pull-right menuH"  ng-click="switchToChartgpao5()">Evolution</a></li>
+<!-- 				<li ng-class="{active: chartType == 'gpaoaff' }"><a style="margin-top: 10px;width: 90px;" -->
+<!-- 				class="btn btn-action pull-right menuH"  ng-click="switchToChartgpaoaff()">Affichage</a></li>  -->
+
+<!-- 				Changement Sinda -->
+<!-- 				<li ng-class="{active: chartType == 'gpaovp' }"><a style="margin-top: 10px;width: 90px;" -->
+<!-- 				class="btn btn-action pull-right menuH"  ng-click="switchToChartgpaovp()">V.Prod</a></li> -->
+<!-- 				<li ng-class="{active: chartType == 'gpaovr' }"><a style="margin-top: 10px;width: 90px;" -->
+<!-- 				class="btn btn-action pull-right menuH"  ng-click="switchToChartgpaovr()">V.Rend</a></li> -->
+<!-- 				<li ng-class="{active: chartType == 'rapport' }"><a style="margin-top: 10px;width: 90px;" -->
+<!-- 				class="btn btn-action pull-right menuH"  ng-click="switchToChartgpaoRapport()">Rapport</a></li> -->
+
+			</ul>
+		</div>
+		<div class="col-sm-11 cadreERP" >
+		
+			<div class="col-sm-12" style="margin-top: -20px;">
+				<div class="panel-body ">
+					<!-- gpao1 -->
+					<div ng-show="chartType == 'gpao1'" >
+						<div class="title-ajout" style="font-size: 18px;">Variation Production</div>
+						<!-- Critere de recherche -->
+						<div class="title-ajout">Crit&eacute;res de recherche</div>
+						<div class="panel panel-primary">
+							<div class="panel-body">
+								<form class="form-horizontal" name="requestGpao1Form"> 
+									<div class="form-group">
+										<div class="row">
+										
+
+												<div class="col-sm-3" ng-controller="DatepickerDemoController">
+													<div class="input-group input-group-sm">
+														<span class="input-group-addon label1" id="basic-addon1">Date From </span> 
+														<input type="text"
+															class="form-control datepicker"
+															datepicker-popup="{{format}}" ng-model="currentRequestgpao1.dateSaisieFrom"
+															is-open="opened" datepicker-options="dateOptions"
+															date-="enabled(date, mode)" close-text="Close" />
+														<div class="input-group-btn">
+															<button type="button" class="btn btn-default"
+																ng-click="open($event)">
+																<i class="glyphicon glyphicon-calendar"></i>
+															</button>
+														</div>
+													</div>
+												</div>
+												
+											
+											<div class="col-sm-3" ng-controller="DatepickerDemoController">
+													<div class="input-group input-group-sm">
+														<span class="input-group-addon label1" id="basic-addon1">Date To </span> 
+														<input type="text"
+															class="form-control datepicker"
+															datepicker-popup="{{format}}" ng-model="currentRequestgpao1.dateSaisieTo"
+															is-open="opened" datepicker-options="dateOptions"
+															date-="enabled(date, mode)" close-text="Close" />
+														<div class="input-group-btn">
+															<button type="button" class="btn btn-default"
+																ng-click="open($event)">
+																<i class="glyphicon glyphicon-calendar"></i>
+															</button>
+														</div>
+													</div>
+												</div>
+											
+											<div class="col-sm-3">
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon label1" id="basic-addon1">Affichage par</span>
+												<select class="form-control" ng-model="d" data-placeholder="..." style="width: 100%">
+													<OPTION value="1">JOUR</OPTION>
+														<option value="2">MOI</option>
+														<option value="3">ANNEE</option>
+												</select>
+												
+											</div>
+											</div>
+											</div>
+											</div>
+								
+											
+										<div class="pull-right">
+											<button class="btn-action btn" ng-click="gpao1(currentRequestgpao1,d)">Valider</button>
+											<button class="btn-action btn" ng-click="annulergpao1()">Annuler</button>
+										</div>
+										
+									</form>
+									
+									<div ng-hide="nombreResultaRecherchergpao1 == 0">
+										<div id="chartdiv" style="width: 100%; height: 400px; margin-top: 50px;"></div>
+									</div>
+									
+									<div ng-hide="nombreResultaRecherchergpao1 != 0">	
+				                         <div class="alert alert-dismissable alert-danger" style="margin-top: 70px;">
+				                            <strong> Pas de donn&eacute;es disponibles !</strong>
+				                          </div>
+			                    	</div>
+								
+								
+							</div>
+						</div>
+					</div>
+					<!-- gpao2 -->
+					<div ng-show="chartType == 'gpao2'" >
+					
+						<div class="title-ajout" style="font-size: 18px;">Variation Production par Lieu</div>
+						<!-- Critere de recherche -->
+						<div class="title-ajout">Crit&eacute;res de recherche</div>
+						<div class="panel panel-primary">
+							<div class="panel-body">
+								<form class="form-horizontal" name="requestGpao2Form"> 
+									<div class="form-group">
+										<div class="row">
+											<div class="col-sm-3"  ng-controller="DatepickerDemoController">
+												<div class="input-group input-group-sm">
+													<span class="input-group-addon label1" id="basic-addon1">Date From
+														 </span> <input type="text" class="form-control datepicker"
+														datepicker-popup="{{format}}" ng-model="currentRequestgpao2.dateSaisieFrom" is-open="opened"
+														datepicker-options="dateOptions" date-="enabled(date, mode)"
+														 close-text="Close" />
+													<div class="input-group-btn">
+														<button type="button" class="btn btn-default"
+															ng-click="open($event)">
+															<i class="glyphicon glyphicon-calendar"></i>
+														</button>
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-3" ng-controller="DatepickerDemoController">
+													<div class="input-group input-group-sm">
+														<span class="input-group-addon label1" id="basic-addon1">Date To </span> 
+														<input type="text"
+															class="form-control datepicker"
+															datepicker-popup="{{format}}" ng-model="currentRequestgpao2.dateSaisieTo"
+															is-open="opened" datepicker-options="dateOptions"
+															date-="enabled(date, mode)" close-text="Close" />
+														<div class="input-group-btn">
+															<button type="button" class="btn btn-default"
+																ng-click="open($event)">
+																<i class="glyphicon glyphicon-calendar"></i>
+															</button>
+														</div>
+													</div>
+												</div>
+											
+												
+											</div>
+											</div>
+								
+											
+										<div class="pull-right">
+											<button class="btn-action btn" ng-click="gpao2(currentRequestgpao2)">Valider</button>
+											<button class="btn-action btn" ng-click="annulergpao2()">Annuler</button>
+										</div>
+										
+									</form>
+									
+									<div ng-hide="nombreResultaRecherchergpao2 == 0">
+										<div id="chartdiv2" style="width: 100%; height: 400px; margin-top: 50px;"></div>
+									</div>
+									
+									<div ng-hide="nombreResultaRecherchergpao2 != 0">	
+				                         <div class="alert alert-dismissable alert-danger" style="margin-top: 70px;">
+				                            <strong> Pas de donn&eacute;es disponibles !</strong>
+				                          </div>
+			                    	</div>
+								
+								
+							</div>
+						</div>
+					</div>
+					<!-- gpao3 -->
+					<div ng-show="chartType == 'gpao3'" >
+						<div class="title-ajout" style="font-size: 18px;">Variation Production par Produit</div>
+						<!-- Critere de recherche -->
+						<div class="title-ajout">Crit&eacute;res de recherche</div>
+						<div class="panel panel-primary">
+							<div class="panel-body">
+								<form class="form-horizontal" name="requestGpao3Form"> 
+									<div class="form-group">
+										<div class="row">
+											<div class="col-sm-3"  ng-controller="DatepickerDemoController">
+												<div class="input-group input-group-sm">
+													<span class="input-group-addon label1" id="basic-addon1">Date From
+														 </span> <input type="text" class="form-control datepicker"
+														datepicker-popup="{{format}}" ng-model="currentRequestgpao3.dateSaisieFrom" is-open="opened"
+														datepicker-options="dateOptions" date-="enabled(date, mode)"
+														 close-text="Close" />
+													<div class="input-group-btn">
+														<button type="button" class="btn btn-default"
+															ng-click="open($event)">
+															<i class="glyphicon glyphicon-calendar"></i>
+														</button>
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-3" ng-controller="DatepickerDemoController">
+													<div class="input-group input-group-sm">
+														<span class="input-group-addon label1" id="basic-addon1">Date To </span> 
+														<input type="text"
+															class="form-control datepicker"
+															datepicker-popup="{{format}}" ng-model="currentRequestgpao3.dateSaisieTo"
+															is-open="opened" datepicker-options="dateOptions"
+															date-="enabled(date, mode)" close-text="Close" />
+														<div class="input-group-btn">
+															<button type="button" class="btn btn-default"
+																ng-click="open($event)">
+																<i class="glyphicon glyphicon-calendar"></i>
+															</button>
+														</div>
+													</div>
+												</div>
+											
+												
+											</div>
+											</div>
+								
+											
+										<div class="pull-right">
+											<button class="btn-action btn" ng-click="gpao3(currentRequestgpao3)">Valider</button>
+											<button class="btn-action btn" ng-click="annulergpao3()">Annuler</button>
+										</div>
+										
+									</form>
+									
+									<div ng-hide="nombreResultaRecherchergpao3 == 0">
+										<div id="chartdiv3" style="width: 100%; height: 400px; margin-top: 50px;"></div>
+									</div>
+									
+									<div ng-hide="nombreResultaRecherchergpao3 != 0">	
+				                         <div class="alert alert-dismissable alert-danger" style="margin-top: 70px;">
+				                            <strong> Pas de donn&eacute;es disponibles !</strong>
+				                          </div>
+			                    	</div>
+								
+								
+							</div>
+							
+						</div> 
+					</div>
+					<!-- gpao4 -->
+					<div ng-show="chartType == 'gpao4'" >
+						<div class="title-ajout" style="font-size: 18px;">Variation Production par Client</div>
+						<!-- Critere de recherche -->
+						<div class="title-ajout">Crit&eacute;res de recherche</div>
+						<div class="panel panel-primary">
+							<div class="panel-body">
+								<form class="form-horizontal" name="requestGpao4Form"> 
+									<div class="form-group">
+										<div class="row">
+											<div class="col-sm-3"  ng-controller="DatepickerDemoController">
+												<div class="input-group input-group-sm">
+													<span class="input-group-addon label1" id="basic-addon1">Date From
+														 </span> <input type="text" class="form-control datepicker"
+														datepicker-popup="{{format}}" ng-model="currentRequestgpao4.dateSaisieFrom" is-open="opened"
+														datepicker-options="dateOptions" date-="enabled(date, mode)"
+														 close-text="Close" />
+													<div class="input-group-btn">
+														<button type="button" class="btn btn-default"
+															ng-click="open($event)">
+															<i class="glyphicon glyphicon-calendar"></i>
+														</button>
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-3" ng-controller="DatepickerDemoController">
+													<div class="input-group input-group-sm">
+														<span class="input-group-addon label1" id="basic-addon1">Date To </span> 
+														<input type="text"
+															class="form-control datepicker"
+															datepicker-popup="{{format}}" ng-model="currentRequestgpao4.dateSaisieTo"
+															is-open="opened" datepicker-options="dateOptions"
+															date-="enabled(date, mode)" close-text="Close" />
+														<div class="input-group-btn">
+															<button type="button" class="btn btn-default"
+																ng-click="open($event)">
+																<i class="glyphicon glyphicon-calendar"></i>
+															</button>
+														</div>
+													</div>
+												</div>
+											
+												
+											</div>
+											</div>
+								
+											
+										<div class="pull-right">
+											<button class="btn-action btn" ng-click="gpao4(currentRequestgpao4)">Valider</button>
+											<button class="btn-action btn" ng-click="annulergpao4()">Annuler</button>
+										</div>
+										
+									</form>
+									
+									<div ng-hide="nombreResultaRecherchergpao4 == 0">
+										<div id="chartdiv4" style="width: 100%; height: 400px; margin-top: 50px;"></div>
+									</div>
+									
+									<div ng-hide="nombreResultaRecherchergpao4 != 0">	
+				                         <div class="alert alert-dismissable alert-danger" style="margin-top: 70px;">
+				                            <strong> Pas de donn&eacute;es disponibles !</strong>
+				                          </div>
+			                    	</div>
+								
+								
+							</div>
+							
+						</div>
+					 </div>
+					 <!-- gpao5 -->
+					<!-- gpao5 -->
+					<div ng-show="chartType == 'gpao5'" >
+						<div class="title-ajout" style="font-size: 18px;">Evolution de Production</div>
+						<!-- Critere de recherche -->
+						<div class="title-ajout">Crit&eacute;res de recherche</div>
+						<div class="panel panel-primary">
+							<div class="panel-body">
+								<form class="form-horizontal" name="requestGpao5Form" >
+									<div class="form-group">
+										<div class="row">
+											
+											<div class="col-sm-3">
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon label1" id="basic-addon1">Commande</span>
+												<select ui-select2
+													ng-model="currentRequestgpao5.refCommande"
+													data-placeholder="..." style="width: 100%">
+													<OPTION value="">Tous les commandes</OPTION>
+														<option ng-repeat="commande in list"
+															value="{{commande.refCommande}}">{{commande.refCommande}}</option>
+												</select>
+												
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon label1" id="basic-addon1">Phase</span>
+												<select ui-select2
+													ng-model="currentRequestgpao5.phaseId"
+													data-placeholder="..." style="width: 100%">
+													<OPTION value="">Tous les Phases</OPTION>
+														<option ng-repeat="phase in list"
+															value="{{phase.phaseId}}">{{phase.phaseId}}</option>
+												</select>
+												
+											</div>
+										</div>
+												
+											</div>
+											</div>
+								
+											
+											<div class="pull-right">
+												<button class="btn-action btn" ng-click="gpao5(currentRequestgpao5)">Valider</button>
+												<button class="btn-action btn" ng-click="annulergpao5()">Annuler</button>
+										    </div>
+								</form>
+						
+									      
+							
+								<div id="chartdiv5" style="width: 100%; height: 400px; margin-top: 50px;"></div>
+								 <div class="panel-footer">
+			                            <div class="row">
+			                                <div class="visitor-sparklines col-xs-12 col-sm-4 col-md-4">
+			                                        <div class="sparkline-block">
+			                                            <span sparklines="{
+			                                            lineWidth: 1.5,
+			                                            type: 'line',
+			                                            width: '90px',
+			                                            height: '20px',
+			                                            lineColor: '#b3bcc7',
+			                                            fillColor: 'rgba(179,188,199,0.1)',
+			                                            spotColor: false,
+			                                            minSpotColor: false,
+			                                            highlightLineColor: 'rgba(0,0,0,0.1)',
+			                                            highlightSpotColor: '#b3bcc7',
+			                                            spotRadius: 3,
+			                                            maxSpotColor: false}" data-data="[251,933,653,759,1022,1702,565,1913,889,674]"></span>
+			                                        </div>
+			                                    <h3 style="text-align: center; margin: 0;">{{sommeqte}}</h3>
+			                                    <p style="text-align: center; margin: 0;">Quantite</p>
+			                                    <hr class="hidden-md hidden-sm hidden-lg">
+			                                </div>
+			                                <div class="visitor-sparklines col-xs-12 col-sm-4 col-md-4">
+			                                        <div class="sparkline-block">
+			                                            <span sparklines="{
+			                                            lineWidth: 1.5,
+			                                            type: 'line',
+			                                            width: '90px',
+			                                            height: '20px',
+			                                            lineColor: '#b3bcc7',
+			                                            fillColor: 'rgba(179,188,199,0.1)',
+			                                            spotColor: false,
+			                                            minSpotColor: false,
+			                                            highlightLineColor: 'rgba(0,0,0,0.1)',
+			                                            highlightSpotColor: '#b3bcc7',
+			                                            spotRadius: 3,
+			                                            maxSpotColor: false}" data-data="[1225,6533,2953,3469,21282,7354,1655,2567,1234,677]"></span>
+			                                        </div>
+			                                    <h3 style="text-align: center; margin: 0;">{{sommetotal}}</h3>
+			                                    <p style="text-align: center; margin: 0;">Quantite Total</p>
+			                                    <hr class="hidden-md hidden-sm hidden-lg">
+			                                </div>
+			                                <div class="visitor-sparklines col-xs-12 col-sm-4 col-md-4">
+			                                        <div class="sparkline-block">
+			                                            <span sparklines="{
+			                                            lineWidth: 1.5,
+			                                            type: 'line',
+			                                            width: '90px',
+			                                            height: '20px',
+			                                            lineColor: '#b3bcc7',
+			                                            fillColor: 'rgba(179,188,199,0.1)',
+			                                            spotColor: false,
+			                                            minSpotColor: false,
+			                                            highlightLineColor: 'rgba(0,0,0,0.1)',
+			                                            highlightSpotColor: '#b3bcc7',
+			                                            spotRadius: 3,
+			                                            maxSpotColor: false}" data-data="[5,3,7,6,2,4,6,8,6,4]"></span>
+			                                        </div>
+			                                    <h3 style="text-align: center; margin: 0;">{{sommep}}%</h3>
+			                                    <p style="text-align: center; margin: 0;">Quantite %</p>
+			                                </div>
+			                 
+			                            </div>
+			                        </div>
+								
+							</div>
+						</div>
+					</div>
+					<!-- gpaoVP -->
+					<div ng-show="chartType == 'gpaovp'" >
+			 			<div class="title-ajout" style="font-size: 18px;">Variation Production - Chaine/Heures</div>
+						<!-- Critere de recherche -->
+						<div class="title-ajout">Crit&eacute;res de recherche</div>
+						<div class="panel panel-primary">
+								<div class="panel-body">
+									<form class="form-horizontal" name="requestGpaovpForm" >
+										<div class="form-group">
+											<div class="row">
+											    <div class="col-sm-3"  ng-controller="DatepickerDemoController">
+													<div class="input-group input-group-sm">
+														<span class="input-group-addon label1" id="basic-addon1">Date min
+															 </span> <input type="text" class="form-control datepicker"
+															datepicker-popup="{{format}}" ng-model="currentRequestgpaovp.dateSaisieFrom" is-open="opened"
+															datepicker-options="dateOptions" date-="enabled(date, mode)"
+															 close-text="Close" />
+														<div class="input-group-btn">
+															<button type="button" class="btn btn-default"
+																ng-click="open($event)">
+																<i class="glyphicon glyphicon-calendar"></i>
+															</button>
+														</div>
+													</div>
+												</div>
+												<div class="col-sm-3"  ng-controller="DatepickerDemoController">
+													<div class="input-group input-group-sm">
+														<span class="input-group-addon label1" id="basic-addon1">Date max
+															 </span> <input type="text" class="form-control datepicker"
+															datepicker-popup="{{format}}" ng-model="currentRequestgpaovp.dateSaisieTo" is-open="opened"
+															datepicker-options="dateOptions" date-="enabled(date, mode)"
+															 close-text="Close" />
+														<div class="input-group-btn">
+															<button type="button" class="btn btn-default"
+																ng-click="open($event)">
+																<i class="glyphicon glyphicon-calendar"></i>
+															</button>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="row" style="margin-top: 10px;">
+												<div class="col-sm-3">
+													<div class="input-group input-group-sm">
+														<span class="input-group-addon label1" id="basic-addon1">Chaine</span>
+														<select ui-select2
+															ng-model="currentRequestgpaovp.chaineId"
+															data-placeholder="..." style="width: 100%">
+																<option ng-repeat="chaine in chaineall" 
+																	value="{{chaine.chaineId}}">{{chaine.chaineDesignation}}</option>
+														 </select>
+										
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="pull-right">
+											<button class="btn-action btn" ng-click="gpaovp(currentRequestgpaovp)">Valider</button>
+											<button class="btn-action btn" ng-click="annulergpaovp()">Annuler</button>
+								        </div>
+									</form>
+									
+									<div ng-hide="nombreResultaRecherchergpaovp == 0">
+										<div id="chartdivvp" style="width: 100%; height: 400px; margin-top: 50px;"></div>
+									</div>
+							
+									<div ng-hide="nombreResultaRecherchergpaovp != 0">	
+				                         <div class="alert alert-dismissable alert-danger" style="margin-top: 70px;">
+				                            <strong> Pas de donn&eacute;es disponibles !</strong>
+				                         </div>
+			            			</div>
+								</div>
+						</div>
+					</div>
+					<!-- gpaoVR -->
+					<div ng-show="chartType == 'gpaovr'" >
+			 			<div class="title-ajout" style="font-size: 18px;">Variation Rendement par Jour</div>
+						<!-- Critere de recherche -->
+						<div class="title-ajout">Crit&eacute;res de recherche</div>
+						<div class="panel panel-primary">
+								<div class="panel-body">
+									<form class="form-horizontal" name="requestGpaovrForm" >
+										<div class="form-group">
+											<div class="row">
+											    <div class="col-sm-3"  ng-controller="DatepickerDemoController">
+													<div class="input-group input-group-sm">
+														<span class="input-group-addon label1" id="basic-addon1">Date min
+															 </span> <input type="text" class="form-control datepicker"
+															datepicker-popup="{{format}}" ng-model="currentRequestgpaovr.dateSaisieFrom" is-open="opened"
+															datepicker-options="dateOptions" date-="enabled(date, mode)"
+															 close-text="Close" />
+														<div class="input-group-btn">
+															<button type="button" class="btn btn-default"
+																ng-click="open($event)">
+																<i class="glyphicon glyphicon-calendar"></i>
+															</button>
+														</div>
+													</div>
+												</div>
+												<div class="col-sm-3"  ng-controller="DatepickerDemoController">
+													<div class="input-group input-group-sm">
+														<span class="input-group-addon label1" id="basic-addon1">Date max
+															 </span> <input type="text" class="form-control datepicker"
+															datepicker-popup="{{format}}" ng-model="currentRequestgpaovr.dateSaisieTo" is-open="opened"
+															datepicker-options="dateOptions" date-="enabled(date, mode)"
+															 close-text="Close" />
+														<div class="input-group-btn">
+															<button type="button" class="btn btn-default"
+																ng-click="open($event)">
+																<i class="glyphicon glyphicon-calendar"></i>
+															</button>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="row" style="margin-top: 10px;">
+												<div class="col-sm-3">
+													<div class="input-group input-group-sm">
+														<span class="input-group-addon label1" id="basic-addon1">Chaine</span>
+														<select ui-select2
+															ng-model="currentRequestgpaovr.chaineId"
+															data-placeholder="..." style="width: 100%">
+																<option ng-repeat="chaine in chaineall"
+																	value="{{chaine.chaineId}}">{{chaine.chaineDesignation}}</option>
+														 </select>
+										
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="pull-right">
+											<button class="btn-action btn" ng-click="gpaovr(currentRequestgpaovr)">Valider</button>
+											<button class="btn-action btn" ng-click="annulergpaovr()">Annuler</button>
+								        </div>
+									</form>
+									<div ng-hide="nombreResultaRecherchergpaovr == 0">
+										<div id="chartdivvr" style="width: 100%; height: 400px; margin-top: 50px;"></div>
+									</div>
+							
+									<div ng-hide="nombreResultaRecherchergpaovr != 0">	
+				                         <div class="alert alert-dismissable alert-danger" style="margin-top: 70px;">
+				                            <strong> Pas de donn&eacute;es disponibles !</strong>
+				                         </div>
+			            			</div>
+								</div>
+						</div>
+					</div>
+					<!-- gpaAff -->
+					<div ng-show="chartType == 'gpaoaff'" >
+						<div class="title-ajout" style="font-size: 18px;">Affichage par Chaine</div>
+							<!-- Critere de recherche -->
+							<div ng-repeat="chaine in productionday">
+								<div class="title-ajout">{{chaine.chaineDesignation}}</div>
+								<div class="panel panel-primary">
+								<div class="panel-body">
+									<div class="form-group">
+										<table style="margin-top: 30px;"
+										class="table table-bordered table-condensed table-head-color">
+										<thead>
+											<tr>
+												<th>\Heures</th>
+												<th>1</th>
+												<th>2</th>
+					                            <th>3</th>
+					                            <th>4</th>
+					                            <th>5</th>
+					                            <th>6</th>
+												<th>7</th>
+												<th>8</th>
+												<th>9</th>
+												<th>Total</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td><input type="text" value="Demander" readonly
+													class="form-control" /></td>
+											   	<td>{{chaine.listProductionElement[0].dem}}</td>
+											   	<td>{{chaine.listProductionElement[1].dem}}</td>
+											   	<td>{{chaine.listProductionElement[2].dem}}</td>
+											   	<td>{{chaine.listProductionElement[3].dem}}</td>
+											   	<td>{{chaine.listProductionElement[4].dem}}</td>
+											   	<td>{{chaine.listProductionElement[5].dem}}</td>
+											   	<td>{{chaine.listProductionElement[6].dem}}</td>
+											   	<td>{{chaine.listProductionElement[7].dem}}</td>
+											   	<td>{{chaine.listProductionElement[8].dem}}</td>
+											   	<td>{{chaine.listProductionElement[0].dem +
+											         chaine.listProductionElement[1].dem +
+											         chaine.listProductionElement[2].dem +
+											         chaine.listProductionElement[3].dem +
+											         chaine.listProductionElement[4].dem +
+											         chaine.listProductionElement[5].dem +
+											         chaine.listProductionElement[6].dem +
+											         chaine.listProductionElement[7].dem +
+											         chaine.listProductionElement[8].dem}}</td>
+											</tr>
+											<tr>
+												<td><input type="text" value="Produit" readonly
+													class="form-control" /></td>
+											    <td>{{chaine.listProductionElement[0].prod}}</td>
+											   	<td>{{chaine.listProductionElement[1].prod}}</td>
+											   	<td>{{chaine.listProductionElement[2].prod}}</td>
+											   	<td>{{chaine.listProductionElement[3].prod}}</td>
+											   	<td>{{chaine.listProductionElement[4].prod}}</td>
+											   	<td>{{chaine.listProductionElement[5].prod}}</td>
+											   	<td>{{chaine.listProductionElement[6].prod}}</td>
+											   	<td>{{chaine.listProductionElement[7].prod}}</td>
+											   	<td>{{chaine.listProductionElement[8].prod}}</td>
+											   	<td>{{chaine.listProductionElement[0].prod +
+											         chaine.listProductionElement[1].prod +
+											         chaine.listProductionElement[2].prod +
+											         chaine.listProductionElement[3].prod +
+											         chaine.listProductionElement[4].prod +
+											         chaine.listProductionElement[5].prod+
+											         chaine.listProductionElement[6].prod +
+											         chaine.listProductionElement[7].prod +
+											         chaine.listProductionElement[8].prod}}</td>
+												
+											</tr>
+										</tbody>
+									</table>
+										
+												</div>
+												
+											
+										</div>
+								</div>
+					 		</div>
+					</div>
+					<!-- Rapport -->
+					<div ng-show="chartType == 'rapport'" >
+						<div class="title-ajout" style="font-size: 18px;"><!-- Rapport --></div>
+						<!-- Critere de recherche -->
+						<div class="title-ajout">Rapport</div>
+						<div class="panel panel-primary">
+								<div class="panel-body">
+									<form class="form-horizontal">
+										<div class="form-group">
+											<div class="row">
+												<div class="col-sm-6">
+				                                   <div class="input-group input-group-sm">
+														<span class="input-group-addon label1" id="basic-addon1">Phase
+														</span> 
+														<input class="form-control" ng-model="productionRapportCourant.phaseId"
+														ng-init="productionRapportCourant.phaseId =''" />
+													</div>
+												</div>
+												<div class="col-sm-3">
+													<div class="input-group">
+														<span class="input-group-addon label1" id="basic-addon1">Affichage</span>
+														<select ui-select2
+															ng-model="affichage"
+															ng-init="affichag='Jour'"
+															data-placeholder="..." style="width: 100%">
+																<option ng-repeat="affichage in listeAffichage"
+																	value="{{affichage.designation}}">{{affichage.designation}}</option>
+														 </select>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">	
+											<div class="row">
+											  <div class="col-sm-6" ng-controller="DatepickerDemoController">
+													<div class="input-group">
+														<span class="input-group-addon label1" id="basic-addon1">Date
+															S. Entre</span> <input type="text" class="form-control datepicker"
+															datepicker-popup="{{format}}"
+															ng-init="productionRapportCourant.dateSaisieMin =''"
+															ng-model="productionRapportCourant.dateSaisieMin" is-open="opened"
+															datepicker-options="dateOptions" date-="enabled(date, mode)"
+															ng-required="true" close-text="Close" />
+														<div class="input-group-btn">
+															<button type="button" class="btn1 btn-default"
+																ng-click="open($event)">
+																<i class="glyphicon glyphicon-calendar"></i>
+															</button>
+														</div>
+													</div>
+												</div>
+												<div class="col-sm-6" ng-controller="DatepickerDemoController">
+													<div class="input-group">
+														<span class="input-group-addon label1" id="basic-addon1">Et
+															</span> <input type="text" class="form-control datepicker"
+															datepicker-popup="{{format}}"
+															ng-init="productionRapportCourant.dateSaisieMax =''"
+															ng-model="productionRapportCourant.dateSaisieMax" is-open="opened"
+															datepicker-options="dateOptions" date-="enabled(date, mode)"
+															ng-required="true" close-text="Close" />
+														<div class="input-group-btn">
+															<button type="button" class="btn1 btn-default"
+																ng-click="open($event)">
+																<i class="glyphicon glyphicon-calendar"></i>
+															</button>
+														</div>
+													</div>
+												</div>
+											
+											</div>
+										</div>
+										<div class="pull-right">
+											<button class="btn-action btn" ng-click="downloadProduction(productionRapportCourant)">Production</button>
+											<button class="btn-action btn" ng-click="downloadVariationProduction(productionRapportCourant,affichage)">Variation de Production</button>
+											<button class="btn-action btn" ng-click="annulerRapport()">Annuler</button>
+								        </div>
+								    </form>
+
+									<div ng-hide="nombreResultaRecherchergpaovr == 0">
+										<div id="chartdivvr" style="width: 100%; height: 400px; margin-top: 50px;"></div>
+									</div>
+							
+									<div ng-hide="nombreResultaRecherchergpaovr != 0">	
+				                         <div class="alert alert-dismissable alert-danger" style="margin-top: 70px;">
+				                            <strong> Pas de donn&eacute;es disponibles !</strong>
+				                         </div>
+			            			</div>
+								</div>
+						</div>
+					</div>
+					
+				</div>
+			
+			</div>
+
+		</div>
+	</div>
+</div>

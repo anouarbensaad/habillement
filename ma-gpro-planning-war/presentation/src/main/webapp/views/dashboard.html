@@ -1,0 +1,43 @@
+<div class="container-fluid" ng-controller="DashboardController">
+<div class="pull-right">
+ <span>{{todayDate | date:'EEEE, dd-MM-yyyy	' }}</span>
+</div>
+<div class="logo-wrapper">
+	<a href="#/"><img src="images/logo.png" alt="Logo" class="brand center-block img-responsive" /></a>
+</div>
+<div class="row tiles-wrapper">
+	<div class="col-md-12">		
+	
+	
+	<tile-mini data="tile10" class="col-md-3 dashboard-tiles" ng-click="goToImport()"></tile-mini>
+	<tile-mini data="tile5" class="col-md-3 dashboard-tiles" ng-click="goToProduction()"></tile-mini>
+	<tile-mini data="tile12" class="col-md-3 dashboard-tiles" ng-click="goToCollisage()"></tile-mini>
+	<tile-mini data="tile11" class="col-md-3 dashboard-tiles" ng-click="goToSuiviCommande()"></tile-mini>
+	
+	
+	
+<!-- 
+		<tile-mini data="tile4" class="col-md-3 dashboard-tiles" ng-click="goToPlanning()"></tile-mini>		
+		<tile-mini data="tile3" class="col-md-3 dashboard-tiles" ng-click="goToCommandes()"></tile-mini>
+		<tile-mini data="tile2" class="col-md-3 dashboard-tiles" ng-click="goToReponse()"></tile-mini>
+		
+		<tile-mini data="tile8" class="col-md-3 dashboard-tiles" ng-click="goToReponse()"></tile-mini>
+		<tile-mini data="tile9" class="col-md-3 dashboard-tiles" ng-click="goToReport()"></tile-mini>
+		
+ -->
+ 
+	</div>
+    <div class="col-md-12">
+    
+	<tile-mini data="tile13" class="col-md-3 dashboard-tiles" ng-click="goToMvtEnvoi()"></tile-mini>
+	<tile-mini data="tile14" class="col-md-3 dashboard-tiles" ng-click="goToMvtReception()"></tile-mini>
+	<tile-mini data="tile15" class="col-md-3 dashboard-tiles" ng-click="goToMvtEtat()"></tile-mini>
+	
+	<!-- 	<tile-mini data="tile6" class="col-md-3 dashboard-tiles" ></tile-mini> -->
+		
+	</div>
+
+</div>
+
+
+  </div> <!-- container -->

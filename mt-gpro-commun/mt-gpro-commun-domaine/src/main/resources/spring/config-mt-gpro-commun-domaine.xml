@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- bean article -->
+
+	<bean id="articleDomaine"
+		class="com.gpro.consulting.tiers.commun.domaine.impl.ArticleDomaineImpl">
+		<property name="articlePersistance" ref="articlePersistance" />
+	</bean>
+	
+	<bean id="ebMatiereDomaine"
+		class="com.gpro.consulting.tiers.commun.domaine.impl.MatiereDomaineImpl">
+		<property name="ebMatierePersistance" ref="ebMatierePersistance" />
+	</bean>
+
+	<bean id="ebMetrageDomaine"
+		class="com.gpro.consulting.tiers.commun.domaine.impl.MetrageDomaineImpl">
+		<property name="ebMetragePersistance" ref="ebMetragePersistance" />
+	</bean>
+
+	<bean id="ebGrosseurDomaine"
+		class="com.gpro.consulting.tiers.commun.domaine.impl.GrosseurDomaineImpl">
+		<property name="ebGrosseurPersistance" ref="ebGrosseurPersistance" />
+	</bean>
+
+	<bean id="familleArticleDomaine"
+		class="com.gpro.consulting.tiers.commun.domaine.impl.FamilleArticleDomaineImpl">
+		<property name="familleArticlePersistance" ref="familleArticlePersistance" />
+	</bean>
+
+	<bean id="sousFamilleArticleDomaine"
+		class="com.gpro.consulting.tiers.commun.domaine.impl.SousFamilleArticleDomaineImpl">
+		<property name="sousFamilleArticlePersistance" ref="sousFamilleArticlePersistance" />
+	</bean>
+
+	<bean id="typeArticleDomaine"
+		class="com.gpro.consulting.tiers.commun.domaine.impl.TypeArticleDomaineImpl">
+		<property name="typeArticlePersistance" ref="typeArticlePersistance" />
+	</bean>
+
+	<bean id="seuilArticleDomaine"
+		class="com.gpro.consulting.tiers.commun.domaine.impl.SeuilArticleDomaineImpl">
+		<property name="seuilArticlePersistance" ref="seuilArticlePersistance" />
+	</bean>
+	<bean id="uniteArticleDomaine"
+		class="com.gpro.consulting.tiers.commun.domaine.impl.UniteArticleDomaineImpl">
+		<property name="uniteArticlePersistance" ref="uniteArticlePersistance" />
+	</bean>
+
+	<!-- bean produit -->
+
+	<bean id="produitDomaine"
+		class="com.gpro.consulting.tiers.commun.domaine.impl.ProduitDomaineImpl">
+		<property name="produitPersistance" ref="produitPersistance" />
+		<property name="ebTaillePersistance" ref="ebTaillePersistance" />
+	</bean>
+
+	<bean id="sousFamilleProduitDomaine"
+		class="com.gpro.consulting.tiers.commun.domaine.impl.SousFamilleProduitDomaineImpl">
+		<property name="sousFamilleProduitPersistance" ref="sousFamilleProduitPersistance" />
+	</bean>
+
+	<bean id="familleProduitDomaine"
+		class="com.gpro.consulting.tiers.commun.domaine.impl.FamilleProduitDomaineImpl">
+		<property name="familleProduitPersistance" ref="familleProduitPersistance" />
+	</bean>
+
+	<bean id="ebCouleurDomaine"
+		class="com.gpro.consulting.tiers.commun.domaine.impl.CouleurDomaineImpl">
+		<property name="ebCouleurPersistance" ref="ebCouleurPersistance" />
+	</bean>
+
+	<bean id="ebPhaseDomaine"
+		class="com.gpro.consulting.tiers.commun.domaine.impl.PhaseDomaineImpl">
+		<property name="ebPhasePersistance" ref="ebPhasePersistance" />
+	</bean>
+
+	<bean id="ebTailleDomaine"
+		class="com.gpro.consulting.tiers.commun.domaine.impl.TailleDomaineImpl">
+		<property name="ebTaillePersistance" ref="ebTaillePersistance" />
+	</bean>
+
+	<bean id="ebStandardTailleDomaine"
+		class="com.gpro.consulting.tiers.commun.domaine.impl.StandardTailleDomaineImpl">
+		<property name="ebStandardTaillePersistance" ref="ebStandardTaillePersistance" />
+	</bean>
+
+	<bean id="gestionnaireReportCommunDomaine"
+		class="com.gpro.consulting.tiers.commun.domaine.report.impl.GestionnaireReportCommunDomaineImpl">
+		<property name="produitPersistance" ref="produitPersistance" />
+		<property name="articlePersistance" ref="articlePersistance" />
+		<property name="partieInteressePersistance" ref="partieInteressePersistance" />
+		<property name="ficheBesoinPersistance" ref="ficheBesoinPersistance" />
+		<property name="familleArticlePersistance" ref="familleArticlePersistance" />
+		<property name="sousFamilleArticlePersistance" ref="sousFamilleArticlePersistance" />
+		<property name="ebCouleurPersistance" ref="ebCouleurPersistance" />
+		<property name="ebTaillePersistance" ref="ebTaillePersistance" />
+		<property name="baseInfoPersistance" ref="baseInfoPersistance" />
+	</bean>
+
+	<!-- bean partie interesse -->
+	<bean id="categoriePartieInteresseeDomaine"
+		class="com.gpro.consulting.tiers.commun.domaine.impl.CategoriePartieInteresseeDomaineImpl">
+		<property name="categoriePartieInteresseePersistance" ref="categoriePartieInteresseePersistance" />
+	</bean>
+
+	<bean id="partieInteresseeDomaine"
+		class="com.gpro.consulting.tiers.commun.domaine.impl.PartieInteresseeDomaineImpl">
+		<property name="partieInteresseePersistance" ref="partieInteressePersistance" />
+	</bean>
+
+
+	<bean id="typePartieInteresseeDomaine"
+		class="com.gpro.consulting.tiers.commun.domaine.impl.TypePartieInteresseeDomaineImpl">
+		<property name="typePartieInteresseePersistance" ref="typePartieInteressePersistance" />
+	</bean>
+
+	<bean id="sitePartieInteresseeDomaine"
+		class="com.gpro.consulting.tiers.commun.domaine.impl.SitePartieInteresseeDomaineImpl">
+		<property name="sitePartieInteressePersistance" ref="sitePartieInteressePersistance" />
+	</bean>
+
+
+	<bean id="typeDocumentPartieInteresseeDomaine"
+		class="com.gpro.consulting.tiers.commun.domaine.impl.TypeDocumentDomaineImpl">
+		<property name="typeDocumentPersistance" ref="typeDocumentPartieInteressePersistance" />
+	</bean>
+
+
+	<bean id="famillePartieInteresseeDomaine"
+		class="com.gpro.consulting.tiers.commun.domaine.impl.FamillePartieInteresseeDomaineImpl">
+		<property name="famillePartieInteresseePersistance" ref="famillePartieInteressePersistance" />
+	</bean>
+
+	<bean id="devisePartieInteresseeDomaine"
+		class="com.gpro.consulting.tiers.commun.domaine.impl.DevisePartieInteresseeDomaineImpl">
+		<property name="devisePartieInteressePersistance" ref="devisePartieInteressePersistance" />
+	</bean>
+
+	<bean id="ficheBesoinDomaine"
+		class="com.gpro.consulting.tiers.commun.domaine.impl.FicheBesoinDomaineImpl">
+		<property name="ficheBesoinPersistance" ref="ficheBesoinPersistance" />
+		<property name="produitPersistance" ref="produitPersistance" />
+	</bean>
+
+	<bean id="produitCouleurDomaine"
+		class="com.gpro.consulting.tiers.commun.domaine.impl.ProduitCouleurDomaineImpl">
+		<property name="ebProduitCouleur" ref="ebProduitCouleur" />
+
+	</bean>
+
+	<bean id="produitTailleDomaine"
+		class="com.gpro.consulting.tiers.commun.domaine.impl.ProduitTailleDomaineImpl">
+		<property name="ebProduitTaille" ref="ebProduitTaille" />
+
+	</bean>
+
+	<bean id="baseInfoDomaine"
+		class="com.gpro.consulting.tiers.commun.domaine.baseinfo.impl.BaseInfoDomaineImpl">
+		<property name="baseInfoPersistance" ref="baseInfoPersistance" />
+	</bean>
+	
+	<bean id="userDomaine"
+		class="com.gpro.consulting.tiers.commun.domaine.login.impl.UserDomaineImpl">
+		<property name="userPersistance" ref="userPersistance" />
+	</bean>
+
+</beans>

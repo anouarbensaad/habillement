@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+ <!-- bean article --> 
+<!-- 	<bean id="ajouterSeuilArticleServiceTest" -->
+<!-- 		class="com.gpro.consulting.tiers.commun.service.test.article.AjouterSeuilArticleServiceTest"> -->
+<!-- 		<property name="dataSource" ref="dataSource"></property> -->
+<!-- 		<property name="articleDomaine" ref="articleDomaine"></property> -->
+<!-- 	</bean> -->
+
+<!-- <bean id="ajouterDocumentArticleServiceTest" -->
+<!-- 		class="com.gpro.consulting.tiers.commun.service.test.article.AjouterDocumentArticleServiceTest"> -->
+<!-- 		<property name="dataSource" ref="dataSource"></property> -->
+<!-- 		<property name="articleDomaine" ref="articleDomaine"></property> -->
+<!-- 	</bean> -->
+	
+	
+<!-- 	<bean id="creerArticleServiceTest" -->
+<!-- 		class="com.gpro.consulting.tiers.commun.service.test.article.CreerArticleServiceTest"> -->
+<!-- 		<property name="dataSource" ref="dataSource"></property> -->
+<!-- 		<property name="articleDomaine" ref="articleDomaine"></property> -->
+<!-- 	</bean> -->
+	
+<!-- 	<bean id="modifierCaracteristiqueArticleServiceTest" -->
+<!-- 		class="com.gpro.consulting.tiers.commun.service.test.article.ModifierCaracteristiqueArticleServiceTest"> -->
+<!-- 		<property name="dataSource" ref="dataSource"></property> -->
+<!-- 		<property name="articleDomaine" ref="articleDomaine"></property> -->
+<!-- 	</bean> -->
+	
+
+<!-- 	<bean id="rechercheMultiCritereEntreDeuxPrixArticleServiceTest" -->
+<!-- 		class="com.gpro.consulting.tiers.commun.service.test.article.RechercheMultiCritereEntreDeuxPrixArticleServiceTest"> -->
+<!-- 		<property name="dataSource" ref="dataSource"></property> -->
+<!-- 		<property name="articleDomaine" ref="articleDomaine"></property> -->
+<!-- 	</bean> -->
+	
+<!-- 	<bean id="rechercheMultiCriterePrixInverseArticleServiceTest" -->
+<!-- 		class=" com.gpro.consulting.tiers.commun.service.test.article.RechercheMultiCriterePrixInverseArticleServiceTest"> -->
+<!-- 		<property name="dataSource" ref="dataSource"></property> -->
+<!-- 		<property name="articleDomaine" ref="articleDomaine"></property> -->
+<!-- 	</bean> -->
+	
+<!-- 	<bean id="rechercheMultiCritereToutCritereArticleServiceTest" -->
+<!-- 		class=" com.gpro.consulting.tiers.commun.service.test.article.RechercheMultiCritereToutCritereArticleServiceTest"> -->
+<!-- 		<property name="dataSource" ref="dataSource"></property> -->
+<!-- 		<property name="articleDomaine" ref="articleDomaine"></property> -->
+<!-- 	</bean> -->
+	
+	
+<!-- 	<bean id="supprimerDocumentArticleServiceTest" -->
+<!-- 		class="com.gpro.consulting.tiers.commun.service.test.article.SupprimerDocumentArticleServiceTest"> -->
+<!-- 		<property name="dataSource" ref="dataSource"></property> -->
+<!-- 		<property name="articleDomaine" ref="articleDomaine"></property> -->
+<!-- 	</bean> -->
+	
+<!-- 	<bean id="supprimerSeuilArticleServiceTest" -->
+<!-- 		class="com.gpro.consulting.tiers.commun.service.test.article.SupprimerSeuilArticleServiceTest"> -->
+<!-- 		<property name="dataSource" ref="dataSource"></property> -->
+<!-- 		<property name="articleDomaine" ref="articleDomaine"></property> -->
+<!-- 	</bean> -->
+	
+ <!-- Fin bean article --> 
+	
+	
+	<!--  bean produit --> 
+<!-- 	<bean id="AjouterDetailsPrixProduitServiceTest" -->
+<!-- 	class="com.gpro.consulting.tiers.commun.service.test.produit.AjouterDetailsPrixProduitServiceTest"> -->
+<!-- 	<property name="dataSource" ref="dataSource"></property> -->
+<!-- 	<property name="produitDomaine" ref="produitDomaine"></property> -->
+<!-- </bean> -->
+
+<!-- 	<bean id="AjouterDocumentProduitServiceTest" -->
+<!-- 		class="com.gpro.consulting.tiers.commun.service.test.produit.AjouterDocumentProduitServiceTest"> -->
+<!-- 		<property name="dataSource" ref="dataSource"></property> -->
+<!-- 		<property name="produitDomaine" ref="produitDomaine"></property> -->
+<!-- 	</bean> -->
+
+<!-- 	<bean id="ModifierCaracteristiqueProduitServiceTest" -->
+<!-- 		class="com.gpro.consulting.tiers.commun.service.test.produit.ModifierCaracteristiqueProduitServiceTest"> -->
+<!-- 		<property name="dataSource" ref="dataSource"></property> -->
+<!-- 		<property name="produitDomaine" ref="produitDomaine"></property> -->
+<!-- 	</bean> -->
+
+<!-- 	<bean id="SupprimerDetailsPrixProduitServiceTest" -->
+<!-- 		class="com.gpro.consulting.tiers.commun.service.test.produit.SupprimerDetailsPrixProduitServiceTest"> -->
+<!-- 		<property name="dataSource" ref="dataSource"></property> -->
+<!-- 		<property name="produitDomaine" ref="produitDomaine"></property> -->
+<!-- 	</bean> -->
+
+<!-- 	<bean id="SupprimerDocumentProduitServiceTest" -->
+<!-- 		class="com.gpro.consulting.tiers.commun.service.test.produit.SupprimerDocumentProduitServiceTest"> -->
+<!-- 		<property name="dataSource" ref="dataSource"></property> -->
+<!-- 		<property name="produitDomaine" ref="produitDomaine"></property> -->
+<!-- 	</bean> -->
+
+ 	<!-- Fin bean produit --> 
+	
+ 	<!--  bean PI --> 
+<!-- 	<bean id="AjouterDocumentPartieInteresseeServiceTest" -->
+<!-- 		class="com.gpro.consulting.tiers.commun.service.test.partieInteresse.AjouterDocumentPartieInteresseeServiceTest"> -->
+<!-- 		<property name="dataSource" ref="dataSource"></property> -->
+<!-- 		<property name="partieInteresseeDomaine" ref="partieInteresseeDomaine"></property> -->
+<!-- 	</bean> -->
+	
+<!-- 	<bean id="AjouterRepresenatantPartieInteresseeServiceTest" -->
+<!-- 		class="com.gpro.consulting.tiers.commun.service.test.partieInteresse.AjouterRepresenatantPartieInteresseeServiceTest"> -->
+<!-- 		<property name="dataSource" ref="dataSource"></property> -->
+<!-- 		<property name="partieInteresseeDomaine" ref="partieInteresseeDomaine"></property> -->
+<!-- 	</bean> -->
+	
+<!-- 	<bean id="ModifierCaracteristiquePartieInteresseeServiceTest" -->
+<!-- 		class="com.gpro.consulting.tiers.commun.service.test.partieInteresse.ModifierCaracteristiquePartieInteresseeServiceTest"> -->
+<!-- 		<property name="dataSource" ref="dataSource"></property> -->
+<!-- 		<property name="partieInteresseeDomaine" ref="partieInteresseeDomaine"></property> -->
+<!-- 	</bean> -->
+	
+<!-- 	<bean id="SupprimerDocumentPartieInteresseeServiceTest" -->
+<!-- 		class="com.gpro.consulting.tiers.commun.service.test.partieInteresse.SupprimerDocumentPartieInteresseeServiceTest"> -->
+<!-- 		<property name="dataSource" ref="dataSource"></property> -->
+<!-- 		<property name="partieInteresseeDomaine" ref="partieInteresseeDomaine"></property> -->
+<!-- 	</bean> -->
+	
+	
+<!-- 	<bean id="SupprimerRepresentantPartieInteresseeServiceTest" -->
+<!-- 		class="com.gpro.consulting.tiers.commun.service.test.partieInteresse.SupprimerRepresentantPartieInteresseeServiceTest"> -->
+<!-- 		<property name="dataSource" ref="dataSource"></property> -->
+<!-- 		<property name="partieInteresseeDomaine" ref="partieInteresseeDomaine"></property> -->
+<!-- 	</bean> -->
+	<!-- Fin bean PI --> 
+	
+	<bean id="ajouterFicheBesoin"
+		class="com.gpro.consulting.tiers.commun.service.test.ficheBesoin.FicheBesoinServiceTest">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="gIFicheBesoinDomaine" ref="ficheBesoinDomaine"></property>
+	</bean>
+	
+	
+
+</beans>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	
+	<!-- CommandeAchatTest -->
+	<bean id="commandeAchatServiceTest"
+		class="com.gpro.consulting.tiers.gc.service.test.impl.CommandeAchatServiceTest">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="commandeAchatDomaine" ref="commandeAchatDomaine" />
+	</bean>
+	
+	
+</beans>

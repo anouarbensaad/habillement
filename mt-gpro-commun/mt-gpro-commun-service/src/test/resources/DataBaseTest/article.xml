@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!-- INSERT INTO eb_article(
+            id, ref, designation, pu, pmp, producteur, date_introduction, 
+            laize, poids, tare, poids_brut, observation, bl_suppression, 
+            date_suppression, date_modification, date_creation, pi_pi_id, 
+            com_site_id, eb_sfart_id, eb_gros_id, eb_metr_id, eb_unite_id, 
+            eb_mat_id, emplacement, methode_gestion)
+    VALUES (100, 'ref', 'designation', 2.0, 2.0, 'producteur', '10/08/2015', 
+            2.0, 2.0, 2.0, 2.0, 'observation', true, 
+            null, null, null, 2, 
+            2, 2, 2, 2, 2, 
+            2, 'emplacement', 'methode');
+ -->

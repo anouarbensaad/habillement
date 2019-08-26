@@ -1,0 +1,368 @@
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-1">
+			<ul class="nav-gproS">
+				<li>
+					<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" 
+					href="#/GpaoMenu" ng-click="goOperation()">Catalogue
+					</a>
+				</li>
+				<li class="active">
+					<a style="margin-top: 10px" class="btn-block btn btn-action pull-right"
+					href="#/GpaoMenu" ng-click="goGammeMontage()">G.Montage</a>
+				</li>
+				<li>
+					<a style="margin-top: 10px" class="btn-block btn btn-action pull-right" 
+					href="#/GpaoMenu" ng-click="goGammeMontageOF()">G.Mont.OF</a>
+				</li>
+			</ul>
+		</div>
+		<div class="col-sm-11 cadreERP"  ng-controller="GammeMonatageCtrl">
+			<!-- Critere de recherche -->
+	<div class="row" ng-show="displayMode != 'edit'">
+		<div class="col-sm-12">
+			<button class="btn btn-action2 pull-right"
+				ng-click="AffectationGamme(gammeCourante)">Ajouter</button>
+		</div>
+		<div class="col-sm-12 ">
+			<div class="title-ajout">Crit&eacute;re de recherche</div>
+			<div class="panel panel-primary">
+				<div class="panel-body collapse in" >
+					<form class="form-horizontal" name="rechercheGammeForm"
+						id="rechercheGammeForm">
+
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-3">
+
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">R&eacute;f.Produit
+										</span> <select ui-select2 ng-model="gammeCourante.produitId"
+											ng-init="gammeCourante.produitId =''"
+											data-placeholder="..." style="width: 100%">
+											<OPTION value="">Tous les Produits</OPTION>
+											<option ng-repeat="pi in listProduitDrop" value="{{pi.id}}">{{pi.reference}}</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">
+											Produit </span> <select ui-select2
+											ng-model="gammeCourante.produitId"
+											ng-init="gammeCourante.produitId =''"
+											data-placeholder="..." style="width: 100%">
+											<OPTION value="">Tous les Produits</OPTION>
+											<option ng-repeat="pi in listProduitDrop" value="{{pi.id}}">{{pi.designation}}</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">Code
+											Op&eacute;ration</span> <input class="form-control" disabled/>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">Op&eacute;ration</span>
+										<input class="form-control" disabled />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">
+											Machine</span> <select ui-select2 ng-model="gammeCourante.machineId"
+											ng-init="gammeCourante.machineId =''" data-placeholder="..."
+											style="width: 100%">
+											<option value="">Toutes les Machines</option>
+											<option ng-repeat="pi in listeMachines" value="{{pi.id}}">{{pi.designation}}</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">Temps
+											Total Entre </span> <input type="number" step="any"
+											class="form-control" ng-model="gammeCourante.tempsTotalMin"
+											ng-init="gammeCourante.tempsTotalMin =''" />
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">ET</span>
+										<input class="form-control" type="number" step="any"
+											ng-model="gammeCourante.tempsTotalMax"
+											ng-init="gammeCourante.tempsTotalMax = ''"/>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">
+											Section</span> <select ui-select2 ng-model="gammeCourante.sectionId"
+											ng-init="gammeCourante.sectionId =''" data-placeholder="..."
+											style="width: 100%">
+											<option value="">Toutes les Sections</option>
+											<option ng-repeat="pi in listSections" value="{{pi.id}}">{{pi.designation}}</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+
+					<div class="pull-right">
+						<button class="btn-action btn" ng-click="downloadAllGammeMontage(gammeCourante)">Générer</button>
+						<button class="btn-action btn"
+							ng-click="rechercheGamme(gammeCourante)">Rechercher</button>
+						<button class="btn-action btn" ng-click="annulerAjout()">Annuler</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- container d'ajout,  modification et de consultation d'une gamme -->
+	<div class="row" ng-show="displayMode == 'edit'">
+	<form id="creationGammeForm" name="creationGammeForm">
+		<div class="col-sm-12">
+			<div class="pull-right">
+				<button class="btn btn-action" ng-click="sauvegarderAjout(gammeCourante)"
+					ng-disabled="!creationGammeForm.$valid;">Enregistrer</button>
+				<button class="btn-action btn" ng-click="download(gammeCourante.id)">G&eacute;n&eacute;rer</button>
+				<button class="btn btn-action" ng-click="annulerAjout()">Retour</button>
+			</div>
+		</div>
+		<div class="col-md-12">
+			<div class="panel panel-primary">
+				<div class="title-ajout">{{gammeCourante.designation}}</div>
+				<div class="panel-body" ng-show="displayMode == 'edit'">
+					<div >
+
+						<div class="form-group">
+						
+                            <!-- formulaire d'ajout -->
+							<div class="row box1">
+								<div class="col-sm-4">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">R&eacute;f.Produit
+										</span> <select ui-select2 ng-model="gammeCourante.produitId"  required aria-required="true" id="State1" 
+											ng-init="gammeCourante.produitId =''"
+											data-placeholder="..." style="width: 100%" >
+<!-- 											<option value="">----Slctionnez----</option> -->
+											<option ng-repeat="pi in listProduitAvailable" value="{{pi.id}}">{{pi.reference}}</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">
+											Produit </span> <select ui-select2
+											ng-model="gammeCourante.produitId"
+											ng-init="gammeCourante.produitId =''"  required aria-required="true" id="State" 
+											data-placeholder="..." style="width: 100%" >
+<!-- 											<option value="">----Slctionnez----</option> -->
+											<option ng-repeat="pi in listProduitAvailable" value="{{pi.id}}">{{pi.designation}}</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-4" >
+									<div class="input-group input-group-sm" >
+										<span class="input-group-addon label1" id="basic-addon1">Gamme Similaire
+										</span> <select ui-select2 
+											data-placeholder="..." style="width: 100%"  
+											ng-change="duplicateGammeProduit(produitId)" ng-model="produitId" >
+											<option ng-repeat="pi in listProduitUsed" value="{{pi.id}}">{{pi.reference}}</option>
+										</select>
+									</div>
+								</div>
+                                  
+							</div>
+							
+							<!-- formulaire de modification -->
+							<div class="row box">
+								<div class="col-sm-6">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">R&eacute;f.Produit
+										</span> <select ui-select2 ng-model="gammeCourante.produitReference"
+											ng-init="gammeCourante.produitReference =''"
+											data-placeholder="..." style="width: 100%" ng-disabled="prdReference">
+											<option ng-selected="gammeCourante.produitReference">{{gammeCourante.produitReference}}</option>
+											<option ng-repeat="pi in listProduitAvailable" value="{{pi.id}}">{{pi.reference}}</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon label1" id="basic-addon1">
+											Produit </span> <select ui-select2
+											ng-model="gammeCourante.produitDesignation"
+											ng-init="gammeCourante.produitDesignation=''"
+											data-placeholder="..." style="width: 100%" ng-disabled="prdDesignation">
+                                            <option ng-selected="gammeCourante.produitDesignation">{{gammeCourante.produitDesignation}}</option>
+											<option ng-repeat="pi in listProduitAvailable" value="{{pi.id}}">{{pi.designation}}</option>
+										</select>
+										
+									</div>
+								</div>
+								
+
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-6">
+									
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">Temps
+											Total</span> <input type="number" step="any" class="form-control"
+											ng-model="gammeCourante.tempsTotal" ng-disabled="tempsTotal"/>
+									</div>
+								</div>
+								<div class="col-sm-6">
+
+									<div class="input-group">
+										<span class="input-group-addon label1" id="basic-addon1">Nombre
+											des Op&eacute;rations</span> <input type="number" step="any"
+											class="form-control" ng-model="gammeCourante.nbOperation" ng-disabled="nbOperation"/>
+									</div>
+
+								</div>
+
+							</div>
+						</div>
+
+
+
+					</div>
+				</div>
+
+
+				<!-- end Div Ajout Gamme -->
+
+
+				<div class="title-ajout">Gamme</div>
+				<div class="panel-body">
+					<div class="form-group">
+						<div class="row">
+							<div class="panel panel-primary">
+							
+								<table
+									class="table table-bordered table-condensed table-head-color">
+									<thead>
+										<tr>
+<!-- 											<th class="hidden" style="width: 10%">Id</th> -->
+											<th class="TableHeaderalignment" style="width: 5%">Ordre</th>
+											<!-- <th class="TableHeaderalignment" style="width: 15%">Code Op&eacute;ration</th> -->
+											<th class="TableHeaderalignment" style="width: 23%">Op&eacute;ration</th>
+											<th class="TableHeaderalignment" style="width: 7%">Temps</th>
+											<th class="TableHeaderalignment" style="width: 5%">PDH</th>
+											<th class="TableHeaderalignment" style="width: 15%">Section</th>
+											<th class="TableHeaderalignment" style="width: 15%">Machine</th>
+											<th class="TableHeaderalignment" style="width: 25%">Observations</th>
+											<th class="TableHeaderalignment" style="width: 5%">CTG</th>
+											<th class="TableHeaderalignment" style="width: 5%"></th>
+											
+										</tr>
+									</thead>
+									<tbody ui-sortable ng-model="finalOperationsList">
+										<tr ng-repeat="item in finalOperationsList track by $index "
+											style="cursor: move;">
+											<td class="TableHeaderalignment">{{item.ordre}}</td>
+											<!-- <td class="TableHeaderalignment">
+												<input id='itemInput' type="text" ng-model="item.operationCode"
+												placeholder="Code Op&eacute;ration..."
+												typeahead="item.code for item in copyofOpList | filter:$viewValue"
+												class="form-control" 
+												typeahead-on-select="onOperationSelected($item,$index)" required
+												>
+											</td> -->
+											<td class="TableHeaderalignment"><input type="text" class="form-control"
+												ng-model="item.operationDesignation" placeholder="Op&eacute;ration..."
+												typeahead="item.designation  for item in copyofOpList | filter:$viewValue"
+												class="form-control"
+												typeahead-on-select="onOperationSelected($item,$index)" required/></td>
+											<td class="TableHeaderalignment"><input type="number" class="form-control"
+												ng-model="item.temps" ng-disabled="inactivetemps" /></td>
+											<td class="TableHeaderalignment"><input type="text" class="form-control"
+												ng-model="item.pdh" ng-disabled="inactive"/></td>
+											<td class="TableHeaderalignment">
+												<select ui-select2 ng-model="item.sectionId" required
+													data-placeholder="..." style="width: 100%" aria-required="true">
+													<option ng-repeat="pi in listSections" value="{{pi.id}}">{{pi.designation}}</option>
+												</select>
+											</td>
+											<td class="TableHeaderalignment">
+												<select ui-select2 ng-model="item.machineId" aria-required="true" required
+													data-placeholder="..." style="width: 100%">
+													<option ng-repeat="pi in listeMachines" value="{{pi.id}}">{{pi.designation}}</option>
+												</select>
+											</td>
+											<td class="TableHeaderalignment"><input type="text" class="form-control"
+												ng-model="item.observations" /></td>
+											<td class="TableHeaderalignment"><input type="checkbox" 
+												ng-model="item.comptage" /></td>
+											<td class="buttons TableHeaderalignment">
+												<button id="todoSubmit" class="btn btn-default btn-xs" data-nodrag 
+													ng-click="deleteElement(item,$index)"
+													ng-show="finalOperationsList.length>1">
+													<i class="fa fa-fw fa-trash-o"/>
+												</button>
+											</td>
+											
+										</tr>
+									</tbody>
+<!-- 									test : {{finalOperationsList}}<hr> -->
+<!-- 									{{item.operationCode}}<hr> -->
+<!-- 									formToSave.finalOperationsList {{formToSave.finalOperationsList}} -->
+<!--                                     Total: {{getTotal()}} -->
+								</table>
+								<button id="todoSubmit"
+									class="btn btn-action pull-right spacer2"
+									ng-click="addElement()">Ajouter</button>
+							</div>
+
+						</div>
+<!-- 						<div class="row"> -->
+<!-- 						   <h3>Final Form</h3> -->
+<!--                                 {{formToSave}} -->
+<!-- 						</div> -->
+					</div>
+
+				</div>
+
+
+
+			</div>
+		</div>
+	
+	</div>
+
+	<!-- container Grid-->
+	<div class="row" ng-show="displayMode != 'edit'">
+		<div class="col-md-12">
+			<div class="title-ajout line">Gamme</div>
+			<div class="row">
+				<div class="input-icon right mb10 col-md-3 pull-right">
+				<input placeholder="Taper un terme de recherche" type="text" ng-model="filterOptions.filterText"
+					class="form-control">
+				</div>
+			</div>
+			<div style="height: 500px;" ng-grid="gridOptions"></div>
+		</div>
+	</div>
+
+	<!-- Popup de la suppression -->
+	<div id="light" class="white_content">
+		<pop-up type="delete-article"></pop-up>
+	</div>
+	<div id="fade" class="black_overlay"></div>
+	<!-- Fin Popup de la suppression -->
+		</div>
+	</div>
+</div>

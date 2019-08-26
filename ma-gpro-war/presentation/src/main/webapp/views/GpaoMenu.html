@@ -1,0 +1,75 @@
+<div ng-controller="GPAOMenuController">
+	<ul class="nav nav-gpro spacer">
+		<li ng-class="{active:ITEM == 'OF' }"><a ng-click="goOF()">OF</a></li>
+		<li ng-class="{active:ITEM == 'operation' }"><a	ng-click="goOperation()">Méthode</a></li>
+		<li  ng-class="{active:ITEM == 'eclatement' }"><a ng-click="goEclatement()">Eclatement</a></li>
+		<li  ng-class="{active:ITEM == 'ficheSuiveuse' }"><a ng-click="goFicheSuiveuse()">Suivi de Production</a></li>
+<!-- 	    <li  ng-class="{active:ITEM == 'gpao' }"><a ng-click="goGPAO()">Tableau de Bord</a></li> -->
+	    <li  ng-class="{active:ITEM == 'reportingGpao' }"><a ng-click="goReportingGpao()">Reporting</a></li>
+	    <li  ng-class="{active:ITEM == 'chartGgpao' }"><a ng-click="gochartGgpao()">Tableau de Bord</a></li>
+	    
+	    <li ng-class="{active:ITEM == 'colisage' }"><a ng-click="goColisage()">Colisage</a></li>
+	    <li ng-class="{active:ITEM == 'palette' }"><a ng-click="goPalette()">Palette</a></li>
+	    
+	    
+	</ul>
+
+	<div ng-if="ITEM == 'OF'">
+		<div ng-include="'views/gpao.html'"></div>
+	</div>
+	<div ng-if="ITEM_Sub == 'catalogue'">
+		<div ng-include="'views/operation.html'"></div>
+	</div>
+	<div ng-if="ITEM_Sub == 'gammemontage'">
+		<div ng-include="'views/gammeMonatage.html'"></div>
+	</div>
+	<div ng-if="ITEM_Sub == 'gammemontageOF'">
+		<div ng-include="'views/gammeOF.html'"></div>
+	</div>
+	<div ng-if="ITEM == 'eclatement'">
+		<div ng-include="'views/eclatement.html'"></div>
+	</div>
+	<div ng-if="ITEM_Sub == 'ficheSuiveuse'">
+		<div ng-include="'views/ficheSuiveuse.html'"></div>
+	</div>
+	<div ng-if="ITEM_Sub == 'feuilleSaisie'">
+		<div ng-include="'views/feuilleSaisie.html'" ></div>
+	</div>
+	<div ng-if="ITEM_Sub == 'personnel'">
+		<div ng-include="'views/GpaoPersonnel.html'"></div>
+	</div>
+	<div ng-if="ITEM_Sub == 'feuilleSaisieJour'">
+		<div ng-include="'views/feuilleSaisieJournalier.html'"></div>
+	</div>
+	<div ng-if="ITEM_Sub == 'detailsaisie'">
+		<div ng-include="'views/Detailsaisie.html'"></div>
+	</div>
+	<div ng-if="ITEM_Sub == 'avancementof'">
+		<div ng-include="'views/avancementOF.html'"></div>
+	</div>
+	<div ng-if="ITEM_Sub == 'detailsSuivi'">
+		<div ng-include="'views/detailsSuivi.html'"></div>
+	</div>
+	<div ng-if="ITEM_Sub == 'detailsSuiviTR'">
+		<div ng-include="'views/detailsSuiviTR.html'"></div>
+	</div>
+<!-- 	<div ng-if="ITEM == 'gpao'"> -->
+<!-- 		<div ng-include="'views/ChartGraphiqueGPAO.html'"></div> -->
+<!-- 	</div> -->
+	<div ng-if="ITEM == 'chartGgpao'">
+		<div ng-include="'views/tableauDeBordGPAO.html'"></div>
+	</div>
+	<div ng-if="ITEM == 'reportingGpao'">
+		<div ng-include="'views/gpaoReporting.html'" ng-show="ITEM == 'reportingGpao'"></div>
+	</div>
+	
+		<div ng-if="ITEM == 'colisage'">
+		<div ng-include="'views/colisage.html'"></div>
+	</div>
+	
+	
+	<div ng-if="ITEM == 'palette'">
+		<div ng-include="'views/expedition/bonSortie.html'"></div>
+	</div>
+	
+</div>

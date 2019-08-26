@@ -1,0 +1,819 @@
+
+
+<div class="row" id="deletePopupX">
+	<span class="pull-right clickable" ng-click="closePopupDelete()">X</span>
+</div>
+
+<!--POPUP Article -->
+<div ng-show="message == 0" class="row" style="text-align: center">
+	<div class="title-ajout line2">{{messages[message]}}
+		{{myData[index].designation}}</div>
+</div>
+<div ng-show="message == 0" class="row" style="text-align: center">
+	<button class="btn btn-action" ng-click="supprimerArticle()">Oui</button>
+	<button class="btn btn-action" ng-click="closePopupDelete()">Non</button>
+</div>
+
+<!-- POPUP Partie Interessee -->
+<div ng-show="message == 1" class="row" style="text-align: center">
+	<div class="title-ajout line2">{{messages[message]}}
+		{{myData[index].abreviation}}</div>
+</div>
+<div ng-show="message == 1" class="row" style="text-align: center">
+	<button class="btn btn-action" ng-click="supprimerPartieInteressee()">Oui</button>
+	<button class="btn btn-action" ng-click="closePopupDelete()">Non</button>
+</div>
+
+<!-- POPUP Produit -->
+<div ng-show="message == 3" class="row" style="text-align: center">
+	<div class="title-ajout line2">{{messages[message]}}
+		{{myData[index].designation}}</div>
+</div>
+<div ng-show="message == 3" class="row" style="text-align: center">
+	<button class="btn btn-action" ng-click="supprimerProduit()">Oui</button>
+	<button class="btn btn-action" ng-click="closePopupDelete()">Non</button>
+</div>
+<!-- POPUP Stock -->
+<div ng-show="message == 4" class="row" style="text-align: center">
+	<div class="title-ajout line2">{{messages[message]}} {{myData[index].numero}}
+		</div>
+</div>
+<div ng-show="message == 4" class="row" style="text-align: center">
+	<button class="btn btn-action" ng-click="supprimerMouvementStock()">Oui</button>
+	<button class="btn btn-action" ng-click="closePopupDelete()">Non</button>
+</div>
+
+<!-- POPUP Gc Vente - CommandeVente -->
+<div ng-show="message == 20" class="row" style="text-align: center">
+	<div class="title-ajout line2">{{messages[5]}}
+		</div>
+</div>
+<div ng-show="message == 20" class="row" style="text-align: center">
+	<button class="btn btn-action" ng-click="supprimerCommandeVente()">Oui</button>
+	<button class="btn btn-action" ng-click="closePopupDelete()">Non</button>
+</div>
+
+<!-- POPUP Gc Vente - ProduitCommande -->
+<div>
+	<div ng-show="message == 21" class="row" style="text-align: center">
+		<div class="title-ajout line2">{{messages[6]}}
+			</div>
+	</div>
+	<div ng-show="message == 21" class="row" style="text-align: center">
+		<button class="btn btn-action" ng-click="supprimerProduitCommandeVente()">Oui</button>
+		<button class="btn btn-action" ng-click="closePopupDelete()">Non</button>
+	</div>
+</div>
+	
+<!-- GPAO -->
+<div>
+	<!--POPUP OF -->
+	<div ng-show="message == 15" class="row" style="text-align: center">
+		<div class="title-ajout line2">Suppression d'un OF</div>
+	</div>
+	<div ng-show="message == 15" class="row" style="text-align: center">
+		<button class="btn btn-action" ng-click="supprimerOrdreFabrication()">Oui</button>
+		<button class="btn btn-action" ng-click="closePopupDelete()">Non</button>
+	</div>
+	<!--POPUP Operation -->
+	<div ng-show="message == 22" class="row" style="text-align: center">
+		<div class="title-ajout line2">Suppression Operation
+		  {{myData[index].designation}}</div>
+		</div>
+	<div ng-show="message == 22" class="row" style="text-align: center">
+		 <button class="btn btn-action" ng-click="supprimerOperation()">Oui</button>
+		 <button class="btn btn-action" ng-click="closePopupDelete()">Non</button>
+	</div>
+
+	<!--POPUP Gamme Montage / OF-->
+	<div ng-show="message == 23" class="row" style="text-align: center">
+	 	<div class="title-ajout line2">Suppression Gamme
+		  {{myData[index].produitDesignation}}</div>
+	</div>
+	<div ng-show="message == 23" class="row" style="text-align: center">
+	 	<button class="btn btn-action" ng-click="supprimerGamme()">Oui</button>
+	 	<button class="btn btn-action" ng-click="closePopupDelete()">Non</button>
+	</div>
+	<!--POPUP Feuille Saisie -->
+ <div ng-show="message == 24" class="row" style="text-align: center">
+   <div class="title-ajout line2">Suppression Feuille Saisie
+    {{myData[index].personnelMatricule}}</div>
+ </div>
+ <div ng-show="message == 24" class="row" style="text-align: center">
+   <button class="btn btn-action" ng-click="supprimerFeuilleSaisie()">Oui</button>
+   <button class="btn btn-action" ng-click="closePopupDelete()">Non</button>
+ </div>
+ <!--POPUP Personnel -->
+ <div ng-show="message == 25" class="row" style="text-align: center">
+   <div class="title-ajout line2">Suppression Personnel
+    {{myData[index].matricule}}</div>
+ </div>
+ <div ng-show="message == 25" class="row" style="text-align: center">
+   <button class="btn btn-action" ng-click="supprimerPersonne()">Oui</button>
+   <button class="btn btn-action" ng-click="closePopupDelete()">Non</button>
+ </div>
+</div>
+
+<!-- STOCK : Entre / Sortie -->
+<!-- POPUP Fourniture Entree -->
+<div ng-show="message == 5" class="row">
+	<div class='title-ajout'>Ajouter Fournitures</div>
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<form class="form-horizontal" id="stockEntreeFournitureForm"
+				name="stockEntreeFournitureForm">
+				<div class="form-group">
+					<div class="row">
+						<!-- <div class="col-sm-3">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Famille
+								</span>
+								<select ui-select2
+										ng-model="articleEntree.familleEntite"
+										data-placeholder="..." style="width: 100%">
+									<option ng-repeat="famille in listeFamilleCache"
+										value="{{famille.id}}">{{famille.designation}}</option>
+								</select>
+							</div>
+						</div> -->
+						<div class="col-sm-4">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Sous
+									Famille </span>
+								<select ui-select2
+									ng-model="articleEntree.sousFamilleEntite" data-placeholder="Pick a state"
+									style="width: 100%">
+									<optgroup ng-repeat="famille in listeFamilleCache"
+										label="famille : {{famille.designation}} -- {{famille.designationType}}">
+										<option ng-repeat="sousFamille in famille.sousFamille"
+											value="{{sousFamille.id}}">{{sousFamille.designation}}</option>
+									</optgroup>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">R&eacute;f&eacute;rence
+								</span> <input class="form-control" ng-model="articleEntree.ref" />
+							</div>
+						</div>
+						<div class="col-sm-5">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">D&eacute;signation
+								</span> <input class="form-control"
+									ng-model="articleEntree.designation" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+			<div class="pull-right">
+				<button class="btn-action btn" ng-click="rechercheMvtParCritere(1)">Recherecher</button>
+				<button class="btn-action3 btn" ng-click="viderFormEntree(articleEntree.typeEntite)">Annuler</button>
+			</div>
+		</div>
+		<div style="height: 200px;" ng-grid="gridFournituresE"></div> 
+		<!-- <div>{{mySelectionsETissuTmp}}</div> -->
+		<div class="pull-right">
+			<button class="btn-action btn spacer2"
+				ng-click="closePopupDelete();showSelectedInfoPopUpEntree(3)">Valider</button>
+		</div>
+	</div>
+</div>
+
+<!-- POPUP TISSU ENTREE -->
+<div ng-show="message == 9" class="row" id="ng-grid7">
+	<div class='title-ajout'>Ajouter Tissu</div>
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<form class="form-horizontal" id="stockEntreeTissuForm"
+				name="stockEntreeTissuForm">
+				<div class="form-group">
+					<div class="row">
+						<!-- <div class="col-sm-3">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Famille
+								</span> 
+								<select ui-select2
+										ng-model="articleEntree.familleEntite"
+										data-placeholder="..." style="width: 100%">
+									<option
+										ng-repeat="famille in listeFamilleCache"
+										value="{{famille.id}}">{{famille.designation}}</option>
+								</select>
+							</div>
+						</div> -->
+						<div class="col-sm-4">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Sous
+									Famille </span>
+								<select ui-select2
+									ng-model="articleEntree.sousFamilleEntite" data-placeholder="Pick a state"
+									style="width: 100%">
+									<optgroup ng-repeat="famille in listeFamilleCache"
+										label="famille : {{famille.designation}} -- {{famille.designationType}}">
+										<option ng-repeat="sousFamille in famille.sousFamille"
+											value="{{sousFamille.id}}">{{sousFamille.designation}}</option>
+									</optgroup>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Référence
+								</span> <input class="form-control" ng-model="articleEntree.ref" />
+							</div>
+						</div>
+						<div class="col-sm-5">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Désignation
+								</span> <input class="form-control"
+									ng-model="articleEntree.designation" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+			<div class="pull-right">
+				<button class="btn-action btn" ng-click="rechercheMvtParCritere(1)">Recherecher</button>
+				<button class="btn-action3 btn" ng-click="viderFormEntree(articleEntree.typeEntite)">Annuler</button>
+			</div>
+		</div>
+		<div style="height: 200px;" ng-grid="gridTissusEtemp"></div>
+		<div class="pull-right">
+			<button class="btn-action btn spacer2"
+				ng-click="closePopupDelete();showSelectedInfoPopUpEntree(4)">Valider</button>
+		</div>
+	</div>
+</div>
+
+<!-- POPUP Fil A Coudre Entree -->
+<div ng-show="message == 10" class="row" id="ng-grid7">
+	<div class='title-ajout'>Ajouter Fil A Coudre</div>
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<form class="form-horizontal" id="stockEntreeFilForm"
+				name="stockEntreeFilForm">
+				<div class="form-group">
+					<div class="row">
+						<!-- <div class="col-sm-3">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Famille
+								</span> 
+								<select ui-select2
+										ng-model="articleEntree.familleEntite"
+										data-placeholder="..." style="width: 100%">
+									<option ng-repeat="famille in listeFamilleCache"
+										value="{{famille.id}}">{{famille.designation}}</option>
+								</select>
+							</div>
+						</div> -->
+						<div class="col-sm-4">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Sous
+									Famille </span>
+								<select ui-select2
+									ng-model="articleEntree.sousFamilleEntite" data-placeholder="Pick a state"
+									style="width: 100%">
+									<optgroup ng-repeat="famille in listeFamilleCache"
+										label="famille : {{famille.designation}} -- {{famille.designationType}}">
+										<option ng-repeat="sousFamille in famille.sousFamille"
+											value="{{sousFamille.id}}">{{sousFamille.designation}}</option>
+									</optgroup>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Référence
+								</span> <input class="form-control" ng-model="articleEntree.ref" />
+							</div>
+						</div>
+						<div class="col-sm-5">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Désignation
+								</span> <input class="form-control"
+									ng-model="articleEntree.designation" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+			<div class="pull-right">
+				<button class="btn-action btn" ng-click="rechercheMvtParCritere(1)">Recherecher</button>
+				<button class="btn-action3 btn" ng-click="viderFormEntree(articleEntree.typeEntite)">Annuler</button>
+			</div>
+		</div>
+		<div style="height: 200px;" ng-grid="gridFilaCoudresE">
+			<!-- <div>{{mySelectionsEFACtemp}} </div> -->
+		</div>
+		<div class="pull-right">
+			<button class="btn-action btn spacer2"
+				ng-click="closePopupDelete();showSelectedInfoPopUpEntree(5)">Valider</button>
+		</div>
+	</div>
+</div>
+
+<!-- POPUP Fourniture Sortie -->
+<div ng-show="message == 6" class="row" id="ng-grid6">
+	<div class='title-ajout'>Ajouter Fournitures</div>
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<form class="form-horizontal" id="stockSortieFournitureForm"
+				name="stockSortieFournitureForm">
+				<div class="form-group">
+					<div class="row">
+						<!-- <div class="col-sm-3">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Famille
+								</span>
+								<select ui-select2
+										ng-model="entiteStockFournitureCourante.familleArticle"
+										data-placeholder="..." style="width: 100%">
+									<option ng-repeat="famille in listeFamilleCache"
+										value="{{famille.id}}">{{famille.designation}}</option>
+								</select>
+							</div>
+						</div> -->
+						<div class="col-sm-4">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Sous
+									Famille </span>
+								<select ui-select2
+									ng-model="entiteStockFournitureCourante.sousFamilleArticle" data-placeholder="Pick a state"
+									style="width: 100%">
+									<optgroup ng-repeat="famille in listeFamilleCache"
+										label="famille : {{famille.designation}} -- {{famille.designationType}}">
+										<option ng-repeat="sousFamille in famille.sousFamille"
+											value="{{sousFamille.id}}">{{sousFamille.designation}}</option>
+									</optgroup>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Référence
+								</span> <input class="form-control"
+									ng-model="entiteStockFournitureCourante.refArticle" />
+							</div>
+						</div>
+						<div class="col-sm-5">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Désignation
+								</span> <input class="form-control"
+									ng-model="entiteStockFournitureCourante.article" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+			<div class="pull-right">
+				<button class='btn-action btn' ng-click='rechercheMvtParCritere(0)'>Recherecher</button>
+				<button class="btn-action3 btn" ng-click="viderFormSortie(entiteStockFournitureCourante.typeArticle)">Annuler</button>
+			</div>
+		</div>
+		<div style="height: 200px;" ng-grid="gridFournituresS"></div>
+		<div class="pull-right">
+			<button class="btn-action btn spacer2"
+				ng-click="closePopupDelete();showSelectedInfo(0)">Valider</button>
+		</div>
+	</div>
+</div>
+
+<!-- POPUP TISSU Sortie -->
+<div ng-show="message == 7" class="row" id="ng-grid7">
+	<div class='title-ajout'>Ajouter Tissu</div>
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<form class="form-horizontal" id="stockSortieTissuForm"
+				name="stockSortieTissuForm">
+				<div class="form-group">
+					<div class="row">
+						<!-- <div class="col-sm-3">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Famille
+								</span>
+								<select ui-select2
+									ng-model="entiteStockFournitureCourante.sousFamilleArticle" data-placeholder="Pick a state"
+									style="width: 100%">
+									<optgroup ng-repeat="famille in listeFamilleCache"
+										label="famille : {{famille.designation}} -- {{famille.designationType}}">
+										<option ng-repeat="sousFamille in famille.sousFamille"
+											value="{{sousFamille.id}}">{{sousFamille.designation}}</option>
+									</optgroup>
+								</select>
+							</div>
+						</div> -->
+						<div class="col-sm-4">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Sous
+									Famille </span> 
+								<select ui-select2
+									ng-model="entiteStockFournitureCourante.sousFamilleArticle" data-placeholder="Pick a state"
+									style="width: 100%">
+									<optgroup ng-repeat="famille in listeFamilleCache"
+										label="famille : {{famille.designation}} -- {{famille.designationType}}">
+										<option ng-repeat="sousFamille in famille.sousFamille"
+											value="{{sousFamille.id}}">{{sousFamille.designation}}</option>
+									</optgroup>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Référence
+								</span> <input class="form-control"
+									ng-model="entiteStockFournitureCourante.refArticle" />
+							</div>
+						</div>
+						<div class="col-sm-5">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Désignation
+								</span> <input class="form-control"
+									ng-model="entiteStockFournitureCourante.article" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+			<div class="pull-right">
+				<button class="btn-action btn" ng-click="rechercheMvtParCritere(0)">Recherecher</button>
+				<button class="btn-action3 btn" ng-click="viderFormSortie(entiteStockFournitureCourante.typeArticle)">Annuler</button>
+			</div>
+		</div>
+		<div style="height: 200px;" ng-grid="gridTissusS"></div>
+		<div class="pull-right">
+			<button class="btn-action btn spacer2"
+				ng-click="closePopupDelete();showSelectedInfo(1)">Valider</button>
+		</div>
+	</div>
+</div>
+
+<!-- POPUP Fil A Coudre Sortie -->
+<div ng-show="message == 8" class="row" id="ng-grid7">
+	<div class='title-ajout'>Ajouter Fil A Coudre</div>
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<form class="form-horizontal" id="stockSortieFilForm"
+				name="stockSortieFilForm">
+				<div class="form-group">
+					<div class="row">
+						<!-- <div class="col-sm-3">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Famille
+								</span>
+								<select ui-select2
+										ng-model="entiteStockFournitureCourante.familleArticle"
+										data-placeholder="..." style="width: 100%">
+									<option ng-repeat="famille in listeFamilleCache"
+										value="{{famille.id}}">{{famille.designation}}</option>
+								</select>
+							</div>
+						</div> -->
+						<div class="col-sm-4">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Sous
+									Famille </span>
+								<select ui-select2
+									ng-model="entiteStockFournitureCourante.sousFamilleArticle" data-placeholder="Pick a state"
+									style="width: 100%">
+									<optgroup ng-repeat="famille in listeFamilleCache"
+										label="famille : {{famille.designation}} -- {{famille.designationType}}">
+										<option ng-repeat="sousFamille in famille.sousFamille"
+											value="{{sousFamille.id}}">{{sousFamille.designation}}</option>
+									</optgroup>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Référence
+								</span> <input class="form-control"
+									ng-model="entiteStockFournitureCourante.refArticle" />
+							</div>
+						</div>
+						<div class="col-sm-5">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Désignation
+								</span> <input class="form-control"
+									ng-model="entiteStockFournitureCourante.article" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+			<div class="pull-right">
+				<button class="btn-action btn" ng-click="rechercheMvtParCritere(0)">Recherecher</button>
+				<button class="btn-action3 btn" ng-click="viderFormSortie(entiteStockFournitureCourante.typeArticle)">Annuler</button>
+			</div>
+		</div>
+		<div style="height: 200px;" ng-grid="gridFilaCoudresS"></div>
+		<div class="pull-right">
+			<button class="btn-action btn spacer2"
+				ng-click="closePopupDelete();showSelectedInfo(2)">Valider</button>
+		</div>
+	</div>
+</div>
+
+
+<!-- Fiche Besoin -->
+<!-- POPUP FicheBesoin FOURNITURE ENTREE -->
+<!-- <div ng-show="message == 11" class="row"> -->
+<!-- 	<div class='title-ajout'>Ajouter Fournitures</div> -->
+<!-- 	<div class="panel panel-primary"> -->
+<!-- 		<div class="panel-body"> -->
+<!-- 			<form class="form-horizontal" id="creationStockForm" -->
+<!-- 				name="creationStockForm"> -->
+<!-- 				<div class="form-group"> -->
+<!-- 					<div class="row"> -->
+<!-- 						<div class="col-sm-3"> -->
+<!-- 							<div class="input-group input-group-sm"> -->
+<!-- 								<span class="input-group-addon label1" id="basic-addon1">Famille -->
+<!-- 								</span><select class="form-control" -->
+<!-- 									ng-model="articleFicheBesoin.familleEntite"><option -->
+<!-- 										ng-repeat="famille in listeFamilleCache" -->
+<!-- 										value="{{famille.id}}">{{famille.designation}}</option></select> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 						<div class="col-sm-3"> -->
+<!-- 							<div class="input-group input-group-sm"> -->
+<!-- 								<span class="input-group-addon label1" id="basic-addon1">Sous -->
+<!-- 									Famille </span><select class="form-control" -->
+<!-- 									ng-model="articleFicheBesoin.sousFamilleEntite"><option -->
+<!-- 										ng-repeat="sousfamille in listeSousFamilleCache" -->
+<!-- 										value="{{sousfamille.id}}">{{sousfamille.designation}}</option></select> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 						<div class="col-sm-3"> -->
+<!-- 							<div class="input-group input-group-sm"> -->
+<!-- 								<span class="input-group-addon label1" id="basic-addon1">R&eacute;f&eacute;rence -->
+<!-- 								</span> <input class="form-control" ng-model="articleFicheBesoin.ref" /> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 						<div class="col-sm-3"> -->
+<!-- 							<div class="input-group input-group-sm"> -->
+<!-- 								<span class="input-group-addon label1" id="basic-addon1">D&eacute;signation -->
+<!-- 								</span> <input class="form-control" -->
+<!-- 									ng-model="articleFicheBesoin.designation" /> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+<!-- 			</form> -->
+<!-- 			<div class="pull-right"> -->
+<!-- 				<button class="btn-action btn" ng-click="rechercheMvtParCritere(2)">Recherecher</button> -->
+<!-- 				<button class="btn-action3 btn" ng-click="viderFormEntree()">Annuler</button> -->
+ 
+<!-- 			</div> -->
+<!-- 		</div> -->
+<!-- 		<div style="height: 200px;" ng-grid="gridFournituresE"></div> -->
+<!-- 		<div class="pull-right"> -->
+<!-- 			<button class="btn-action btn spacer2" -->
+<!-- 				ng-click="closePopupDelete();showSelectedInfo(3)">Valider</button> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
+<!-- </div> -->
+
+<!--POPUP suppresion Fiche besoin : element fourniture -->
+<div ng-show="message == 11" class="row" style="text-align: center">
+	<div class="title-ajout line2">{{messages[message]}}
+		{{myData[index].designation}}</div>
+</div>
+<div ng-show="message == 11" class="row" style="text-align: center">
+	<button class="btn btn-action" ng-click="supprimerArticle()">Oui</button>
+	<button class="btn btn-action" ng-click="closePopupDelete()">Non</button>
+</div>
+
+
+<!-- POPUP FicheBesoin TISSU ENTREE -->
+<div ng-show="message == 12" class="row" id="ng-grid7">
+	<div class='title-ajout'>Ajouter Tissu</div>
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<form class="form-horizontal" id="creationStockForm2"
+				name="creationStockForm2">
+				<div class="form-group">
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Famille
+								</span> <select class="form-control"
+									ng-model="articleFicheBesoin.familleArticle"><option
+										ng-repeat="famille in listeFamilleCache"
+										value="{{famille.id}}">{{famille.designation}}</option></select>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Sous
+									Famille </span> <select class="form-control"
+									ng-model="articleFicheBesoin.sousFamilleArticle"><option
+										ng-repeat="sousfamille in listeSousFamilleCache"
+										value="{{sousfamille.id}}">{{sousfamille.designation}}</option></select>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Mati&egrave;re
+								</span> <select class="form-control"
+									ng-model="articleFicheBesoin.matiere"><option
+										ng-repeat="matiere in listeMatiereCache"
+										value="{{matiere.id}}">{{matiere.designation}}</option></select>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">R&eacute;f&eacute;rence
+								</span> <input class="form-control" ng-model="articleFicheBesoin.ref" />
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">D&eacute;signation
+								</span> <input class="form-control"
+									ng-model="articleFicheBesoin.designation" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+			<div class="pull-right">
+				<button class="btn-action btn" ng-click="rechercheMvtParCritere(1)">Recherecher</button>
+				<button class="btn-action3 btn" ng-click="viderFormEntree()">Annuler</button>
+			</div>
+		</div>
+		<div style="height: 200px;" ng-grid="gridTissusE"></div>
+		<div class="pull-right">
+			<button class="btn-action btn spacer2"
+				ng-click="closePopupDelete();showSelectedInfo(4)">Valider</button>
+		</div>
+	</div>
+</div>
+
+<!-- POPUP FicheBesoin Fil A Coudre Entree -->
+<div ng-show="message == 13" class="row" id="ng-grid7">
+	<div class='title-ajout'>Ajouter Fil A Coudre</div>
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<form class="form-horizontal" id="creationStockForm2"
+				name="creationStockForm2">
+				<div class="form-group">
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Famille
+								</span> <select class="form-control"
+									ng-model="articleFicheBesoin.familleArticle"><option
+										ng-repeat="famille in listeFamilleCache"
+										value="{{famille.id}}">{{famille.designation}}</option></select>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Sous
+									Famille </span> <select class="form-control"
+									ng-model="articleFicheBesoin.sousFamilleArticle"><option
+										ng-repeat="sousfamille in listeSousFamilleCache"
+										value="{{sousfamille.id}}">{{sousfamille.designation}}</option></select>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">M&eacute;trage
+								</span> <input class="form-control" ng-model="t" />
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Grosseur
+								</span> <input class="form-control" ng-model="t" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">R&eacute;f&eacute;rence
+								</span> <input class="form-control" ng-model="articleFicheBesoin.ref" />
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">D&eacute;signation
+								</span> <input class="form-control"
+									ng-model="articleFicheBesoin.designation" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+			<div class="pull-right">
+				<button class="btn-action btn" ng-click="rechercheMvtParCritere(1)">Recherecher</button>
+				<button class="btn-action3 btn" ng-click="viderFormEntree()">Annuler</button>
+			</div>
+		</div>
+		<div style="height: 200px;" ng-grid="gridFilaCoudresE"></div>
+		<div class="pull-right">
+			<button class="btn-action btn spacer2"
+				ng-click="closePopupDelete();showSelectedInfo(5)">Valider</button>
+		</div>
+	</div>
+</div>
+
+<!-- POPUP Detail Element -->
+<div ng-show="message == 14" class="row">
+	<div class='title-ajout'>D&eacute;tails BOUTONXXS</div>
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<form class="form-horizontal" id="StockEntreeFournitureForm"
+				name="StockEntreeFournitureForm">
+				<div class="form-group">
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">R&eacute;f&eacute;rence
+								</span> <input class="form-control" ng-model="articleFicheBesoin.ref" />
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">D&eacute;signation
+								</span> <input class="form-control"
+									ng-model="articleFicheBesoin.designation" />
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Famille
+								</span><input class="form-control"
+									ng-model="articleFicheBesoin.familleArticleDesignation" />
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="input-group input-group-sm">
+								<span class="input-group-addon label1" id="basic-addon1">Sous
+									Famille </span><input class="form-control"
+									ng-model="articleFicheBesoin.sousFamilleArtEntiteDesignation" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+			<table class="table table-bordered table-condensed table-head-color">
+				<thead>
+					<tr>
+						<th></th>
+						<th ng-repeat="taille in listeTaille">{{taille.designation}}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="couleur in listeColor" class="taille">
+						<td>{{couleur.designation}}</td>
+						<td ng-repeat="taille in listeTaille track by $index"><input
+							class="form-control" ng-model="TC[$index][$parent.$index]"
+							ng-change="addNewElement(taille,couleur,$index,$parent.$index)"
+							id="TC{{taille.ebTailleId}}{{couleur.ebCouleurId}}"> <input
+							class="hidden" value="{{taille.ebTailleId}}"> <input
+							class="hidden" ng-model="articleEntree.couleur"
+							value="{{couleur.ebCouleurId}}"></td>
+					</tr>
+				</tbody>
+			</table>
+		
+			<div class="pull-right">
+				<button class="btn-action btn spacer2"
+					ng-click="closePopupDelete();showSelectedInfo(6)">Valider</button>
+			</div>
+		</div>
+	</div>
+<!-- 	matrix = {{matrix}} <br> elementValueRow = {{elementValueRow}} <br> -->
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
