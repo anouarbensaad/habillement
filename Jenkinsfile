@@ -6,7 +6,7 @@ node{
         def mvnHome = tool name: 'Maven', type: 'maven'
         def mvnCmd = "${mvnHome}/bin/mvn"
         def mvnVer = "${mvnCmd}/bin/mvn --version"
-        sh "echo -e \"===============\n Maven Version\n===============\"
+        sh "echo -e '===============\n Maven Version\n===============\'"
         sh "${mvnVer}"
         sh "echo -e \"\n===============\"
         sh "echo -e  ======Maven Version : ;${mvnVer}"
