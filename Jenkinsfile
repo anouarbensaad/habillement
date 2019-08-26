@@ -5,10 +5,10 @@ node{
     stage('Compile & build'){
         def mvnHome = tool name: 'Maven', type: 'maven'
         def mvnCmd = "${mvnHome}/bin/mvn"
-        def mvnVer = "${mvnCmd}/bin/mvn --version"
-        sh "echo -e =============== Maven Version ==============="
+        def mvnVer = "${mvnCmd} --version"
+        sh "echo =============== Maven Version ==============="
         sh "${mvnVer}"
-        sh "echo -e ==============="
+        sh "echo ==============="
         sh "${mvnCmd} -X clean install -DskipTests"
     }
 }
