@@ -61,7 +61,7 @@ pipeline {
                // Test errors if docker image build ?.
                try{
                   sh "pwd"
-                  myService = docker.build('test -f ${pwd}/Dockerfile')
+                  myService = docker.build("test -f ${pwd}")
                }catch (Exception err) {
                   sh "echo ${err}"
                }
