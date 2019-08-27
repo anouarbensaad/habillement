@@ -3,6 +3,9 @@ node{
         checkout scm
     }
     stage('Compile & build'){
+        environment {
+            JAVA_HOME = "/usr/lib/jvm/java-8-openjdk-amd64"
+        }
         def mvnHome = tool name: 'Maven', type: 'maven'
         def mvnCmd = "${mvnHome}/bin/mvn"
         def mvnVer = "${mvnCmd} --version"
