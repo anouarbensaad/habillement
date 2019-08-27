@@ -26,12 +26,14 @@ pipeline {
             jdk "JDK"
             maven "Maven"
          }
-         steps {    
-            sh "echo -*- Java Version"   
-            sh "java -version"
-            sh "echo -*- Maven Version" 
-            sh "mvn --version"
-            sh "echo -*- Maven Building"
+         steps {
+            sh '''
+               echo "-*- Java Version"   
+               java -version"
+               echo "-*- Maven Version" 
+               mvn --version
+               echo "-*- Maven Building"
+            '''
             script {
                try {
                   sh "mvn clean install -DskipTests"
@@ -48,7 +50,10 @@ pipeline {
             script {
                WARPATH = "ma-gpro-planning-1.0.1.0-SNAPSHOT.war"
             }
-            sh "cp ./ma-gpro-planning-war/presentation/target/${WARPATH} ."
+            sh '''
+            mkdir Snapshot
+            cp ./ma-gpro-planning-war/presentation/target/${WARPATH} ./Snapshot/
+            '''
             // Run dockerbuild.sh to build Images.
             // add the excutable right to run this script.
          }
