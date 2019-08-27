@@ -70,6 +70,7 @@ pipeline {
             script{
                // Test errors if docker image build ?.
                try{
+                  sh "whoami"
                   sh "pwd"
                   myService = docker.build("gpro-ci:latest", ".")
                }catch (Exception err) {
