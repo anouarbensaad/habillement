@@ -64,6 +64,7 @@ pipeline {
                   myService = docker.build("gpro-ci:latest", ".")
                }catch (Exception err) {
                   sh "echo ${err}"
+                  currentBuild.result = 'FAILURE'
                }
             }
          }
