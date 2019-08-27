@@ -25,6 +25,7 @@ agent any
                   sh "mvn clean install -DskipTests"
                }catch(Exception err) {
                   echo "Error maven build and test."
+                  currentBuild.result = 'FAILURE'
                }
             }
          }
@@ -32,7 +33,8 @@ agent any
 
       stage('Docker Build') {
          steps {
-            sh "cp ./ma-gpro-planning-war/presentation/target/ma-gpro-planning-1.0.1.0-SNAPSHOT.war ."
+            def WARPATH = "ma-gpro-planning-1.0.1.0-SNAPSHOT.war"
+            sh "cp ./ma-gpro-planning-war/presentation/target/${WARPATH} ."
          }
       }
    }
