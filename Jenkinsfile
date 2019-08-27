@@ -1,7 +1,10 @@
 pipeline {
+    
     agent any       
     currentBuild.result = "SUCCESS"    
+    
     try{       
+        
         stages {           
             stage('Checkout SCM') {          
                 steps {
@@ -12,18 +15,21 @@ pipeline {
                 tools{
                     jdk "JDK"
                     maven "Maven"}
-                steps {        
-                    sh "echo ============== JavaJDK Version =============="
+                steps {    
+                    sh "echo -*- Java Version"   
                     sh "java -version"
-                    sh "echo =============== Maven Version ==============="   
+                    sh "echo -*- Maven Version" 
                     sh "mvn --version"
-                    sh "echo =============== Maven _ Build ==============="
+                    sh "echo -*- Maven Building" 
                     sh "mvn -X clean install -DskipTests" 
                 }
             }
         }
     }
+    
     catch(err) {
         currentBuild.result = "FAILURE"
         throw err
+    }
+    
 }
