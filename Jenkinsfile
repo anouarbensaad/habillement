@@ -3,12 +3,12 @@ pipeline {
     currentBuild.result = "SUCCESS"    
     try{       
         stages {           
-            stage('Checkout SCM'){          
+            stage('Checkout SCM') {          
                 steps {
                     checkout scm
                 }
             }
-            stage('Compile & build'){ 
+            stage('Compile & build') { 
                 tools{
                     jdk "JDK"
                     maven "Maven"}
@@ -22,8 +22,8 @@ pipeline {
                 }
             }
         }
-    }catch(err){
+    }
+    catch(err) {
         currentBuild.result = "FAILURE"
         throw err
-    }
 }
