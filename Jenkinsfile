@@ -54,7 +54,7 @@ pipeline {
             sh """
                if [ -d ${WARDIR} ] ; then
                   echo Build directory exist.
-                  cp ./ma-gpro-planning-war/presentation/target/${WARPATH} ${WARDIR}/
+                  cp ./ma-gpro-war/presentation/target/${WARPATH} ${WARDIR}/
                else
                   mkdir ${WARDIR}
                   echo Builds directory has been created
