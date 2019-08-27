@@ -1,17 +1,24 @@
 
 pipeline {
+
    environment {
       registry = "anouarbensaad/gprotest"
       registryCredential = 'dockerhub'
       dockerImage = ''
   }
+
    agent any
+
    stages {
+
+      
       stage('Test SCM') {          
          steps {
             checkout scm
          }
       }
+
+
       stage('Build Modules') {
          /**
          * tools be used : 
@@ -38,6 +45,8 @@ pipeline {
             }
          }
       }
+
+
       stage('Copy the war files.') {
          steps {
             script {
@@ -49,6 +58,7 @@ pipeline {
          }
       }
 
+
       stage('docker build images.'){
          steps {
             script{
@@ -56,6 +66,7 @@ pipeline {
             }
          }
       }
+
 
       stage('docker pull images.'){
          steps {
