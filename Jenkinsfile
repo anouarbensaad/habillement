@@ -57,29 +57,30 @@ pipeline {
       stage('Building image') {
          steps {
             script{
-               dockerImage = docker.build registry + ":$BUILD_NUMBER"
+               // Test errors if docker image build ?.
+               try{
+                  dockerImage = docker.build registry + ":$BUILD_ID"
+               }catch (Exception err) {
+                  sh "echo ${err}"
+                  throw err
+               }
             }
          }
       }
 
       stage('Deploy Image') {
          steps{
-            /**
-            * script {  
-            *     docker.withRegistry( '', registryCredential ) {
-            *        dockerImage.push()
-            *     }
-            *   
-            *  }
-            */
-            sh "echo NO JOB"
+            script {
+               docker.withRegistry( '', registryCredential ) {
+                  dockerImage.push()
+               }
+            }
          }
       }
 
       stage('Remove Unused docker image') {
             steps{
-            //sh "docker rmi $registry:$BUILD_NUMBER"
-               sh "echo NO JOB"
+            sh "docker rmi $registry:$BUILD_NUMBER"
             }
          }
          
