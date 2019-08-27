@@ -50,8 +50,9 @@ pipeline {
             }
             sh '''
             mkdir Snapshot
-            cp ./ma-gpro-planning-war/presentation/target/${WARPATH} ./Snapshot/
             '''
+            sh "cp ./ma-gpro-planning-war/presentation/target/${WARPATH} ./Snapshot/"
+            
             // Run dockerbuild.sh to build Images.
             // add the excutable right to run this script.
          }
