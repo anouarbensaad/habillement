@@ -42,14 +42,12 @@ pipeline {
             }
          }
       }
-
-      stage('Prepare the building files.') {
+      stage('Changing PATH WARFILE') {
          steps {
             script {
                WARPATH = "ma-gpro-planning-1.0.1.0-SNAPSHOT.war"
                WARDIR  = "Builds"
             }
-            sh ""
             sh """
                if [ -d ${WARDIR} ] ; then
                   echo Build directory exist.
