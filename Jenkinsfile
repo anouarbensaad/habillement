@@ -1,10 +1,9 @@
 pipeline {
 
    environment {
-      registry = "anouarbensaad/gprotest"
-      registryCredential = 'dockerhub'
+      registry = "anouarbensaad/gpro-ci"
+      registryCredential = ‘dockerhub’
       dockerImage = ''
-      image_name = "gpro-ci"
   }
    
    agent any
@@ -17,11 +16,11 @@ pipeline {
       }
 
       stage('Maven Build & Analysis') {
-         /**
-         * tools be used : 
-         * openjdk8
-         * maven3.6.0
-         */
+      /**
+      *  tools be used : 
+      *     openjdk8
+   *        maven3.6.0
+      */
          tools{
             jdk "JDK"
             maven "Maven"
@@ -66,7 +65,7 @@ pipeline {
          }
       }
 
-      stage('Building image') {
+      stage('Build Image') {
          steps {
             script{
                // Test errors if docker image build ?.
@@ -74,37 +73,21 @@ pipeline {
                   // to build add docker group to jenkins user.
                   sh "whoami"
                   sh "pwd"
-                  myService = docker.build("$image_name:$BUILD_NUMBER", ".")
+                  dockerImage = docker.build("$registry:$BUILD_NUMBER", ".")
                }catch (Exception err) {
                   sh "echo ${err}"
                }
             }
          }
       }
-   /*
-      Test if dockerfile succeed
-   */
-      stage('Docker test'){
+      stage('Deploy Image') {
          steps {
-            sh "docker run -d -p8081:8080 --rm $image_name:$BUILD_NUMBER"
+            script {
+               docker.withRegistry( '', registryCredential ) {
+               dockerImage.push()
+          }
          }
       }
-   /*
-      Docker 
-   */
-      stage('CleanUP')
-      {
-         steps {
-            sh "docker image rm -f $image_name:$BUILD_NUMBER"
-         }
-      }
-
-/*
-      stage('Remove Unused docker image') {
-            steps{
-            sh "docker rmi $registry:$BUILD_NUMBER"
-            }
-         }
-*/         
+  
    }
 }
