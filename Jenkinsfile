@@ -30,11 +30,11 @@ agent any
          }
       }
 
-      stage(' Docker Build ')
+      stage('Docker Build') {
          steps {
             sh "cp ./ma-gpro-planning-war/presentation/target/ma-gpro-planning-1.0.1.0-SNAPSHOT.war ."
          }
-
+      }
    }
    
 }
