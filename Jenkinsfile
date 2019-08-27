@@ -57,7 +57,7 @@ pipeline {
             // add the excutable right to run this script.
          }
       }
-
+/*
       stage('Building image') {
          steps {
             script{
@@ -86,6 +86,6 @@ pipeline {
             sh "docker rmi $registry:$BUILD_NUMBER"
             }
          }
-         
+*/         
    }
 }
