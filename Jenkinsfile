@@ -7,12 +7,13 @@ pipeline {
             }
         }
         stage('Compile & build'){
-            steps{
-                tools{
-                    jdk "jdk8"
-                    maven "3.6.0"
-                }
-                sh "echo hey"
+            tools{
+                jdk "jdk8"
+                maven "3.6.0"
+            }
+            steps {
+                sh "java -version"
+                sh "mvn --version"
             }
         }
     }
