@@ -94,7 +94,9 @@ pipeline {
    */
       stage('CleanUP')
       {
-         sh "docker rmi $image_name:$BUILD_NUMBER"
+         steps {
+            sh "docker rmi $image_name:$BUILD_NUMBER"
+         }
       }
 
 /*
