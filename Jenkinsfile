@@ -1,4 +1,3 @@
-
 pipeline {
 
    environment {
@@ -11,7 +10,6 @@ pipeline {
 
    stages {
 
-      
       stage('Test SCM') {          
          steps {
             checkout scm
@@ -45,7 +43,7 @@ pipeline {
          }
       }
 
-      stage('Copy the war files.') {
+      stage('Changing PATH WARFILE') {
          steps {
             script {
                WARPATH = "ma-gpro-planning-1.0.1.0-SNAPSHOT.war"
@@ -56,7 +54,7 @@ pipeline {
          }
       }
 
-      stage('docker build images.'){
+      stage('Building image') {
          steps {
             script{
                dockerImage = docker.build registry + ":$BUILD_NUMBER"
@@ -64,11 +62,21 @@ pipeline {
          }
       }
 
-      stage('docker pull images.'){
-         steps {
-            sh "echo no job for now"
+      stage('Deploy Image') {
+         steps{
+            script {
+               docker.withRegistry( '', registryCredential ) {
+                  dockerImage.push()
+               }
+            }
          }
       }
 
+      stage('Remove Unused docker image') {
+            steps{
+            sh "docker rmi $registry:$BUILD_NUMBER"
+            }
+         }
+         
    }
 }
