@@ -47,9 +47,20 @@ pipeline {
          steps {
             script {
                WARPATH = "ma-gpro-planning-1.0.1.0-SNAPSHOT.war"
+               WARDIR  = "Builds"
             }
-            sh "cp ./ma-gpro-planning-war/presentation/target/${WARPATH} ."
-            
+            sh ""
+            sh """
+               if [ -d ${WARDIR} ] ; then
+                  echo Build directory exist.
+                  cp ./ma-gpro-planning-war/presentation/target/${WARPATH} ${WARDIR}/
+               else
+                  mkdir ${WARDIR}
+                  echo Builds directory has been created
+                  cp ./ma-gpro-planning-war/presentation/target/${WARPATH} ${WARDIR}/
+                  echo ${WARPATH} has been copied to ${WARDIR} directory.
+               fi
+            """
             // Run dockerbuild.sh to build Images.
             // add the excutable right to run this script.
          }
@@ -64,7 +75,6 @@ pipeline {
                   myService = docker.build("gpro-ci:latest", ".")
                }catch (Exception err) {
                   sh "echo ${err}"
-                  currentBuild.result = 'FAILURE'
                }
             }
          }
