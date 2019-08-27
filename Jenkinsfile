@@ -61,7 +61,7 @@ pipeline {
                // Test errors if docker image build ?.
                try{
                   sh "pwd"
-                  myService = docker.build("GPRO-CI:latest", ".")
+                  myService = docker.build("gpro-ci:latest", ".")
                }catch (Exception err) {
                   sh "echo ${err}"
                }
