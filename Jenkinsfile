@@ -18,7 +18,6 @@ pipeline {
          }
       }
 
-
       stage('Build Modules') {
          /**
          * tools be used : 
@@ -46,7 +45,6 @@ pipeline {
          }
       }
 
-
       stage('Copy the war files.') {
          steps {
             script {
@@ -58,7 +56,6 @@ pipeline {
          }
       }
 
-
       stage('docker build images.'){
          steps {
             script{
@@ -66,7 +63,6 @@ pipeline {
             }
          }
       }
-
 
       stage('docker pull images.'){
          steps {
