@@ -54,13 +54,14 @@ pipeline {
             // add the excutable right to run this script.
          }
       }
-/*
+
       stage('Building image') {
          steps {
             script{
                // Test errors if docker image build ?.
                try{
-                  dockerImage = docker.build registry + ":$BUILD_ID"
+                  sh "pwd"
+                  myService = docker.build('test -f ${pwd}/Dockerfile')
                }catch (Exception err) {
                   sh "echo ${err}"
                }
@@ -68,6 +69,10 @@ pipeline {
          }
       }
 
+      stage('Run uShip Docker Container') {
+         myService.run()
+      }
+/*
       stage('Deploy Image') {
          steps{
             script {
