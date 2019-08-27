@@ -42,7 +42,7 @@ pipeline {
             }
          }
       }
-      stage('Changing PATH WARFILE') {
+      stage('Prepare building files.') {
          steps {
             script {
                WARPATH = "ma-gpro-planning-1.0.1.0-SNAPSHOT.war"
