@@ -46,7 +46,7 @@ pipeline {
       stage('Prepare building files.') {
          steps {
             script {
-               WARPATH = "ma-gpro-planning-1.0.1.0-SNAPSHOT.war"
+               WARPATH = "ma-gpro-1.0.1.0-SNAPSHOT.war"
                WARDIR  = "Builds"
             }
             
