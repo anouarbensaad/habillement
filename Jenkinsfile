@@ -1,14 +1,15 @@
+
 pipeline {
 agent any       
    stages { 
 
-      stage('Checkout SCM') {          
+      stage('Test SCM') {          
          steps {
             checkout scm
          }
       }
 
-      stage('Test') { 
+      stage('Build Modules') { 
          tools{
             jdk "JDK"
             maven "Maven"
@@ -28,6 +29,11 @@ agent any
             }
          }
       }
+
+      stage(' Docker Build ')
+         steps {
+            sh "cp ./ma-gpro-planning-war/presentation/target/ma-gpro-planning-1.0.1.0-SNAPSHOT.war ."
+         }
 
    }
    
