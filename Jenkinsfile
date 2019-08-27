@@ -86,7 +86,7 @@ pipeline {
    */
       stage('Docker test'){
          steps {
-            sh "docker run -d -p8080:8090 --rm $image_name:$BUILD_NUMBER"
+            sh "docker run -d -p8081:8080 --rm $image_name:$BUILD_NUMBER"
          }
       }
    /*
