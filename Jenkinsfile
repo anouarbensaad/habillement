@@ -1,8 +1,12 @@
 
 pipeline {
-agent any       
-   stages { 
-
+   environment {
+      registry = "anouarbensaad/gprotest"
+      registryCredential = 'dockerhub'
+      dockerImage = ''
+  }
+   agent any
+   stages {
       stage('Test SCM') {          
          steps {
             checkout scm
@@ -34,21 +38,30 @@ agent any
             }
          }
       }
-      stage('Docker Build') {
+      stage('Copy the war files.') {
          steps {
             script {
                WARPATH = "ma-gpro-planning-1.0.1.0-SNAPSHOT.war"
             }
             sh "cp ./ma-gpro-planning-war/presentation/target/${WARPATH} ."
-            
             // Run dockerbuild.sh to build Images.
             // add the excutable right to run this script.
-            
-            sh "chmod +x dockerbuild.sh"
-            sh "./dockerbuild.sh"
-
          }
       }
+
+      stage('docker build images.'){
+         steps {
+            script{
+               dockerImage = docker.build registry + ":$BUILD_NUMBER"
+            }
+         }
+      }
+
+      stage('docker pull images.'){
+         steps {
+            sh "echo no job for now"
+         }
+      }
+
    }
-   
 }
