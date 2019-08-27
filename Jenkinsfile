@@ -64,17 +64,22 @@ pipeline {
 
       stage('Deploy Image') {
          steps{
-            script {
-               docker.withRegistry( '', registryCredential ) {
-                  dockerImage.push()
-               }
-            }
+            /**
+            * script {  
+            *     docker.withRegistry( '', registryCredential ) {
+            *        dockerImage.push()
+            *     }
+            *   
+            *  }
+            */
+            sh "echo NO JOB"
          }
       }
 
       stage('Remove Unused docker image') {
             steps{
-            sh "docker rmi $registry:$BUILD_NUMBER"
+            //sh "docker rmi $registry:$BUILD_NUMBER"
+               sh "echo NO JOB"
             }
          }
          
