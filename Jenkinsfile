@@ -4,6 +4,7 @@ pipeline {
       registry = "anouarbensaad/gprotest"
       registryCredential = 'dockerhub'
       dockerImage = ''
+      image_name = "gpro-ci"
   }
    
    agent any
@@ -15,7 +16,7 @@ pipeline {
          }
       }
 
-      stage('Build Modules') {
+      stage('Maven Build & Analysis') {
          /**
          * tools be used : 
          * openjdk8
@@ -73,24 +74,30 @@ pipeline {
                   // to build add docker group to jenkins user.
                   sh "whoami"
                   sh "pwd"
-                  myService = docker.build("gpro-ci:latest", ".")
+                  myService = docker.build("$image_name:$BUILD_NUMBER", ".")
                }catch (Exception err) {
                   sh "echo ${err}"
                }
             }
          }
       }
-/*
-      stage('Deploy Image') {
-         steps{
-            script {
-               docker.withRegistry( '', registryCredential ) {
-                  dockerImage.push()
-               }
-            }
+   /*
+      Test if dockerfile succeed
+   */
+      stage('Docker test'){
+         steps {
+            sh "docker run -d -p8080:8090 --rm $image_name:$BUILD_NUMBER"
          }
       }
+   /*
+      Docker 
+   */
+      stage('CleanUP')
+      {
+         sh "docker rmi $image_name:$BUILD_NUMBER"
+      }
 
+/*
       stage('Remove Unused docker image') {
             steps{
             sh "docker rmi $registry:$BUILD_NUMBER"
