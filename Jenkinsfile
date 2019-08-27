@@ -68,10 +68,6 @@ pipeline {
             }
          }
       }
-
-      stage('Run uShip Docker Container') {
-         myService.run()
-      }
 /*
       stage('Deploy Image') {
          steps{
