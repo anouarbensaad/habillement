@@ -34,7 +34,7 @@ pipeline {
             sh "echo -*- Maven Building"
             script {
                try {
-                  sh "mvn clean install -DskipTests"
+                  sh "mvn -q clean install -DskipTests"
                }catch(Exception err) {
                   echo "Error maven build and test."
                   currentBuild.result = 'FAILURE'
