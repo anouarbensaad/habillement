@@ -70,6 +70,7 @@ pipeline {
             script{
                // Test errors if docker image build ?.
                try{
+                  // to build add docker group to jenkins user.
                   sh "whoami"
                   sh "pwd"
                   myService = docker.build("gpro-ci:latest", ".")
