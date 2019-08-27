@@ -5,11 +5,10 @@ pipeline {
       registryCredential = 'dockerhub'
       dockerImage = ''
   }
-
+   
    agent any
-
+   
    stages {
-
       stage('Test SCM') {          
          steps {
             checkout scm
@@ -42,12 +41,16 @@ pipeline {
             }
          }
       }
+      
       stage('Prepare building files.') {
          steps {
             script {
                WARPATH = "ma-gpro-planning-1.0.1.0-SNAPSHOT.war"
                WARDIR  = "Builds"
             }
+            
+            // copy *(.jar , .war) buildings file to Builds Directory.
+            
             sh """
                if [ -d ${WARDIR} ] ; then
                   echo Build directory exist.
@@ -59,8 +62,6 @@ pipeline {
                   echo ${WARPATH} has been copied to ${WARDIR} directory.
                fi
             """
-            // Run dockerbuild.sh to build Images.
-            // add the excutable right to run this script.
          }
       }
 
