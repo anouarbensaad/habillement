@@ -62,7 +62,6 @@ pipeline {
                   dockerImage = docker.build registry + ":$BUILD_ID"
                }catch (Exception err) {
                   sh "echo ${err}"
-                  throw err
                }
             }
          }
