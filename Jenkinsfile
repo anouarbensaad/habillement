@@ -27,13 +27,11 @@ pipeline {
             maven "Maven"
          }
          steps {
-            sh '''
-               echo "-*- Java Version"   
-               java -version"
-               echo "-*- Maven Version" 
-               mvn --version
-               echo "-*- Maven Building"
-            '''
+            sh "echo -*- Java Version"   
+            sh "java -version"
+            sh "echo -*- Maven Version" 
+            sh "mvn --version"
+            sh "echo -*- Maven Building"
             script {
                try {
                   sh "mvn clean install -DskipTests"
