@@ -111,56 +111,20 @@ pipeline {
    * post section condition blocks: always, failure, success
    */
    post {
-
       always {
-
          // CleanUP..
          sh "docker rmi $registry:$BUILD_NUMBER" // remove the unused images from docker images.
          // clean up workspace
          //deleteDir() 
          //sh 'rm .env'
-
+         /**
+         * Send Test Email to Developper.
+         */
       }
-
       success {
          echo 'I success :D'
          emailext (
             body: """
-               <head>
-                  <title>Build report</title>
-                     <style type="text/css">
-                        body
-                           {margin: 0px;
-                           padding: 15px;}
-                        body, td, th
-                           {font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Tahoma, sans-serif;
-                           font-size: 10pt;}
-                        th
-                           {text-align: left;}
-                        h1
-                           {margin-top: 0px;}
-                        li
-                           {line-height: 15pt;}
-                        .change-add
-                           {color: #272;}
-                        .change-delete
-                           {color: #722;}
-                        .change-edit
-                           {color: #247;}
-                        .grayed
-                           {color: #AAA;}
-                        .error
-                           {color: #A33;}
-                        pre.console
-                        {color: #333;
-                           font-family: "Lucida Console", "Courier New";
-                           padding: 5px;
-                           line-height: 15px;
-                           background-color: #EEE;
-                           border: 1px solid #DDD;}
-                     </style>
-               </head>
-               <body>
                   <h1>Build ${build.result}</h1>
                   <table>
                      <tr><th>Build URL:</th><td><a href="${rooturl}${build.url}">${rooturl}${build.url}</a></td></tr>
@@ -168,7 +132,6 @@ pipeline {
                      <tr><th>Date of build:</th><td>${it.timestampString}</td></tr>
                      <tr><th>Build duration:</th><td>${build.durationString}</td></tr>
                   </table>
-            </body>
             """,
             recipientProviders: [[$class: 'DevelopersRecipientProvider'],
             [$class: "RequesterRecipientProvider"]],
@@ -176,51 +139,15 @@ pipeline {
          )
       }
       failure {
-         emailext (
+         emailext ( 
             body: """
-               <head>
-                  <title>Build report</title>
-                     <style type="text/css">
-                        body
-                           {margin: 0px;
-                           padding: 15px;}
-                        body, td, th
-                           {font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Tahoma, sans-serif;
-                           font-size: 10pt;}
-                        th
-                           {text-align: left;}
-                        h1
-                           {margin-top: 0px;}
-                        li
-                           {line-height: 15pt;}
-                        .change-add
-                           {color: #272;}
-                        .change-delete
-                           {color: #722;}
-                        .change-edit
-                           {color: #247;}
-                        .grayed
-                           {color: #AAA;}
-                        .error
-                           {color: #A33;}
-                        pre.console
-                        {color: #333;
-                           font-family: "Lucida Console", "Courier New";
-                           padding: 5px;
-                           line-height: 15px;
-                           background-color: #EEE;
-                           border: 1px solid #DDD;}
-                     </style>
-               </head>
-               <body>
-                  <h1>Build ${build.result}</h1>
+               <h1>Build ${build.result}</h1>
                   <table>
                      <tr><th>Build URL:</th><td><a href="${rooturl}${build.url}">${rooturl}${build.url}</a></td></tr>
                      <tr><th>Project:</th><td>${project.name}</td></tr>
                      <tr><th>Date of build:</th><td>${it.timestampString}</td></tr>
                      <tr><th>Build duration:</th><td>${build.durationString}</td></tr>
                   </table>
-            </body>
             """,
             recipientProviders: [[$class: 'DevelopersRecipientProvider'],
             [$class: "RequesterRecipientProvider"]],
