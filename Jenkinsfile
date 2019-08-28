@@ -72,7 +72,7 @@ pipeline {
                   // to build add docker group to jenkins user.
                   sh "whoami"
                   sh "pwd"
-                  dockerImage = docker.build("$registry:$BUILD_NUMBER", ".")
+                  dockerImage = docker.build registry + ":$BUILD_NUMBER"
                }catch (Exception err) {
                   sh "echo ${err}"
                }
@@ -98,7 +98,7 @@ pipeline {
    post {
       always {
          // CleanUP..
-         sh "docker image rm -f $registry:$BUILD_NUMBER" // remove the unused images from docker images.
+         sh "docker rmi $registry:$BUILD_NUMBER" // remove the unused images from docker images.
          // clean up workspace
          //deleteDir() 
       }
