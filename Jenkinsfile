@@ -93,13 +93,11 @@ pipeline {
 
    post {
       always {
-         // CleanUP..
+      /** CleanUP.. */
          // remove the unused images from docker images.
          sh "docker image rm -f $registry:$BUILD_NUMBER"
-         // remove .war files , & Build Directory.
-         sh "rm -rf ./Builds"
          // clean up workspace
-         deleteDir() 
+         //deleteDir() 
       }
       success {
          echo 'success :)'
