@@ -111,29 +111,72 @@ pipeline {
    * post section condition blocks: always, failure, success
    */
    post {
+      
+      }
+
       always {
+
          // CleanUP..
          sh "docker rmi $registry:$BUILD_NUMBER" // remove the unused images from docker images.
          // clean up workspace
          //deleteDir() 
          //sh 'rm .env'
-         /**
-         * Send Test Email to Developper.
-         */
       }
+      // Style Email Body
+      def style = {
+      """"
+         <head>
+            <title>Build report</title>
+               <style type="text/css">
+                  body
+                     {margin: 0px;
+                     padding: 15px;}
+                  body, td, th
+                     {font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Tahoma, sans-serif;
+                     font-size: 10pt;}
+                  th
+                     {text-align: left;}
+                  h1
+                     {margin-top: 0px;}
+                  li
+                     {line-height: 15pt;}
+                  .change-add
+                     {color: #272;}
+                  .change-delete
+                     {color: #722;}
+                  .change-edit
+                     {color: #247;}
+                  .grayed
+                     {color: #AAA;}
+                  .error
+                     {color: #A33;}
+                  pre.console
+                  {color: #333;
+                     font-family: "Lucida Console", "Courier New";
+                     padding: 5px;
+                     line-height: 15px;
+                     background-color: #EEE;
+                     border: 1px solid #DDD;}
+               </style>
+         </head>
+         """
       success {
+         def body = {
+         """
+            <body>
+               <h1>Build ${build.result}</h1>
+               <table>
+                  <tr><th>Build URL:</th><td><a href="${rooturl}${build.url}">${rooturl}${build.url}</a></td></tr>
+                  <tr><th>Project:</th><td>${project.name}</td></tr>
+                  <tr><th>Date of build:</th><td>${it.timestampString}</td></tr>
+                  <tr><th>Build duration:</th><td>${build.durationString}</td></tr>
+               </table>
+            </body>
+         """
+               
          echo 'I success :D'
          emailext (
-            body: """
-               <center>
-                  <h3>"${env.JOB_NAME}:${BUILD_NUMBER}</h3>
-               </center>
-               <p>
-                  <b>BUILD PASSED</b> 
-                        <br>
-                  Check console output at <a href="${env.BUILD_URL}">${env.JOB_NAME}</a>
-               </p>
-            """,
+            body: style + body
             recipientProviders: [[$class: 'DevelopersRecipientProvider'],
             [$class: "RequesterRecipientProvider"]],
             subject: "${env.JOB_NAME}:${BUILD_NUMBER} - Failed",
@@ -141,16 +184,7 @@ pipeline {
       }
       failure {
          emailext ( 
-            body: """
-               <center>
-                  <h3>"${env.JOB_NAME}:${BUILD_NUMBER}</h3>
-               </center>
-               <p>
-                  <b>BUILD FAILED</b> 
-                        <br>
-                  Check console output at <a href="${env.BUILD_URL}">${env.JOB_NAME}</a>
-               </p>
-            """,
+            body: style + body,
             recipientProviders: [[$class: 'DevelopersRecipientProvider'],
             [$class: "RequesterRecipientProvider"]],
             subject: "${env.JOB_NAME}:${BUILD_NUMBER} - Failed",
