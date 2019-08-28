@@ -43,23 +43,21 @@ pipeline {
       }
       
       stage('Prepare building files.') {
+         environment {
+            WARPATH = "ma-gpro-1.0.1.0-SNAPSHOT.war"
+            WARDIR  = "Builds"
+         }
          steps {
-            script {
-               WARPATH = "ma-gpro-1.0.1.0-SNAPSHOT.war"
-               WARDIR  = "Builds"
-            }
-            
             // copy *(.jar , .war) buildings file to Builds Directory.
-            
             sh """
-               if [ -d ${WARDIR} ] ; then
+               if [ -d $WARDIR ] ; then
                   echo Build directory exist.
-                  cp ./ma-gpro-war/presentation/target/${WARPATH} ${WARDIR}/
+                  cp ./ma-gpro-war/presentation/target/$WARPATH $WARDIR/
                else
-                  mkdir ${WARDIR}
+                  mkdir $WARDIR
                   echo Builds directory has been created
-                  cp ./ma-gpro-planning-war/presentation/target/${WARPATH} ${WARDIR}/
-                  echo ${WARPATH} has been copied to ${WARDIR} directory.
+                  mv ./ma-gpro-planning-war/presentation/target/$WARPATH $WARDIR/
+                  echo $WARPATH has been copied to $WARDIR directory.
                fi
             """
          }
@@ -80,14 +78,35 @@ pipeline {
             }
          }
       }
+
       stage('Deploy Image') {
          steps {
             script {
                docker.withRegistry( '', registryCredential ) {
                dockerImage.push()
-          }
+               }
+            }
          }
       }
-  
+
+   } //end of stages.
+
+   post {
+      always {
+         // CleanUP..
+         // remove the unused images from docker images.
+         sh "docker image rm -f $registry:$BUILD_NUMBER"
+         // remove .war files , & Build Directory.
+         sh "rm -rf ./Builds"
+         // clean up workspace
+         deleteDir() 
+      }
+      success {
+         echo 'success :)'
+      }
+      failure {
+         echo 'I failed :('
+      }
    }
+   
 }
