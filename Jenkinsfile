@@ -123,8 +123,6 @@ pipeline {
          //sh 'rm .env'
 
       }
-      * Send Test Email to Developper.
-         */
       // Style Email Body
       success {
          echo 'I success :D'
