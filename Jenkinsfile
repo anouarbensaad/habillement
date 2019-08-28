@@ -176,7 +176,7 @@ pipeline {
                
          echo 'I success :D'
          emailext (
-            body: style + body
+            body: style + body ,
             recipientProviders: [[$class: 'DevelopersRecipientProvider'],
             [$class: "RequesterRecipientProvider"]],
             subject: "${env.JOB_NAME}:${BUILD_NUMBER} - Failed",
