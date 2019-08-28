@@ -83,6 +83,7 @@ pipeline {
       stage('Deploy') {
          steps {
             script {
+               sh "docker logout"
                docker.withRegistry( '', registryCredential ) {
                dockerImage.push()
                }
