@@ -45,7 +45,7 @@ pipeline {
       stage('Prepare') {
          // declare the path of files & Directory Path.
          environment {
-            WARPATH = "ma-gpro-1.0.1.0-SNAPSHOT.war"
+            WARPATH = "./ma-gpro-war/presentation/target/ma-gpro-1.0.1.0-SNAPSHOT.war"
             WARDIR  = "Builds"
          }
          steps {
@@ -53,11 +53,11 @@ pipeline {
             sh """
                if [ -d $WARDIR ] ; then
                   echo Build directory exist.
-                  cp ./ma-gpro-war/presentation/target/$WARPATH $WARDIR/
+                  cp $WARPATH $WARDIR/
                else
                   mkdir $WARDIR
                   echo Builds directory has been created
-                  mv ./ma-gpro-planning-war/presentation/target/$WARPATH $WARDIR/
+                  mv $WARPATH $WARDIR/
                   echo $WARPATH has been copied to $WARDIR directory.
                fi
             """
@@ -95,7 +95,6 @@ pipeline {
    /**
    * post section condition blocks: always, failure, success
    */
-
    post {
       always {
          // CleanUP..
