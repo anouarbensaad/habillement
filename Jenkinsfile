@@ -125,13 +125,49 @@ pipeline {
          echo 'I success :D'
          emailext (
             body: """
-               <h1>Build ${env.JOB_NAME}</h1>
-                  <table>
-                     <tr><th>Build URL:</th><td><a href="urlroot">url</a></td></tr>
-                     <tr><th>Project:</th><td>${env.JOB_NAME}</td></tr>
-                     <tr><th>Date of build:</th><td>${BUILD_NUMBER}</td></tr>
-                     <tr><th>Build duration:</th><td>${env.JOB_NAME}</td></tr>
-                  </table>
+               <head>
+                  <title>Build report</title>
+                  <style type="text/css">
+                     body
+                        {margin: 0px;
+                        padding: 15px;}
+                     body, td, th
+                        {font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Tahoma, sans-serif;
+                        font-size: 10pt;}
+                     th
+                        {text-align: left;}
+                     h1
+                        {margin-top: 0px;}
+                     li
+                        {line-height: 15pt;}
+                     .change-add
+                        {color: #272;}
+                     .change-delete
+                        {color: #722;}
+                     .change-edit
+                        {color: #247;}
+                     .grayed
+                        {color: #AAA;}
+                     .error
+                        {color: #A33;}
+                     pre.console
+                     {color: #333;
+                        font-family: "Lucida Console", "Courier New";
+                        padding: 5px;
+                        line-height: 15px;
+                        background-color: #EEE;
+                        border: 1px solid #DDD;}
+                  </style>
+            </head>
+            <body>
+                  <h1>Build ${env.JOB_NAME}</h1>
+                     <table>
+                        <tr><th>Build URL:</th><td><a href="urlroot">url</a></td></tr>
+                        <tr><th>Project:</th><td>${env.JOB_NAME}</td></tr>
+                        <tr><th>Date of build:</th><td>${BUILD_NUMBER}</td></tr>
+                        <tr><th>Build duration:</th><td>${env.JOB_NAME}</td></tr>
+                     </table>
+            </body>
             """,
             recipientProviders: [[$class: 'DevelopersRecipientProvider'],
             [$class: "RequesterRecipientProvider"]],
@@ -141,13 +177,49 @@ pipeline {
       failure {
          emailext ( 
             body: """
-               <h1>Build ${env.JOB_NAME}</h1>
-                  <table>
-                     <tr><th>Build URL:</th><td><a href="urlroot">url</a></td></tr>
-                     <tr><th>Project:</th><td>${env.JOB_NAME}</td></tr>
-                     <tr><th>Date of build:</th><td>${BUILD_NUMBER}</td></tr>
-                     <tr><th>Build duration:</th><td>${env.JOB_NAME}</td></tr>
-                  </table>
+               <head>
+                  <title>Build report</title>
+                  <style type="text/css">
+                     body
+                        {margin: 0px;
+                        padding: 15px;}
+                     body, td, th
+                        {font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Tahoma, sans-serif;
+                        font-size: 10pt;}
+                     th
+                        {text-align: left;}
+                     h1
+                        {margin-top: 0px;}
+                     li
+                        {line-height: 15pt;}
+                     .change-add
+                        {color: #272;}
+                     .change-delete
+                        {color: #722;}
+                     .change-edit
+                        {color: #247;}
+                     .grayed
+                        {color: #AAA;}
+                     .error
+                        {color: #A33;}
+                     pre.console
+                     {color: #333;
+                        font-family: "Lucida Console", "Courier New";
+                        padding: 5px;
+                        line-height: 15px;
+                        background-color: #EEE;
+                        border: 1px solid #DDD;}
+                  </style>
+            </head>
+            <body>
+                  <h1>Build ${env.JOB_NAME}</h1>
+                     <table>
+                        <tr><th>Build URL:</th><td><a href="urlroot">url</a></td></tr>
+                        <tr><th>Project:</th><td>${env.JOB_NAME}</td></tr>
+                        <tr><th>Date of build:</th><td>${BUILD_NUMBER}</td></tr>
+                        <tr><th>Build duration:</th><td>${env.JOB_NAME}</td></tr>
+                     </table>
+            </body>
             """,
             recipientProviders: [[$class: 'DevelopersRecipientProvider'],
             [$class: "RequesterRecipientProvider"]],
