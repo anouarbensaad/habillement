@@ -120,6 +120,26 @@ pipeline {
          /**
          * Send Test Email to Developper.
          */
+      }
+      success {
+         echo 'I success :D'
+         emailext (
+            body: """
+               <center>
+                  <h3>"${env.JOB_NAME}:${BUILD_NUMBER}</h3>
+               </center>
+               <p>
+                  <b>BUILD PASSED</b> 
+                        <br>
+                  Check console output at <a href="${env.BUILD_URL}">${env.JOB_NAME}</a>
+               </p>
+            """,
+            recipientProviders: [[$class: 'DevelopersRecipientProvider'],
+            [$class: "RequesterRecipientProvider"]],
+            subject: "${env.JOB_NAME}:${BUILD_NUMBER} - Failed",
+         )
+      }
+      failure {
          emailext ( 
             body: """
                <center>
@@ -134,13 +154,8 @@ pipeline {
             recipientProviders: [[$class: 'DevelopersRecipientProvider'],
             [$class: "RequesterRecipientProvider"]],
             subject: "${env.JOB_NAME}:${BUILD_NUMBER} - Failed",
-         ) 
-      }
-      success {
-         echo 'success :)'
-      }
-      failure {
-         echo 'I failed :('
+         )
+         echo "I Fail :("
       }
    }
    
