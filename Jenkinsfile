@@ -125,12 +125,12 @@ pipeline {
          echo 'I success :D'
          emailext (
             body: """
-                  <h1>Build ${build.result}</h1>
+               <h1>Build ${env.JOB_NAME}</h1>
                   <table>
-                     <tr><th>Build URL:</th><td><a href="${rooturl}${build.url}">${rooturl}${build.url}</a></td></tr>
-                     <tr><th>Project:</th><td>${project.name}</td></tr>
-                     <tr><th>Date of build:</th><td>${it.timestampString}</td></tr>
-                     <tr><th>Build duration:</th><td>${build.durationString}</td></tr>
+                     <tr><th>Build URL:</th><td><a href="urlroot">url</a></td></tr>
+                     <tr><th>Project:</th><td>${env.JOB_NAME}</td></tr>
+                     <tr><th>Date of build:</th><td>${BUILD_NUMBER}</td></tr>
+                     <tr><th>Build duration:</th><td>${env.JOB_NAME}</td></tr>
                   </table>
             """,
             recipientProviders: [[$class: 'DevelopersRecipientProvider'],
@@ -141,12 +141,12 @@ pipeline {
       failure {
          emailext ( 
             body: """
-               <h1>Build ${build.result}</h1>
+               <h1>Build ${env.JOB_NAME}</h1>
                   <table>
-                     <tr><th>Build URL:</th><td><a href="${rooturl}${build.url}">${rooturl}${build.url}</a></td></tr>
-                     <tr><th>Project:</th><td>${project.name}</td></tr>
-                     <tr><th>Date of build:</th><td>${it.timestampString}</td></tr>
-                     <tr><th>Build duration:</th><td>${build.durationString}</td></tr>
+                     <tr><th>Build URL:</th><td><a href="urlroot">url</a></td></tr>
+                     <tr><th>Project:</th><td>${env.JOB_NAME}</td></tr>
+                     <tr><th>Date of build:</th><td>${BUILD_NUMBER}</td></tr>
+                     <tr><th>Build duration:</th><td>${env.JOB_NAME}</td></tr>
                   </table>
             """,
             recipientProviders: [[$class: 'DevelopersRecipientProvider'],
