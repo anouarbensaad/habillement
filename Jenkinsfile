@@ -35,7 +35,10 @@ pipeline {
                try {
                   sh "mvn -q clean install -DskipTests"
                }catch(Exception err) {
-                  echo "Error maven build and test."
+                  sh """
+                     echo [-] stage Quality & Analysis Maven Build Error.
+                     echo ${err}
+                  """
                   currentBuild.result = 'FAILURE'
                }
             }
@@ -73,8 +76,12 @@ pipeline {
                   sh "whoami"
                   sh "pwd"
                   dockerImage = docker.build registry + ":$BUILD_NUMBER"
-               }catch (Exception err) {
-                  sh "echo ${err}"
+               }catch(Exception err) {
+                  sh """
+                     echo [-] stage Build Error.
+                     echo ${err}
+                  """
+                  currentBuild.result = 'FAILURE'
                }
             }
          }
@@ -83,9 +90,16 @@ pipeline {
       stage('Deploy') {
          steps {
             script {
-               sh "docker logout"
-               docker.withRegistry( '', registryCredential ) {
-               dockerImage.push()
+               try{
+                  docker.withRegistry( '', registryCredential ) {
+                  dockerImage.push()
+                  }
+               }catch(Exception err) {
+                  sh """
+                     echo [-] stage Deploy Error.
+                     echo ${err}
+                  """
+                  currentBuild.result = 'FAILURE'
                }
             }
          }
