@@ -119,10 +119,10 @@ pipeline {
          //sh 'rm .env'
       }
       success {
-         echo 'success :)'
+         echo 'I succeed :D'
       }
       failure {
-         echo 'I failed :('
+         echo 'I failed  :('
       }
    }
    
