@@ -42,6 +42,16 @@ pipeline {
                   currentBuild.result = 'FAILURE'
                }
             }
+            /*
+             parallel(
+               "Integration Test": {
+                   echo 'Run integration tests'
+               },
+               "Sonar Scan": {
+                   sh "mvn sonar:sonar"
+               }
+            )
+            */
          }
       }
       
