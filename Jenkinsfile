@@ -2,7 +2,6 @@ pipeline {
 
    environment {
       registry = "anouarbensaad/gpro-ci"
-      // add System Credentials in jenkins configuration with dockerhub ID
       registryCredential = 'dockerhub'
       dockerImage = ''
   }
@@ -100,7 +99,7 @@ pipeline {
          // remove .war files , & Build Directory.
          sh "rm -rf ./Builds"
          // clean up workspace
-         deleteDir() 
+         //deleteDir() 
       }
       success {
          echo 'success :)'
