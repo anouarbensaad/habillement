@@ -2,25 +2,25 @@ pipeline {
 
    environment {
       registry = "anouarbensaad/gpro-ci"
+      // provide docker hub credentials to deploy images
       registryCredential = 'dockerhub'
       dockerImage = ''
   }
-   
    agent any
-   
+   // stages contain one or more stage directives
    stages {
-      stage('Test SCM') {          
+      
+     stage('Checkout SCM') {          
          steps {
             checkout scm
          }
       }
 
-      stage('Maven Build & Analysis') {
-      /**
-      *  tools be used : 
-      *     openjdk8
-   *        maven3.6.0
-      */
+      stage('Quality & Analysis') {
+         /**
+         * tools to select the path of tools 
+         * tools used openjdk8 , Maven version 3.6.0
+         */
          tools{
             jdk "JDK"
             maven "Maven"
@@ -42,7 +42,8 @@ pipeline {
          }
       }
       
-      stage('Prepare building files.') {
+      stage('Prepare') {
+         // declare the path of files & Directory Path.
          environment {
             WARPATH = "ma-gpro-1.0.1.0-SNAPSHOT.war"
             WARDIR  = "Builds"
@@ -63,7 +64,7 @@ pipeline {
          }
       }
 
-      stage('Build Image') {
+      stage('Build') {
          steps {
             script{
                // Test errors if docker image build ?.
@@ -79,7 +80,7 @@ pipeline {
          }
       }
 
-      stage('Deploy Image') {
+      stage('Deploy') {
          steps {
             script {
                docker.withRegistry( '', registryCredential ) {
@@ -91,13 +92,14 @@ pipeline {
 
    } //end of stages.
 
+   /**
+   * post section condition blocks: always, failure, success
+   */
+
    post {
       always {
          // CleanUP..
-         // remove the unused images from docker images.
-         sh "docker image rm -f $registry:$BUILD_NUMBER"
-         // remove .war files , & Build Directory.
-         sh "rm -rf ./Builds"
+         sh "docker image rm -f $registry:$BUILD_NUMBER" // remove the unused images from docker images.
          // clean up workspace
          //deleteDir() 
       }
