@@ -42,16 +42,6 @@ pipeline {
                   currentBuild.result = 'FAILURE'
                }
             }
-            /*
-             parallel(
-               "Integration Test": {
-                   echo 'Run integration tests'
-               },
-               "Sonar Scan": {
-                   sh "mvn sonar:sonar"
-               }
-            )
-            */
          }
       }
       
@@ -134,44 +124,7 @@ pipeline {
       success {
          echo 'I success :D'
          emailext (
-            body: """
-               <head>
-                  <title>Build report</title>
-                  <style type="text/css">
-                     body
-                        {margin: 0px;
-                        padding: 15px;}
-                     body, td, th
-                        {font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Tahoma, sans-serif;
-                        font-size: 10pt;}
-                     th
-                        {text-align: left;}
-                     h1
-                        {margin-top: 0px;}
-                     li
-                        {line-height: 15pt;}
-                     .change-add
-                        {color: #272;}
-                     .change-delete
-                        {color: #722;}
-                     .change-edit
-                        {color: #247;}
-                     .grayed
-                        {color: #AAA;}
-                     .error
-                        {color: #A33;}
-                  </style>
-            </head>
-            <body>
-                  <h1>Build ${env.JOB_NAME}</h1>
-                     <table>
-                        <tr><th>Build URL:</th><td><a href="urlroot">url</a></td></tr>
-                        <tr><th>Project:</th><td>${env.JOB_NAME}</td></tr>
-                        <tr><th>Date of build:</th><td>${BUILD_NUMBER}</td></tr>
-                        <tr><th>Build duration:</th><td>${env.JOB_NAME}</td></tr>
-                     </table>
-            </body>
-            """,
+            body: '${FILE,path="success_response.html"}',
             recipientProviders: [[$class: 'DevelopersRecipientProvider'],
             [$class: "RequesterRecipientProvider"]],
             subject: "${env.JOB_NAME}:${BUILD_NUMBER} - Failed",
@@ -179,45 +132,7 @@ pipeline {
       }
       failure {
          emailext ( 
-            body: """
-               <head>
-                  <title>Build report</title>
-                  <style type="text/css">
-                     body
-                        {margin: 0px;
-                        color: #000;
-                        padding: 15px;}
-                     body, td, th
-                        {font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Tahoma, sans-serif;
-                        font-size: 10pt;}
-                     thead {
-                        background-color: #ffc3c3;
-                        color: #ba3d3d;
-                        margin-block-end: 10px
-                     }
-                     th
-                        {text-align: left;
-                        }
-                     h1
-                        {margin-top: 0px;}
-
-                  </style>
-            </head>
-            <body>
-                  <h1>Build ${env.JOB_NAME}</h1>
-                     <table>
-                        <thead>
-                           <tr>
-                              <th scope="col">Build ${env.JOB_NAME}:${BUILD_NUMBER} Failed</th>
-                           </tr>
-                        </thead>
-                        <tr><th>Build URL:</th><td><a href="urlroot">url</a></td></tr>
-                        <tr><th>Project:</th><td>${env.JOB_NAME}</td></tr>
-                        <tr><th>Date of build:</th><td>${BUILD_NUMBER}</td></tr>
-                        <tr><th>Build duration:</th><td>${env.JOB_NAME}</td></tr>
-                     </table>
-            </body>
-            """,
+            body:'${FILE,path="success_response.html"}',
             recipientProviders: [[$class: 'DevelopersRecipientProvider'],
             [$class: "RequesterRecipientProvider"]],
             subject: "${env.JOB_NAME}:${BUILD_NUMBER} - Failed",
