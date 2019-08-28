@@ -111,8 +111,6 @@ pipeline {
    * post section condition blocks: always, failure, success
    */
    post {
-      
-      }
 
       always {
 
@@ -123,7 +121,7 @@ pipeline {
          //sh 'rm .env'
 
       }
-      // Style Email Body
+
       success {
          echo 'I success :D'
          emailext (
