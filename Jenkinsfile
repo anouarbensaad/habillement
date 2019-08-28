@@ -117,12 +117,19 @@ pipeline {
          // clean up workspace
          //deleteDir() 
          //sh 'rm .env'
+         /**
+         * Send Test Email to Developper.
+         */
+         emailext body: 'A Test EMail',
+         recipientProviders: [[$class: 'DevelopersRecipientProvider'],
+         [$class: 'RequesterRecipientProvider']],
+         subject: 'Test'
       }
       success {
-         echo 'I succeed :D'
+         echo 'success :)'
       }
       failure {
-         echo 'I failed  :('
+         echo 'I failed :('
       }
    }
    
