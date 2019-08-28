@@ -150,13 +150,6 @@ pipeline {
                         {color: #AAA;}
                      .error
                         {color: #A33;}
-                     pre.console
-                     {color: #333;
-                        font-family: "Lucida Console", "Courier New";
-                        padding: 5px;
-                        line-height: 15px;
-                        background-color: #EEE;
-                        border: 1px solid #DDD;}
                   </style>
             </head>
             <body>
@@ -182,38 +175,32 @@ pipeline {
                   <style type="text/css">
                      body
                         {margin: 0px;
+                        color: #000;
                         padding: 15px;}
                      body, td, th
                         {font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Tahoma, sans-serif;
                         font-size: 10pt;}
+                     thead {
+                        background-color: #ffc3c3;
+                        color: #ba3d3d;
+                        margin-block-end: 10px
+                     }
                      th
-                        {text-align: left;}
+                        {text-align: left;
+                        }
                      h1
                         {margin-top: 0px;}
-                     li
-                        {line-height: 15pt;}
-                     .change-add
-                        {color: #272;}
-                     .change-delete
-                        {color: #722;}
-                     .change-edit
-                        {color: #247;}
-                     .grayed
-                        {color: #AAA;}
-                     .error
-                        {color: #A33;}
-                     pre.console
-                     {color: #333;
-                        font-family: "Lucida Console", "Courier New";
-                        padding: 5px;
-                        line-height: 15px;
-                        background-color: #EEE;
-                        border: 1px solid #DDD;}
+
                   </style>
             </head>
             <body>
                   <h1>Build ${env.JOB_NAME}</h1>
                      <table>
+                        <thead>
+                           <tr>
+                              <th scope="col">Build ${env.JOB_NAME}:${BUILD_NUMBER} Failed</th>
+                           </tr>
+                        </thead>
                         <tr><th>Build URL:</th><td><a href="urlroot">url</a></td></tr>
                         <tr><th>Project:</th><td>${env.JOB_NAME}</td></tr>
                         <tr><th>Date of build:</th><td>${BUILD_NUMBER}</td></tr>
