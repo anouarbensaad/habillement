@@ -5,7 +5,7 @@ pipeline {
       // provide docker hub credentials to deploy images
       registryCredential = 'dockerhub'
       dockerImage = ''
-  }
+   }
    agent any
    // stages contain one or more stage directives
    stages {
@@ -120,10 +120,21 @@ pipeline {
          /**
          * Send Test Email to Developper.
          */
-         emailext body: 'A Test EMail',
-         recipientProviders: [[$class: 'DevelopersRecipientProvider'],
-         [$class: 'RequesterRecipientProvider']],
-         subject: 'Test'
+         emailext ( 
+            body: """
+               <center>
+                  <h3>"${env.JOB_NAME}:${BUILD_NUMBER}</h3>
+               </center>
+               <p>
+                  <b>BUILD FAILED</b> 
+                        <br>
+                  Check console output at <a href="${env.BUILD_URL}">${env.JOB_NAME}</a>
+               </p>
+            """,
+            recipientProviders: [[$class: 'DevelopersRecipientProvider'],
+            [$class: "RequesterRecipientProvider"]],
+            subject: "${env.JOB_NAME}:${BUILD_NUMBER} - Failed",
+         ) 
       }
       success {
          echo 'success :)'
