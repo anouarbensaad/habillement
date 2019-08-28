@@ -2,6 +2,7 @@ pipeline {
 
    environment {
       registry = "anouarbensaad/gpro-ci"
+      // add System Credentials in jenkins configuration with dockerhub ID
       registryCredential = 'dockerhub'
       dockerImage = ''
   }
