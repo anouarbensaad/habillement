@@ -101,6 +101,7 @@ pipeline {
          sh "docker rmi $registry:$BUILD_NUMBER" // remove the unused images from docker images.
          // clean up workspace
          //deleteDir() 
+         //sh 'rm .env'
       }
       success {
          echo 'success :)'
