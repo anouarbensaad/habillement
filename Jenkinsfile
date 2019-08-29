@@ -5,6 +5,7 @@ pipeline {
       // provide docker hub credentials to deploy images
       registryCredential = 'dockerhub'
       dockerImage = ''
+      registrynotif = ''
    }
    agent any
    // stages contain one or more stage directives
