@@ -52,7 +52,7 @@ pipeline {
          }
       }
       
-      /** stage('Prepare') {
+      stage('Prepare') {
          // declare the path of files & Directory Path.
          environment {
             WARPATH = "./ma-gpro-war/presentation/target/ma-gpro-1.0.1.0-SNAPSHOT.war"
@@ -117,7 +117,7 @@ pipeline {
    /**
    * post section condition blocks: always, failure, success
    */
-  /** post {
+   post {
       always {
          // CleanUP..
          sh "docker rmi $registry:$BUILD_NUMBER" // remove the unused images from docker images.
@@ -127,8 +127,8 @@ pipeline {
          /**
          * Send Test Email to Developper.
          */
-     // } 
-   /**   success {
+    } 
+      success {
          echo 'I success :D'
          emailext (
             body: """
@@ -226,4 +226,4 @@ pipeline {
       }
    }
    
-}*/
+}
