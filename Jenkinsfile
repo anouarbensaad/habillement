@@ -33,7 +33,14 @@ pipeline {
             sh "echo -*- Maven Building"
             script {
                try {
-                  sh "mvn -q clean install -DskipTests"
+                  parallel(
+                        "Maven Build": {
+                           sh "mvn -q clean install -DskipTests"
+                        },
+                        "Sonar Scan": {
+                           sh "mvn sonar:sonar"
+                        }
+                  )
                }catch(Exception err) {
                   sh """
                      echo [-] stage Quality & Analysis Maven Build Error.
