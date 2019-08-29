@@ -117,7 +117,7 @@ pipeline {
    /**
    * post section condition blocks: always, failure, success
    */
-   post {
+  /** post {
       always {
          // CleanUP..
          sh "docker rmi $registry:$BUILD_NUMBER" // remove the unused images from docker images.
@@ -127,7 +127,7 @@ pipeline {
          /**
          * Send Test Email to Developper.
          */
-      }
+     // } 
    /**   success {
          echo 'I success :D'
          emailext (
