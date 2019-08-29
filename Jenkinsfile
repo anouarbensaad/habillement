@@ -13,6 +13,11 @@ pipeline {
      stage('Checkout SCM') {          
          steps {
             checkout scm
+            sh "echo ${GIT_BRANCH}"
+            sh "echo ${GIT_COMMIT}"
+            sh "echo ${BUILD_ID}"
+            sh "echo ${GIT_AUTHOR_EMAIL}"
+            
          }
       }
 
