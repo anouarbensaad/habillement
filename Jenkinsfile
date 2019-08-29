@@ -5,7 +5,6 @@ pipeline {
       // provide docker hub credentials to deploy images
       registryCredential = 'dockerhub'
       dockerImage = ''
-      registrynotif = ''
    }
    agent any
    // stages contain one or more stage directives
@@ -76,6 +75,9 @@ pipeline {
       }
 
       stage('Build') {
+         when {
+            expression {env.GIT_BRANCH == 'origin/master'}
+         }
          steps {
             script{
                // Test errors if docker image build ?.
@@ -96,6 +98,10 @@ pipeline {
       }
 /*
       stage('Deploy') {
+      
+         when {
+            expression {env.GIT_BRANCH == 'origin/master'}
+         }
          steps {
             script {
                try{
