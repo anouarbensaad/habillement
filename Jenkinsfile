@@ -76,6 +76,9 @@ pipeline {
       }
 
       stage('Build') {
+         when {
+            expression {env.GIT_BRANCH == 'origin/master'}
+         }
          steps {
             script{
                // Test errors if docker image build ?.
@@ -96,6 +99,10 @@ pipeline {
       }
 /*
       stage('Deploy') {
+      
+         when {
+            expression {env.GIT_BRANCH == 'origin/master'}
+         }
          steps {
             script {
                try{
