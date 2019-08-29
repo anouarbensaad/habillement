@@ -93,7 +93,7 @@ pipeline {
             }
          }
       }
-
+/*
       stage('Deploy') {
          steps {
             script {
@@ -111,6 +111,7 @@ pipeline {
             }
          }
       }
+  */
 
    } //end of stages.
 
