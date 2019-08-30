@@ -1,3 +1,17 @@
+def getLogZipFile() {
+   return "Logs_${JOB_NAME}_${BUILD_NUMBER}.zip"
+}
+
+def logWriter(logname) {
+    // Publish HTML reports (HTML Publisher plugin)
+         setLogs([allowMissing         : true,
+                  alwaysLinkToLastBuild: true,
+                  keepAll              : true,
+                  logDir            : './target/logs',
+                  logFiles          : 'index.html',
+                  logName           : logname])
+}
+
 pipeline {
 
    environment {
@@ -5,6 +19,7 @@ pipeline {
       // provide docker hub credentials to deploy images
       registryCredential = 'dockerhub'
       dockerImage = ''
+      registrynotif = ''
    }
    agent any
    // stages contain one or more stage directives
@@ -12,12 +27,19 @@ pipeline {
       
      stage('Checkout SCM') {          
          steps {
-            checkout scm
-            sh "echo ----INFO---"
-            sh "echo ${GIT_BRANCH}"
-            sh "echo ${GIT_COMMIT}"
-            sh "echo ${BUILD_ID}"
-            
+            checkout scm: [
+               $class: 'GitSCM',
+               branches: scm.branches,
+               doGenerateSubmoduleConfigurations: false,
+               extensions: [[$class: 'SubmoduleOption',
+                              disableSubmodules: false,
+                              parentCredentials: false,
+                              recursiveSubmodules: true,
+                              reference: '',
+                              trackingSubmodules: false]],
+               submoduleCfg: [],
+               userRemoteConfigs: scm.userRemoteConfigs
+            ]
          }
       }
 
@@ -52,6 +74,8 @@ pipeline {
                      echo ${err}
                   """
                   currentBuild.result = 'FAILURE'
+               }finally {
+                  logWriter('Reports')
                }
             }
          }
@@ -124,6 +148,12 @@ pipeline {
          }
       }
   */
+      stage('Collect Logs') {
+         steps {
+            echo "Reports directory: ${workspace}/target/logs"
+            zip dir: "${workspace}/target", zipFile: "$LogZipFile" // Create a zip file of content in the workspace
+         }
+      }
 
    } //end of stages.
 
@@ -184,6 +214,9 @@ pipeline {
                   </div>
                </body>
             """,
+            attachLog: true,
+            compressLog: true,
+            attachmentsPattern: "$logZipFile",
             recipientProviders: [[$class: 'DevelopersRecipientProvider'],
             [$class: "RequesterRecipientProvider"]],
             subject: "${env.JOB_NAME}:${BUILD_NUMBER} - Failed",
@@ -231,6 +264,9 @@ pipeline {
                   </div>
                </body>
             """,
+            attachLog: true,
+            compressLog: true,
+            attachmentsPattern: "$logZipFile",
             recipientProviders: [[$class: 'DevelopersRecipientProvider'],
             [$class: "RequesterRecipientProvider"]],
             subject: "${env.JOB_NAME}:${BUILD_NUMBER} - Failed",
