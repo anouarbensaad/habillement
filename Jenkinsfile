@@ -29,7 +29,6 @@ pipeline {
       registryCredential = 'dockerhub'
 
       dockerImage = ''
-      registrynotif = ''
    }
    
 /*************************************************/
