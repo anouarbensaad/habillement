@@ -1,5 +1,5 @@
 def getReportZipFile() {
-   return "Logs_${JOB_NAME}_${BUILD_NUMBER}.zip"
+   return "report_${JOB_NAME}_${BUILD_NUMBER}.zip"
 }
 
 def reportWriter(report_name) {
@@ -36,6 +36,7 @@ pipeline {
       * add git crendentials user & password
       * install Pull Request Plugin
       */
+
      stage('Checkout SCM') {          
          steps {
             checkout scm
@@ -160,7 +161,8 @@ pipeline {
          steps {
          sh "echo Logs directory: ${workspace}/target/logs"
          script{
-                  zip dir: "${workspace}/target", zipFile: "$reportZipFile"
+            // compress the report file to send it with email.
+            zip dir: "${workspace}/target", zipFile: "$reportZipFile"
          }
 
          }
@@ -184,49 +186,20 @@ pipeline {
          *   Manage Jenkins > Configure System > search for “Extended E-mail Notification”.
          *     - SMTP server : smtp.gmail.com
          *     - Allow : Use SMTP Authentification.
-         *     - Username , Password. 
+         *     - sender email & Password. 
          */
 
 
          emailext (
+            // in body html & css code.
             body: """
                <head>
-                  <title>Build report</title>
                   <style type="text/css">
-                     body{margin: 0px;padding: 0px;
-                        font-family:Arial, Helvetica, sans-serif}img{margin-left: 50px;float: left;width: 22px;}
-                     .container{width: 1100px;margin: 100px auto;box-sizing: border-box;}
-                     .container .column {width: calc(40.3% - 10px);height: 40%;float: left;padding: 0 0 20px;margin: 0 15px;box-sizing: border-box;
-                     text-align: center;background: #fff;overflow: hidden;box-shadow: 0 10px 10px rgba(3, 77, 13, 0.486);transition: .5s;}
-                     .title{background: #b5ffd8;padding: 20px 0;}.title .fa{color: #1f9438;font-size: 60px;}
-                     .title h2{margin:0;padding: 0;font-size: 24px;color : #1f9438;font-weight: 700;text-transform: uppercase;}
-                     .branch{padding: 10px;}
-                     .branch h4{margin:0;padding:0;color: #323f3e;font-weight: 400;font-size: 30px;}
-                     .branch h4 span{font-weight: 700;font-size : 60px;}
-                     .info ul{margin: 0;padding: 0;}.info ul li{list-style: none;padding: 15px 10px;border-bottom: 1px solid rgba(0,0,0,.05);
-                     font-weight: 300;}
-                     .option ul li:last-child{border-bottom: none;}.option ul li .fa-check{color: #4caf50}
+                     body{margin: 0px;padding: 0px;      font-family:Arial, Helvetica, sans-serif}img{margin-left: 50px;float: left;width: 22px;}   .container{width: 1100px;margin: 100px auto;box-sizing: border-box;}   .container .column {width: calc(40.3% - 10px);height: 40%;float: left;padding: 0 0 20px;margin: 0 15px;box-sizing: border-box;   text-align: center;background: #fff;overflow: hidden;box-shadow: 0 10px 10px rgba(3, 77, 13, 0.486);transition: .5s;}   .title{background: #b5ffd8;padding: 20px 0;}.title .fa{color: #1f9438;font-size: 60px;}   .title h2{margin:0;padding: 0;font-size: 24px;color : #1f9438;font-weight: 700;text-transform: uppercase;}   .branch{padding: 10px;}   .branch h4{margin:0;padding:0;color: #323f3e;font-weight: 400;font-size: 30px;}   .branch h4 span{font-weight: 700;font-size : 60px;}   .info ul{margin: 0;padding: 0;}.info ul li{list-style: none;padding: 15px 10px;border-bottom: 1px solid rgba(0,0,0,.05);   font-weight: 300;}   .option ul li:last-child{border-bottom: none;}.option ul li .fa-check{color: #4caf50}
                   </style>
-                  </head>
-                     <body>
-                        <div class="container">
-                           <div class="column">
-                              <div class="title">
-                                 <h2><i><b>Build ${JOB_NAME} </b></i><h2>
-                              </div>
-                           <div class="branch">
-                              <h4> Master </h4>
-                           </div>
-                           <div class="info">
-                           <ul>
-                              <li><span>Build URL:</span><a href="root">url</a></li>
-                              <li><span>Project:</span> ${JOB_NAME}</li>
-                              <li><span>Date of build:</span> ${JOB_NAME}</li>
-                              <li><span>Build duration:</span> ${JOB_NAME}</li>
-                           </ul>
-                        </div>
-                     </div>
-                  </div>
+               </head>
+               <body>
+                  <div class="container"><div class="column"><div class="title"><h2><i><b>Build ${JOB_NAME} </b></i><h2></div><div class="branch"><h4> Master </h4></div><div class="info"><ul><li><span>Build URL:</span><a href="root">url</a></li><li><span>Project:</span> ${JOB_NAME}</li><li><span>Date of build:</span> ${JOB_NAME}</li><li><span>Build duration:</span> ${JOB_NAME}</li></ul></div></div></div>
                </body>
             """,
             attachLog: true,
@@ -241,42 +214,12 @@ pipeline {
          emailext (
             body: """
                <head>
-                  <title>Build report</title>
                   <style type="text/css">
-                     body{margin: 0px;padding: 0px;
-                        font-family:Arial, Helvetica, sans-serif}img{margin-left: 50px;float: left;width: 22px;}
-                     .container{width: 1100px;margin: 100px auto;box-sizing: border-box;}
-                     .container .column {width: calc(40.3% - 10px);height: 40%;float: left;padding: 0 0 20px;margin: 0 15px;box-sizing: border-box;
-                     text-align: center;background: #fff;overflow: hidden;box-shadow: 0 10px 10px rgba(3, 77, 13, 0.486);transition: .5s;}
-                     .title{background: #b5ffd8;padding: 20px 0;}.title .fa{color: #1f9438;font-size: 60px;}
-                     .title h2{margin:0;padding: 0;font-size: 24px;color : #1f9438;font-weight: 700;text-transform: uppercase;}
-                     .branch{padding: 10px;}
-                     .branch h4{margin:0;padding:0;color: #323f3e;font-weight: 400;font-size: 30px;}
-                     .branch h4 span{font-weight: 700;font-size : 60px;}
-                     .info ul{margin: 0;padding: 0;}.info ul li{list-style: none;padding: 15px 10px;border-bottom: 1px solid rgba(0,0,0,.05);
-                     font-weight: 300;}
-                     .option ul li:last-child{border-bottom: none;}.option ul li .fa-check{color: #4caf50}
+                     body{margin: 0px;padding: 0px;      font-family:Arial, Helvetica, sans-serif}img{margin-left: 50px;float: left;width: 22px;}   .container{width: 1100px;margin: 100px auto;box-sizing: border-box;}   .container .column {width: calc(40.3% - 10px);height: 40%;float: left;padding: 0 0 20px;margin: 0 15px;box-sizing: border-box;   text-align: center;background: #fff;overflow: hidden;box-shadow: 0 10px 10px rgba(3, 77, 13, 0.486);transition: .5s;}   .title{background: #b5ffd8;padding: 20px 0;}.title .fa{color: #1f9438;font-size: 60px;}   .title h2{margin:0;padding: 0;font-size: 24px;color : #1f9438;font-weight: 700;text-transform: uppercase;}   .branch{padding: 10px;}   .branch h4{margin:0;padding:0;color: #323f3e;font-weight: 400;font-size: 30px;}   .branch h4 span{font-weight: 700;font-size : 60px;}   .info ul{margin: 0;padding: 0;}.info ul li{list-style: none;padding: 15px 10px;border-bottom: 1px solid rgba(0,0,0,.05);   font-weight: 300;}   .option ul li:last-child{border-bottom: none;}.option ul li .fa-check{color: #4caf50}
                   </style>
-                  </head>
-                     <body>
-                        <div class="container">
-                           <div class="column">
-                              <div class="title">
-                                 <h2><i><b>Build ${JOB_NAME} </b></i><h2>
-                              </div>
-                           <div class="branch">
-                              <h4> Master </h4>
-                           </div>
-                           <div class="info">
-                           <ul>
-                              <li><span>Build URL:</span><a href="root">url</a></li>
-                              <li><span>Project:</span> ${JOB_NAME}</li>
-                              <li><span>Date of build:</span> ${JOB_NAME}</li>
-                              <li><span>Build duration:</span> ${JOB_NAME}</li>
-                           </ul>
-                        </div>
-                     </div>
-                  </div>
+               </head>
+               <body>
+                  <div class="container"><div class="column"><div class="title"><h2><i><b>Build ${JOB_NAME} </b></i><h2></div><div class="branch"><h4> Master </h4></div><div class="info"><ul><li><span>Build URL:</span><a href="root">url</a></li><li><span>Project:</span> ${JOB_NAME}</li><li><span>Date of build:</span> ${JOB_NAME}</li><li><span>Build duration:</span> ${JOB_NAME}</li></ul></div></div></div>
                </body>
             """,
             attachLog: true,
