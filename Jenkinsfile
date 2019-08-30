@@ -1,30 +1,41 @@
-def getLogZipFile() {
+def getReportZipFile() {
    return "Logs_${JOB_NAME}_${BUILD_NUMBER}.zip"
 }
 
-def logWriter(logname) {
-    // Publish HTML reports (HTML Publisher plugin)
-         setLogs([allowMissing         : true,
-                  alwaysLinkToLastBuild: true,
+def reportWriter(report_name) {
+
+   /**
+   * add HTML Publisher plugin to jenkins.
+   * jenkins -> plugin manage -> available -> HTML Publisher
+   */
+   publishHTML([allowMissing         : true,
+               alwaysLinkToLastBuild: true,
                   keepAll              : true,
-                  logDir            : './target/logs',
-                  logFiles          : 'index.html',
-                  logName           : logname])
+                  reportDir            : 'target\\view',
+                  reportFiles          : 'index.html',
+                  reportName           : report_name])
 }
 
 pipeline {
 
    environment {
       registry = "anouarbensaad/gpro-ci"
-      // provide docker hub credentials to deploy images
+
+      // Jenkins credentials (add dockerhub , user&password => dockerhub account)
       registryCredential = 'dockerhub'
+
       dockerImage = ''
       registrynotif = ''
    }
    agent any
-   // stages contain one or more stage directives
+
    stages {
-      
+
+      /**
+      * git checkout (git plugin)
+      * add git crendentials user & password
+      * install Pull Request Plugin
+      */
      stage('Checkout SCM') {          
          steps {
             checkout scm
@@ -32,9 +43,11 @@ pipeline {
       }
 
       stage('Quality & Analysis') {
+
          /**
-         * tools to select the path of tools 
-         * tools used openjdk8 , Maven version 3.6.0
+         * jenkins -> manage system -> global tool
+         * add the path of jdk stable version 8 & Maven 3.6 
+         * add Tools name : JDK , Maven.
          */
          tools{
             jdk "JDK"
@@ -52,6 +65,13 @@ pipeline {
                         "Maven Build": {
                            sh "mvn -q clean install -DskipTests"
                         },
+
+                        /** 
+                        * Install Sonarqube scanner plugin
+                        * Manage Jenkins > Manage Plugins > Available > Search for SonarQube Scanner> Install
+                        * pull sonarqube image & create container, with exposing port to 9000.
+                        */
+
                         "Sonar Scan": {
                            sh "mvn sonar:sonar"
                         }
@@ -63,20 +83,18 @@ pipeline {
                   """
                   currentBuild.result = 'FAILURE'
                }finally {
-                  logWriter('Reports')
+                  reportWriter('Reports')
                }
             }
          }
       }
       
       stage('Prepare') {
-         // declare the path of files & Directory Path.
          environment {
             WARPATH = "./ma-gpro-war/presentation/target/ma-gpro-1.0.1.0-SNAPSHOT.war"
             WARDIR  = "Builds"
          }
          steps {
-            // copy *(.jar , .war) buildings file to Builds Directory.
             sh """
                if [ -d $WARDIR ] ; then
                   echo Build directory exist.
@@ -96,10 +114,12 @@ pipeline {
             expression {env.GIT_BRANCH == 'origin/master'}
          }
          steps {
+            /** 
+            * add group docker to jenkins user
+            * use this command -> usermod -aG docker jenkins
+            */
             script{
-               // Test errors if docker image build ?.
                try{
-                  // to build add docker group to jenkins user.
                   sh "whoami"
                   sh "pwd"
                   dockerImage = docker.build registry + ":$BUILD_NUMBER"
@@ -140,7 +160,7 @@ pipeline {
          steps {
          sh "echo Logs directory: ${workspace}/target/logs"
          script{
-                  zip dir: "${workspace}/target", zipFile: "$LogZipFile" // Create a zip file of content in the workspace
+                  zip dir: "${workspace}/target", zipFile: "$reportZipFile"
          }
 
          }
@@ -148,9 +168,6 @@ pipeline {
 
    } //end of stages.
 
-   /**
-   * post section condition blocks: always, failure, success
-   */
    post {
       always {
          // CleanUP..
@@ -158,12 +175,19 @@ pipeline {
          // clean up workspace
          //deleteDir() 
          //sh 'rm .env'
-         /**
-         * Send Test Email to Developper.
-         */
-    } 
+      } 
       success {
          echo 'I success :D'
+
+         /**
+         * Configurations :
+         *   Manage Jenkins > Configure System > search for “Extended E-mail Notification”.
+         *     - SMTP server : smtp.gmail.com
+         *     - Allow : Use SMTP Authentification.
+         *     - Username , Password. 
+         */
+
+
          emailext (
             body: """
                <head>
@@ -207,7 +231,7 @@ pipeline {
             """,
             attachLog: true,
             compressLog: true,
-            attachmentsPattern: "$logZipFile",
+            attachmentsPattern: "$reportZipFile",
             recipientProviders: [[$class: 'DevelopersRecipientProvider'],
             [$class: "RequesterRecipientProvider"]],
             subject: "${env.JOB_NAME}:${BUILD_NUMBER} - Failed",
@@ -257,13 +281,23 @@ pipeline {
             """,
             attachLog: true,
             compressLog: true,
-            attachmentsPattern: "$logZipFile",
+            attachmentsPattern: "$reportZipFile",
             recipientProviders: [[$class: 'DevelopersRecipientProvider'],
             [$class: "RequesterRecipientProvider"]],
             subject: "${env.JOB_NAME}:${BUILD_NUMBER} - Failed",
          )
          echo "I Fail :("
       }
+   }
+      // configure Pipeline-specific options
+   options {
+      // keep only last 10 builds
+      buildDiscarder(logRotator(numToKeepStr: '10'))
+      // timeout job after 60 minutes
+      timeout(
+         time: 60,
+         unit: 'MINUTES'
+      )
    }
    
 }
