@@ -1,4 +1,5 @@
 def getReportZipFile() {
+   // report format name example: report_GPROConsult_99.zip to send it with email to developper.
    return "report_${JOB_NAME}_${BUILD_NUMBER}.zip"
 }
 
@@ -251,9 +252,9 @@ pipeline {
 /*************************************************/
 
    options {
-      // keep only last 10 builds
+      // keep just only last 10 builds
       buildDiscarder(logRotator(numToKeepStr: '10'))
-      // timeout job after 60 minutes
+      // job expire after 60 minutes
       timeout(
          time: 60,
          unit: 'MINUTES'
