@@ -15,8 +15,11 @@ def reportWriter(report_name) {
                   reportFiles          : 'index.html',
                   reportName           : report_name])
 }
+/*************************************************/
 
 pipeline {
+
+/*************************************************/
 
    environment {
       registry = "anouarbensaad/gpro-ci"
@@ -27,7 +30,12 @@ pipeline {
       dockerImage = ''
       registrynotif = ''
    }
+   
+/*************************************************/
+
    agent any
+
+/*************************************************/
 
    stages {
 
@@ -35,6 +43,7 @@ pipeline {
       * git checkout (git plugin)
       * add git crendentials user & password
       * install Pull Request Plugin
+      * add jenkins webhook and set ngrok forwarding if u in localhost, to build after push automatics. 
       */
 
      stage('Checkout SCM') {          
@@ -168,13 +177,19 @@ pipeline {
          }
       }
 
-   } //end of stages.
+   }
+
+/*************************************************/
 
    post {
+
       always {
-         // CleanUP..
-         sh "docker rmi $registry:$BUILD_NUMBER" // remove the unused images from docker images.
-         // clean up workspace
+         /**
+         * CleanUP in every code push
+         *  1- remove the unused images from docker images.
+         *  2- delete workspace from jenkins /var/lib/jenkins/workspace & envirement variable.
+         */
+         sh "docker rmi $registry:$BUILD_NUMBER"
          //deleteDir() 
          //sh 'rm .env'
       } 
@@ -182,11 +197,11 @@ pipeline {
          echo 'I success :D'
 
          /**
-         * Configurations :
+         * SMTP Server Configurations :
          *   Manage Jenkins > Configure System > search for “Extended E-mail Notification”.
-         *     - SMTP server : smtp.gmail.com
-         *     - Allow : Use SMTP Authentification.
-         *     - sender email & Password. 
+         *     1- SMTP server : smtp.gmail.com
+         *     2- Allow : Use SMTP Authentification.
+         *     3- sender email & Password. 
          */
 
 
@@ -232,7 +247,9 @@ pipeline {
          echo "I Fail :("
       }
    }
-      // configure Pipeline-specific options
+
+/*************************************************/
+
    options {
       // keep only last 10 builds
       buildDiscarder(logRotator(numToKeepStr: '10'))
