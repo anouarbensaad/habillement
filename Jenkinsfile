@@ -150,8 +150,11 @@ pipeline {
   */
       stage('Collect Logs') {
          steps {
-            echo "Reports directory: ${workspace}/target/logs"
-            zip dir: "${workspace}/target", zipFile: "$LogZipFile" // Create a zip file of content in the workspace
+         sh "echo Logs directory: ${workspace}/target/logs"
+         script{
+                  zip dir: "${workspace}/target", zipFile: "$LogZipFile" // Create a zip file of content in the workspace
+         }
+
          }
       }
 
