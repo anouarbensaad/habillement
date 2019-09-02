@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+
+  GPC_database:
+    build: ./docker/database
+    container_name: GPC_DB
+    environment:
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=Gpro
+      - POSTGRES_USER=postgres
+    ports:
+      - 5432:5432
+    networks:
+      - GPC
+    depends_on:
+      - gpc-app
+
+  GPC_app:
+    build: ./docker/app
+    container_name: GPC_APP
+    ports:
+      - 8090:8080
+    networks:
+      - GPC
+networks:
+  GPC:
