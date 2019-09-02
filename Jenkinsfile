@@ -81,10 +81,11 @@ pipeline {
                         * Manage Jenkins > Manage Plugins > Available > Search for SonarQube Scanner> Install
                         * pull sonarqube image & create container, with exposing port to 9000.
                         */
-
+/*
                         "Sonar Scan": {
                            sh "mvn sonar:sonar"
                         }
+                        */
                   )
                }catch(Exception err) {
                   sh """
@@ -101,8 +102,9 @@ pipeline {
       
       stage('Prepare') {
          environment {
-            WARPATH = "./ma-gpro-war/presentation/target/ma-gpro-1.0.1.0-SNAPSHOT.war"
-            WARDIR  = "Builds"
+            WARPATH1 = "./ma-gpro-war/presentation/target/ma-gpro-1.0.1.0-SNAPSHOT.war"
+            WARPATH2 = "./ma-gpro-planning-war/presentation/target/ma-gpro-planning-1.0.1.0-SNAPSHOT.war"
+            WARDIR   = "./docker/app/war"
          }
          steps {
             sh """
@@ -112,8 +114,10 @@ pipeline {
                else
                   mkdir $WARDIR
                   echo Builds directory has been created
-                  mv $WARPATH $WARDIR/
-                  echo $WARPATH has been copied to $WARDIR directory.
+                  mv $WARPATH1 $WARDIR/ && \
+                     echo $WARPATH1 has been copied to $WARDIR directory.
+                  mv $WARPATH2 $WARDIR/ && \
+                     echo $WARPATH2 has been copied to $WARDIR directory.
                fi
             """
          }
@@ -132,7 +136,7 @@ pipeline {
                try{
                   sh "whoami"
                   sh "pwd"
-                  dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                  sh 'docker-compose -f docker-compose.yml run -rm compile'
                }catch(Exception err) {
                   sh """
                      echo [-] stage Build Error.
