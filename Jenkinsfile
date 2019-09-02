@@ -71,31 +71,33 @@ pipeline {
             sh "echo -*- Maven Building"
             script {
                try {
+/*
                   parallel(
                         "Maven Build": {
                            sh "mvn -q clean install -DskipTests"
                         },
-
+*/
                         /** 
                         * Install Sonarqube scanner plugin
                         * Manage Jenkins > Manage Plugins > Available > Search for SonarQube Scanner> Install
                         * pull sonarqube image & create container, with exposing port to 9000.
                         */
 /*
-                        "Sonar Scan": {
+                           "Sonar Scan": {
                            sh "mvn sonar:sonar"
                         }
-                        */
                   )
+                  */
+                  sh "mvn -q clean install -DskipTests"
                }catch(Exception err) {
                   sh """
                      echo [-] stage Quality & Analysis Maven Build Error.
                      echo ${err}
                   """
                   currentBuild.result = 'FAILURE'
-               }finally {
+               }/*finally {
                   reportWriter('Reports')
-               }
+               }*/
             }
          }
       }
