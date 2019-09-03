@@ -105,7 +105,7 @@ pipeline {
             WARDIR  = "Builds"
          }
          steps {
-            script {
+            sh """
                if [ -d $WARDIR ] ; then
                   echo Build directory exist.
                   cp $WARPATH $WARDIR/
@@ -114,7 +114,8 @@ pipeline {
                   echo Builds directory has been created
                   mv $WARPATH $WARDIR/
                   echo $WARPATH has been copied to $WARDIR directory.
-            }
+               fi
+            """
          }
       }
 
