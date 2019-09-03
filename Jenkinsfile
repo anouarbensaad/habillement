@@ -132,7 +132,7 @@ pipeline {
                try{
                   sh "whoami"
                   sh "pwd"
-                  dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                  dockerImage = docker.build(registry + ":$BUILD_NUMBER" , "./docker/app/")
                }catch(Exception err) {
                   sh """
                      echo [-] stage Build Error.
