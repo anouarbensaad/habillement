@@ -85,9 +85,7 @@ pipeline {
                         "Sonar Scan": {
                            sh """
                            mvn sonar:sonar \
-                              -Dsonar.projectKey=gpro \
                               -Dsonar.host.url=http://192.168.1.13:9000 \
-                              -Dsonar.login=jenkins
                            """
                         }
                   )
