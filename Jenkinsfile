@@ -71,33 +71,30 @@ pipeline {
             sh "echo -*- Maven Building"
             script {
                try {
-/*
                   parallel(
                         "Maven Build": {
                            sh "mvn -q clean install -DskipTests"
                         },
-*/
+
                         /** 
                         * Install Sonarqube scanner plugin
                         * Manage Jenkins > Manage Plugins > Available > Search for SonarQube Scanner> Install
                         * pull sonarqube image & create container, with exposing port to 9000.
                         */
-/*
-                           "Sonar Scan": {
+
+                        "Sonar Scan": {
                            sh "mvn sonar:sonar"
                         }
                   )
-                  */
-                  sh "mvn -q clean install -DskipTests"
                }catch(Exception err) {
                   sh """
                      echo [-] stage Quality & Analysis Maven Build Error.
                      echo ${err}
                   """
                   currentBuild.result = 'FAILURE'
-               }/*finally {
+               }finally {
                   reportWriter('Reports')
-               }*/
+               }
             }
          }
       }
@@ -106,7 +103,7 @@ pipeline {
          environment {
             WARPATH1 = "./ma-gpro-war/presentation/target/ma-gpro-1.0.1.0-SNAPSHOT.war"
             WARPATH2 = "./ma-gpro-planning-war/presentation/target/ma-gpro-planning-1.0.1.0-SNAPSHOT.war"
-            WARDIR   = "./docker/app/war"
+            WARDIR  = "./docker/app/war"
          }
          steps {
             sh """
@@ -116,10 +113,10 @@ pipeline {
                else
                   mkdir $WARDIR
                   echo Builds directory has been created
-                  mv $WARPATH1 $WARDIR/ && \
-                     echo $WARPATH1 has been copied to $WARDIR directory.
-                  mv $WARPATH2 $WARDIR/ && \
-                     echo $WARPATH2 has been copied to $WARDIR directory.
+                  mv $WARPATH1 $WARDIR/
+                  echo $WARPATH has been copied to $WARDIR directory.
+                  mv $WARPATH2 $WARDIR/
+                  echo $WARPATH2 has been copied to $WARDIR directory.
                fi
             """
          }
@@ -138,7 +135,7 @@ pipeline {
                try{
                   sh "whoami"
                   sh "pwd"
-                  sh 'docker-compose -f docker-compose.yml run -rm compile'
+                  dockerImage = docker.build registry + ":$BUILD_NUMBER"
                }catch(Exception err) {
                   sh """
                      echo [-] stage Build Error.
