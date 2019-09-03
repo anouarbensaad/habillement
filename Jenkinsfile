@@ -101,24 +101,20 @@ pipeline {
       
       stage('Prepare') {
          environment {
-            WARPATH1 = "./ma-gpro-war/presentation/target/ma-gpro-1.0.1.0-SNAPSHOT.war"
-            WARPATH2 = "./ma-gpro-planning-war/presentation/target/ma-gpro-planning-1.0.1.0-SNAPSHOT.war"
-            WARDIR  = "./docker/app/war"
+            WARPATH = "./ma-gpro-war/presentation/target/ma-gpro-1.0.1.0-SNAPSHOT.war"
+            WARDIR  = "Builds"
          }
          steps {
-            sh """
+            script {
                if [ -d $WARDIR ] ; then
                   echo Build directory exist.
                   cp $WARPATH $WARDIR/
                else
                   mkdir $WARDIR
                   echo Builds directory has been created
-                  mv $WARPATH1 $WARDIR/
+                  mv $WARPATH $WARDIR/
                   echo $WARPATH has been copied to $WARDIR directory.
-                  mv $WARPATH2 $WARDIR/
-                  echo $WARPATH2 has been copied to $WARDIR directory.
-               fi
-            """
+            }
          }
       }
 
