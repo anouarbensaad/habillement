@@ -24,6 +24,7 @@ pipeline {
 
    environment {
       registry = "anouarbensaad/gpro-ci"
+      MAVEN_OPTS = "-Xmx512m -XX:MaxPermSize=128m"
 
       // Jenkins credentials (add dockerhub , user&password => dockerhub account)
       registryCredential = 'dockerhub'
@@ -85,7 +86,7 @@ pipeline {
                         "Sonar Scan": {
                            sh """
                            mvn sonar:sonar \
-                              -Dsonar.host.url=http://192.168.1.13:9000 \
+                              -Dsonar.host.url=${env.SONARQUBE_HOST} \
                            """
                         }
                   )
