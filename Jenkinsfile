@@ -23,7 +23,7 @@ pipeline {
 /*************************************************/
 
    environment {
-      registry = "anouarbensaad/gpro-ci"
+      registry = "souhirabd/gpro-ci"
       MAVEN_OPTS = "-Xmx512m -XX:MaxPermSize=128m"
 
       // Jenkins credentials (add dockerhub , user&password => dockerhub account)
@@ -34,7 +34,7 @@ pipeline {
    
 /*************************************************/
 
-   agent any
+   agent none
 
 /*************************************************/
 
@@ -47,7 +47,8 @@ pipeline {
       * add jenkins webhook and set ngrok forwarding if u in localhost, to build after push automatics. 
       */
 
-     stage('Checkout SCM') {          
+     stage('Checkout SCM') {  
+        agent any
          steps {
             checkout scm
          }
@@ -124,6 +125,9 @@ pipeline {
       }
 
       stage('Build') {
+          agent { 
+                label 'dockernode'
+            }
          when {
             expression {env.GIT_BRANCH == 'origin/master'}
          }
