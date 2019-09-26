@@ -71,10 +71,11 @@ pipeline {
             sh "echo -*- Maven Building"
             script {
                try {
-                  parallel(
+/*                  parallel(
                         "Maven Build": {
-                           sh "mvn -q clean install -DskipTests"
-                        },
+*/
+sh "mvn -q clean install -DskipTests"
+           //             },
 
                         /** 
                         * Install Sonarqube scanner plugin
@@ -82,13 +83,14 @@ pipeline {
                         * pull sonarqube image & create container, with exposing port to 9000.
                         */
 
-                        "Sonar Scan": {
+ /*                       "Sonar Scan": {
                            sh """
                            mvn sonar:sonar \
                               -Dsonar.host.url=http://192.168.1.13:9000 \
                            """
                         }
-                  )
+   
+   )*/
                }catch(Exception err) {
                   sh """
                      echo [-] stage Quality & Analysis Maven Build Error.
