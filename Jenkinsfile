@@ -71,11 +71,11 @@ pipeline {
             sh "echo -*- Maven Building"
             script {
                try {
-/*                  parallel(
+                  
+                  parallel(
                         "Maven Build": {
-*/
-sh "mvn -q clean install -DskipTests"
-           //             },
+                           sh "mvn -q clean install -DskipTests"
+                        },
 
                         /** 
                         * Install Sonarqube scanner plugin
@@ -83,14 +83,15 @@ sh "mvn -q clean install -DskipTests"
                         * pull sonarqube image & create container, with exposing port to 9000.
                         */
 
- /*                       "Sonar Scan": {
+                       "Sonar Scan": {
                            sh """
                            mvn sonar:sonar \
                               -Dsonar.host.url=http://192.168.1.13:9000 \
                            """
                         }
    
-   )*/
+                  )
+
                }catch(Exception err) {
                   sh """
                      echo [-] stage Quality & Analysis Maven Build Error.
@@ -107,18 +108,17 @@ sh "mvn -q clean install -DskipTests"
       stage('Prepare') {
          environment {
             WARPATH = "./ma-gpro-war/presentation/target/ma-gpro-1.0.1.0-SNAPSHOT.war"
-            WARDIR  = "Builds"
+            WARDIR  = "docker/app/"
          }
          steps {
             sh """
                if [ -d $WARDIR ] ; then
                   echo Build directory exist.
                   cp $WARPATH $WARDIR/
-               else
-                  mkdir $WARDIR
-                  echo Builds directory has been created
                   mv $WARPATH $WARDIR/
                   echo $WARPATH has been copied to $WARDIR directory.
+               else
+                  echo error when moved the war files.
                fi
             """
          }
@@ -137,7 +137,8 @@ sh "mvn -q clean install -DskipTests"
                try{
                   sh "whoami"
                   sh "pwd"
-                  dockerImage = docker.build(registry + ":$BUILD_NUMBER" , "./docker/app/")
+                  dockerImageApp = docker.build(registry + ":$BUILD_NUMBER" , "./docker/app/")
+                  dockerImageDB = docker.build(registry + ":$BUILD_NUMBER" , "./docker/database/")
                }catch(Exception err) {
                   sh """
                      echo [-] stage Build Error.
@@ -148,7 +149,7 @@ sh "mvn -q clean install -DskipTests"
             }
          }
       }
-/*
+
       stage('Deploy') {
       
          when {
@@ -158,7 +159,8 @@ sh "mvn -q clean install -DskipTests"
             script {
                try{
                   docker.withRegistry( '', registryCredential ) {
-                  dockerImage.push()
+                  dockerImageApp.push
+                  dockerImageDB.push()
                   }
                }catch(Exception err) {
                   sh """
@@ -170,7 +172,8 @@ sh "mvn -q clean install -DskipTests"
             }
          }
       }
-  */
+
+
       stage('Collect Logs') {
          steps {
          sh "echo Logs directory: ${workspace}/target/logs"
